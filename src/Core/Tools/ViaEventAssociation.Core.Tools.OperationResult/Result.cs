@@ -1,4 +1,4 @@
-﻿namespace ViaEventAssociation.Core.Tools.OperationResult;
+﻿namespace ViaEventAssociation.Core.Tools.OperationResult2;
 
 public class Result<T>
 {

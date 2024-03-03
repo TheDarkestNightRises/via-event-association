@@ -1,20 +1,30 @@
-
 using ViaEventAssociation.Core.Tools.OperationResult;
+using Void = ViaEventAssociation.Core.Tools.OperationResult.Void;
 
 namespace ViaEventAssociation.Core.Domain.Aggregates.Event.Values;
 
 public class EventDescription : ValueObject
 {
-    protected string Description { get; }
+    internal string Description { get; }
 
-    private EventDescription(string decription)
+    private EventDescription(string description)
     {
-        Description = decription;
+        Description = description;
     }
 
     public static Result<EventDescription> Create(string description)
     {
-        return new EventDescription(description);
+        var validationResult = Validate(description);
+        
+        return validationResult.Match<Result<EventDescription>>(
+            onValue: _ => new EventDescription(description),
+            onError: errors => errors
+        );
+    }
+
+    private static Result<Void> Validate(string description)
+    {
+        return new Void();
     }
 
     public override IEnumerable<object> GetEqualityObjects()

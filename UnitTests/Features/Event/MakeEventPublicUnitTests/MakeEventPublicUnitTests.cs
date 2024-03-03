@@ -2,16 +2,16 @@
 using ViaEventAssociation.Core.Domain.Aggregates.Event.Values;
 using ViaEventAssociation.Core.Tools.OperationResult;
 
-namespace UnitTests.Features.Event.MakeEventPrivate;
+namespace UnitTests.Features.Event.MakeEventPublicUnitTests;
 
-public class MakeEventPrivateUnitTests
+public class MakeEventPublicUnitTests
 {
     [Fact]
-    public void GivenEvent_WhenVisibilitySetToPrivate_ThenVisibilityIsPrivate()
+    public void GivenEvent_WhenVisibilitySetToPublic_ThenVisibilityIsPublic()
     {
         Result<EventAggregate> result = EventAggregate.Create();
         Assert.NotNull(result.PayLoad);
-        result.PayLoad.MakeEventPrivate();
-        Assert.Equal(EventVisibility.Private, result.PayLoad.EventVisibility);
+        result.PayLoad.MakeEventPublic();
+        Assert.Equal(EventVisibility.Public, result.PayLoad.EventVisibility);
     }
 }

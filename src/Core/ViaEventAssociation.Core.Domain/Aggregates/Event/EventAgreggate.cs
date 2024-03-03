@@ -43,4 +43,9 @@ public class EventAggregate : AggregateRoot<EventId>
         EventVisibility = EventVisibility.Private;
     }
     
+    public void MakeEventPublic()
+    {
+        EventVisibility = EventVisibility.Public;
+    }
+    
 }

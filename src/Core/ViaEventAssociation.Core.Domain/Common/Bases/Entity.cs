@@ -35,3 +35,4 @@ public abstract class Entity<TId>
         return left is not null && right is not null && !Equals(right, left);
     }
 }
+

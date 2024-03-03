@@ -7,7 +7,7 @@ public class EventAggregate : AggregateRoot<EventId>
 {
     internal EventTitle EventTitle { get; }
     internal EventDescription EventDescription { get; }
-    internal EventVisibility EventVisibility { get; }
+    internal EventVisibility EventVisibility { get; private set; }
     internal EventCapacity EventCapacity { get; }
     internal EventStatus EventStatus { get; }
 
@@ -38,4 +38,9 @@ public class EventAggregate : AggregateRoot<EventId>
         // return aggregate; 
         throw new NotImplementedException();
     }
+    public void MakeEventPrivate()
+    {
+        EventVisibility = EventVisibility.Private;
+    }
+    
 }

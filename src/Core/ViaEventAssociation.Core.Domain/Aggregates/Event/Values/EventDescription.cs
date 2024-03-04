@@ -18,7 +18,7 @@ public class EventDescription : ValueObject
         var validationResult = Validate(description);
         
         return validationResult.Match<Result<EventDescription>>(
-            onValue: _ => new EventDescription(description!),
+            onPayLoad: _ => new EventDescription(description!),
             onError: errors => errors
         );
     }

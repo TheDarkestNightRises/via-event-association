@@ -8,7 +8,7 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Event;
 public class EventAggregate : AggregateRoot<EventId>
 {
     internal EventTitle EventTitle { get; }
-    internal EventDescription EventDescription { get; }
+    internal EventDescription EventDescription { get; private set; }
     internal EventVisibility EventVisibility { get; set; }
     internal EventCapacity EventCapacity { get; }
     internal EventStatus EventStatus { get; set; }
@@ -40,6 +40,31 @@ public class EventAggregate : AggregateRoot<EventId>
         // return aggregate; 
         throw new NotImplementedException();
     }
+    
+    public Result<Void> UpdateEventDescription(string newDescription)
+    {
+        if (EventStatus is EventStatus.Active)
+        {
+            return EventAggregateErrors.ActiveEventCantBeModified;
+        }   
+        
+        if (EventStatus is EventStatus.Cancelled)
+        {
+            return EventAggregateErrors.CancelledEventCantBeModified;
+        }
+        
+        var result = EventDescription.Create(newDescription);
+        
+        return result.Match<Result<Void>>(
+            onPayLoad: payLoad =>
+            {
+                EventDescription = payLoad;
+                return new Void();
+            },
+            onError: errors => errors
+        );
+    }
+    
     public Result<Void> MakeEventPrivate()
     {
         switch (EventStatus)

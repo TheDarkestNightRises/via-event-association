@@ -30,14 +30,14 @@ public class Result<T>
     public static implicit operator Result<T>(List<Error> errors) => new(errors);
     public static implicit operator Result<T>(Error[] errors) => new(errors.ToList());
 
-    public TNextValue Match<TNextValue>(Func<T, TNextValue> onValue, Func<List<Error>, TNextValue> onError)
+    public TNextValue Match<TNextValue>(Func<T, TNextValue> onPayLoad, Func<List<Error>, TNextValue> onError)
     {
         if (IsFailure)
         {
             return onError(_errors);
         }
 
-        return onValue(PayLoad);
+        return onPayLoad(PayLoad);
     }
     
 }

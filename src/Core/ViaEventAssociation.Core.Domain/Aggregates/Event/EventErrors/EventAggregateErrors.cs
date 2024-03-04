@@ -4,8 +4,14 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Event.EventErrors;
 
 public static class EventAggregateErrors
 {
-    public static readonly Error CantMakeCancelledEventPublic = new Error("EventPublic.CannotMakeCancelledEventPublic",
+    public static readonly Error CantMakeCancelledEventPublic = new Error("EventStatus.CannotMakeCancelledEventPublic",
         "Cannot make a cancelled event public.");
+    
+    public static readonly Error CantMakeCancelledEventPrivate = new Error("EventStatus.CannotMakeCancelledEventPrivate",
+        "Cannot make a cancelled event private.");
+    
+    public static readonly Error CantMakeActiveEventPrivate = new Error("EventStatus.CannotMakeActiveEventPublic",
+        "Cannot make an active event private.");
     
     public static readonly Error EventDescriptionIncorrectLength = new Error("EventDescription.EventDescriptionIncorrectLength",
         "The description length should be between 0 and 250 (inclusive).");

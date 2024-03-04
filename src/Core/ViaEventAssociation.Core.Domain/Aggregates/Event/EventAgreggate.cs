@@ -9,7 +9,7 @@ public class EventAggregate : AggregateRoot<EventId>
 {
     internal EventTitle EventTitle { get; }
     internal EventDescription EventDescription { get; }
-    internal EventVisibility EventVisibility { get; private set; }
+    internal EventVisibility EventVisibility { get; set; }
     internal EventCapacity EventCapacity { get; }
     internal EventStatus EventStatus { get; set; }
 
@@ -40,14 +40,25 @@ public class EventAggregate : AggregateRoot<EventId>
         // return aggregate; 
         throw new NotImplementedException();
     }
-    public void MakeEventPrivate()
+    public Result<Void> MakeEventPrivate()
     {
-        EventVisibility = EventVisibility.Private;
+        switch (EventStatus)
+        {
+            case EventStatus.Active:
+                return EventAggregateErrors.CantMakeActiveEventPrivate;
+            case EventStatus.Cancelled:
+                return EventAggregateErrors.CantMakeCancelledEventPrivate;
+            case EventStatus.Draft:
+            case EventStatus.Ready:
+            default:
+                EventVisibility = EventVisibility.Private;
+                return new Void();
+        }
     }
     
     public Result<Void> MakeEventPublic()
     {
-        if (EventStatus == EventStatus.Cancelled)
+        if (EventStatus is EventStatus.Cancelled)
         {
             return EventAggregateErrors.CantMakeCancelledEventPublic;
         } 

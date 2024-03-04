@@ -2,41 +2,42 @@
 
 public class Result<T>
 {
-    public T? PayLoad;
-    public List<Error> Errors = new();
-    public bool IsFailure => Errors.Count != 0;
+    private readonly T? _payLoad = default;
+    private readonly List<Error> _errors = [];
+    public bool IsFailure => _errors.Count != 0;
     public bool IsSuccess => !IsFailure;
     
     //Happy path
     public Result(T payLoad)
     {
-        PayLoad = payLoad;
+        _payLoad = payLoad;
     } 
     
     //Failure path 
     private Result(Error error)
     {
-        Errors.Add(error);
+        _errors.Add(error);
     }
 
     private Result(List<Error> errors)
     {
-        Errors.AddRange(errors);
+        _errors.AddRange(errors);
     }
-    
+    public T PayLoad => _payLoad!;
+    public List<Error> Errors => _errors;
     public static implicit operator Result<T>(T payload) => new(payload);
     public static implicit operator Result<T>(Error error) => new(error);
     public static implicit operator Result<T>(List<Error> errors) => new(errors);
     public static implicit operator Result<T>(Error[] errors) => new(errors.ToList());
-    
+
     public TNextValue Match<TNextValue>(Func<T, TNextValue> onValue, Func<List<Error>, TNextValue> onError)
     {
         if (IsFailure)
         {
-            return onError(Errors);
+            return onError(_errors);
         }
 
-        return onValue(PayLoad!);
+        return onValue(PayLoad);
     }
-
+    
 }

@@ -26,7 +26,6 @@
       <Folder Include="Common\" />
       <Folder Include="Fakes\" />
       <Folder Include="Features\" />
-      <Folder Include="Features\Event\" />
     </ItemGroup>
 
     <ItemGroup>

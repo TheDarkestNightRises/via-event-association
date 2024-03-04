@@ -1,3 +1,4 @@
+using ViaEventAssociation.Core.Domain.Aggregates.Event.EventErrors;
 using ViaEventAssociation.Core.Tools.OperationResult;
 using Void = ViaEventAssociation.Core.Tools.OperationResult.Void;
 
@@ -12,18 +13,28 @@ public class EventDescription : ValueObject
         Description = description;
     }
 
-    public static Result<EventDescription> Create(string description)
+    public static Result<EventDescription> Create(string? description)
     {
         var validationResult = Validate(description);
         
         return validationResult.Match<Result<EventDescription>>(
-            onValue: _ => new EventDescription(description),
+            onValue: _ => new EventDescription(description!),
             onError: errors => errors
         );
     }
 
-    private static Result<Void> Validate(string description)
+    private static Result<Void> Validate(string? description)
     {
+        if (description is null)
+        {
+            return EventAggregateErrors.EventDescriptionCantBeNull;
+        }
+        
+        if (description.Length > 250)
+        {
+            return EventAggregateErrors.EventDescriptionIncorrectLength;
+        } 
+        
         return new Void();
     }
 

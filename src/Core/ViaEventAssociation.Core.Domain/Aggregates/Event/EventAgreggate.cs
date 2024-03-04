@@ -1,5 +1,7 @@
-﻿using ViaEventAssociation.Core.Domain.Aggregates.Event.Values;
+﻿using ViaEventAssociation.Core.Domain.Aggregates.Event.EventErrors;
+using ViaEventAssociation.Core.Domain.Aggregates.Event.Values;
 using ViaEventAssociation.Core.Tools.OperationResult;
+using Void = ViaEventAssociation.Core.Tools.OperationResult.Void;
 
 namespace ViaEventAssociation.Core.Domain.Aggregates.Event;
 
@@ -9,7 +11,7 @@ public class EventAggregate : AggregateRoot<EventId>
     internal EventDescription EventDescription { get; }
     internal EventVisibility EventVisibility { get; private set; }
     internal EventCapacity EventCapacity { get; }
-    internal EventStatus EventStatus { get; }
+    internal EventStatus EventStatus { get; set; }
 
     private EventAggregate(EventId id, EventTitle title, EventDescription description,
                            EventVisibility visibility, EventCapacity capacity,
@@ -43,9 +45,14 @@ public class EventAggregate : AggregateRoot<EventId>
         EventVisibility = EventVisibility.Private;
     }
     
-    public void MakeEventPublic()
+    public Result<Void> MakeEventPublic()
     {
+        if (EventStatus == EventStatus.Cancelled)
+        {
+            return EventAggregateErrors.CantMakeCancelledEventPublic;
+        } 
         EventVisibility = EventVisibility.Public;
+        return new Void();
     }
     
 }

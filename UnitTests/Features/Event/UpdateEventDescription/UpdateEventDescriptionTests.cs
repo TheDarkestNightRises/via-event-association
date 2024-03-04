@@ -44,12 +44,12 @@ public class UpdateEventDescriptionTests
 
     //UC3.S3
     [Fact]
-    public void GivenActiveEvent_WhenUpdatingDescription_Success()
+    public void GivenReadyEvent_WhenUpdatingDescription_Success()
     {
         // Arrange
         var createdResult = EventAggregate.Create();
         var eventAggregate = createdResult.PayLoad;
-        eventAggregate.EventStatus = EventStatus.Active;
+        eventAggregate.EventStatus = EventStatus.Ready;
         var newDescription = "Nullam tempor lacus nisl, eget tempus quam maximus malesuada.";
 
         // Act
@@ -85,10 +85,10 @@ public class UpdateEventDescriptionTests
         var createdResult = EventAggregate.Create();
         var eventAggregate = createdResult.PayLoad;
         eventAggregate.EventStatus = EventStatus.Cancelled;
-        var longDescription = new string('A', 251);
+        var newDescription = "Nullam tempor lacus nisl, eget tempus quam maximus malesuada.";
 
         // Act
-        var result = eventAggregate.UpdateEventDescription(longDescription);
+        var result = eventAggregate.UpdateEventDescription(newDescription);
 
         // Assert
         Assert.True(result.IsFailure);
@@ -102,11 +102,11 @@ public class UpdateEventDescriptionTests
         // Arrange
         var createdResult = EventAggregate.Create();
         var eventAggregate = createdResult.PayLoad;
-        eventAggregate.EventStatus = EventStatus.Cancelled;
-        var longDescription = new string('A', 251);
+        eventAggregate.EventStatus = EventStatus.Active;
+        var newDescription = "Nullam tempor lacus nisl, eget tempus quam maximus malesuada.";
 
         // Act
-        var result = eventAggregate.UpdateEventDescription(longDescription);
+        var result = eventAggregate.UpdateEventDescription(newDescription);
 
         // Assert
         Assert.True(result.IsFailure);

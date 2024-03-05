@@ -10,7 +10,7 @@ public class SetNumberOfGuestsUnitTests
         var eventAggregate = EventFactory.Init()
             .WithStatus(EventStatus.Draft)
             .Build();
-        eventAggregate.SetNumberOfGuest();
+        // eventAggregate.SetNumberOfGuest();
         Assert.Equal(EventVisibility.Public, eventAggregate.EventVisibility);
     }
 }

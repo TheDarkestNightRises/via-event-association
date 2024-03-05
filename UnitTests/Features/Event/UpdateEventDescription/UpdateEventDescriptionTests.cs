@@ -6,7 +6,6 @@ namespace UnitTests.Features.Event.UpdateEventDescription;
 
 public class UpdateEventDescriptionTests
 {
-    //UC3.S1
     [Fact]
     public void GivenDraftEvent_WhenUpdatingDescription_Success()
     {

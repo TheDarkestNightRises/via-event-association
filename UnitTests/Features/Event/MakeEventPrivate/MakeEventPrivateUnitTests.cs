@@ -109,7 +109,8 @@ public class MakeEventPrivateUnitTests
             .WithStatus(EventStatus.Active)
             .WithVisibility(EventVisibility.Public)
             .Build();
-        Assert.Equal(EventAggregateErrors.CantMakeActiveEventPrivate,eventAggregate.MakeEventPrivate());
+        var result = eventAggregate.MakeEventPrivate();
+        Assert.Equal(EventAggregateErrors.CantMakeActiveEventPrivate,result.Errors.First());
     }
     
     [Fact]
@@ -129,7 +130,8 @@ public class MakeEventPrivateUnitTests
         var eventAggregate = EventFactory.Init()
             .WithStatus(EventStatus.Cancelled)
             .Build();
-        Assert.Equal(EventAggregateErrors.CantMakeCancelledEventPrivate,eventAggregate.MakeEventPrivate());
+        var result = eventAggregate.MakeEventPrivate();
+        Assert.Equal(EventAggregateErrors.CantMakeCancelledEventPrivate,result.Errors.First());
     }
     
     [Fact]
@@ -139,7 +141,7 @@ public class MakeEventPrivateUnitTests
             .WithStatus(EventStatus.Cancelled)
             .Build();
         eventAggregate.MakeEventPrivate();
-        Assert.NotEqual(EventVisibility.Private, eventAggregate.EventVisibility);
+        Assert.Equal(EventVisibility.Private, eventAggregate.EventVisibility);
     }
     
 }

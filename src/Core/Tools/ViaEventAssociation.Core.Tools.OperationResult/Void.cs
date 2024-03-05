@@ -1,3 +1,3 @@
-﻿namespace ViaEventAssociation.Core.Tools.OperationResult2;
+﻿namespace ViaEventAssociation.Core.Tools.OperationResult;
 
 public record Void;

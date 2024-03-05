@@ -34,12 +34,9 @@ public class EventAggregate : AggregateRoot<EventId>
         var titleResult = EventTitle.Create("Working Title");
         var descriptionResult = EventDescription.Create("");
         var visibilityResult = EventVisibility.Private;
-
-        
         var aggregate = new EventAggregate(id, titleResult.PayLoad, descriptionResult.PayLoad,
                                           visibilityResult, capacityResult.PayLoad,
                                           statusResult);
-
         return aggregate; 
     }
     
@@ -60,7 +57,6 @@ public class EventAggregate : AggregateRoot<EventId>
         {
             return EventAggregateErrors.CancelledEventCantBeModified;
         }
-        
         EventDescription = eventDescription;
         EventStatus = EventStatus.Draft;
         return new Void();
@@ -73,15 +69,12 @@ public class EventAggregate : AggregateRoot<EventId>
         {
             return EventAggregateErrors.CanNotUpdateTitleOnActiveEvent;
         }
-        // error if canclled status  with status error message explaing canclled status case 6
+        // error if cancelled status  with status error message explaining cancelled status case 6
         if (EventStatus is EventStatus.Cancelled)
         {
             return EventAggregateErrors.CanNotUpdateTitleCancelledEvent;
         }
-
-
         var result = EventTitle.Create(newUpdatedTitle);
-        
         return result.Match<Result<Void>>(
             onPayLoad: payLoad =>
             {

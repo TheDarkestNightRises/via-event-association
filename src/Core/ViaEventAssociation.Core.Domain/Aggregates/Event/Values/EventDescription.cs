@@ -23,7 +23,7 @@ public class EventDescription : ValueObject
         );
     }
 
-    private static Result<Void> Validate(string? description)
+    public static Result<Void> Validate(string? description)
     {
         if (description is null)
         {
@@ -37,6 +37,22 @@ public class EventDescription : ValueObject
         
         return new Void();
     }
+    
+    public static Result<Void> Validate(EventDescription? eventDescription)
+    {
+        if (eventDescription is null)
+        {
+            return EventAggregateErrors.EventDescriptionCantBeNull;
+        }
+        
+        if (eventDescription.Description.Length > 250)
+        {
+            return EventAggregateErrors.EventDescriptionIncorrectLength;
+        } 
+        
+        return new Void();
+    }
+
 
     public override IEnumerable<object> GetEqualityObjects()
     {

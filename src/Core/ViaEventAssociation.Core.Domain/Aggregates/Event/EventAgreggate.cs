@@ -67,17 +67,6 @@ public class EventAggregate : AggregateRoot<EventId>
     
     public Result<Void> UpdateEventTitle(string newUpdatedTitle)
     {
-        //vlaidations
-        // length 3- 75 else error of legth case 1-2-3
-        if (newUpdatedTitle.Length < 3 && newUpdatedTitle.Length > 75)
-        {
-            return EventAggregateErrors.TitleUpdateInputNotValid;
-        }
-        // non null input case 4
-        if (newUpdatedTitle == null)
-        {
-            return EventAggregateErrors.TitleCanNotBeUpdatedWithNullValue;
-        }
         // error if active status  with status error message explaing active status case 5
         if (EventStatus is EventStatus.Active)
         {

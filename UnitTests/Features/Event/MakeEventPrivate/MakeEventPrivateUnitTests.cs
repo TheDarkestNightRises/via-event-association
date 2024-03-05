@@ -1,12 +1,21 @@
-﻿using ViaEventAssociation.Core.Domain.Aggregates.Event;
+﻿using System.Security.AccessControl;
+using ViaEventAssociation.Core.Domain.Aggregates.Event;
 using ViaEventAssociation.Core.Domain.Aggregates.Event.EventErrors;
 using ViaEventAssociation.Core.Domain.Aggregates.Event.Values;
 using ViaEventAssociation.Core.Tools.OperationResult;
+using Xunit.Abstractions;
 
 namespace UnitTests.Features.Event.MakeEventPrivate;
 
 public class MakeEventPrivateUnitTests
 {
+    private readonly ITestOutputHelper _testOutputHelper;
+
+    public MakeEventPrivateUnitTests(ITestOutputHelper testOutputHelper)
+    {
+        _testOutputHelper = testOutputHelper;
+    }
+
     [Fact]
     public void GivenEvent_AndStatusIsDraft_EventAlreadyPrivate_WhenVisibilitySetToPrivate_ThenVisibilityIsPrivate()
     {
@@ -21,120 +30,116 @@ public class MakeEventPrivateUnitTests
     [Fact]
     public void GivenEvent_AndStatusIsDraft_EventAlreadyPrivate_WhenVisibilitySetToPrivate_ThenStatusUnchanged()
     {
-        Result<EventAggregate> result = EventAggregate.Create();
-        Assert.NotNull(result.PayLoad);
-        result.PayLoad.EventStatus = EventStatus.Draft;
-        result.PayLoad.MakeEventPrivate();
-        Assert.Equal(EventStatus.Draft, result.PayLoad.EventStatus);
+        var eventAggregate = EventFactory.Init()
+            .WithStatus(EventStatus.Draft)
+            .Build();
+        eventAggregate.MakeEventPrivate();
+        Assert.Equal(EventStatus.Draft, eventAggregate.EventStatus);
     }
     
     [Fact]
     public void GivenEvent_AndStatusIsReady_EventAlreadyPrivate_WhenVisibilitySetToPrivate_ThenVisibilityIsPrivate()
     {
-        Result<EventAggregate> result = EventAggregate.Create();
-        Assert.NotNull(result.PayLoad);
-        result.PayLoad.EventStatus = EventStatus.Ready;
-        result.PayLoad.MakeEventPrivate();
-        Assert.Equal(EventVisibility.Private, result.PayLoad.EventVisibility);
+        var eventAggregate = EventFactory.Init()
+            .WithStatus(EventStatus.Ready)
+            .Build();
+        eventAggregate.MakeEventPrivate();
+        Assert.Equal(EventVisibility.Private, eventAggregate.EventVisibility);
     }
     
     [Fact]
     public void GivenEvent_AndStatusIsReady_EventAlreadyPrivate_WhenVisibilitySetToPrivate_ThenStatusUnchanged()
     {
-        Result<EventAggregate> result = EventAggregate.Create();
-        Assert.NotNull(result.PayLoad);
-        result.PayLoad.EventStatus = EventStatus.Ready;
-        result.PayLoad.MakeEventPrivate();
-        Assert.Equal(EventStatus.Ready, result.PayLoad.EventStatus);
+        var eventAggregate = EventFactory.Init()
+            .WithStatus(EventStatus.Ready)
+            .Build();
+        eventAggregate.MakeEventPrivate();
+        Assert.Equal(EventStatus.Ready, eventAggregate.EventStatus);
     }
     
     [Fact]
     public void GivenEvent_AndStatusIsDraft_EventIsPublic_WhenVisibilitySetToPrivate_ThenVisibilityIsPrivate()
     {
-        Result<EventAggregate> result = EventAggregate.Create();
-        Assert.NotNull(result.PayLoad);
-        result.PayLoad.EventStatus = EventStatus.Draft;
-        result.PayLoad.EventVisibility = EventVisibility.Public;
-        result.PayLoad.MakeEventPrivate();
-        Assert.Equal(EventVisibility.Private, result.PayLoad.EventVisibility);
+        var eventAggregate = EventFactory.Init()
+            .WithStatus(EventStatus.Draft)
+            .WithVisibility(EventVisibility.Public)
+            .Build();
+        eventAggregate.MakeEventPrivate();
+        Assert.Equal(EventVisibility.Private, eventAggregate.EventVisibility);
     }
     
     [Fact]
     public void GivenEvent_AndStatusIsDraft_EventIsPublic_WhenVisibilitySetToPrivate_ThenStatusUnchanged()
     {
-        Result<EventAggregate> result = EventAggregate.Create();
-        Assert.NotNull(result.PayLoad);
-        result.PayLoad.EventStatus = EventStatus.Draft;
-        result.PayLoad.EventVisibility = EventVisibility.Public;
-        result.PayLoad.MakeEventPrivate();
-        Assert.Equal(EventStatus.Draft, result.PayLoad.EventStatus);
+        var eventAggregate = EventFactory.Init()
+            .WithStatus(EventStatus.Draft)
+            .WithVisibility(EventVisibility.Public)
+            .Build();
+        eventAggregate.MakeEventPrivate();
+        Assert.Equal(EventStatus.Draft, eventAggregate.EventStatus);
     }
     
     [Fact]
     public void GivenEvent_AndStatusIsReady_EventIsPublic_WhenVisibilitySetToPrivate_ThenVisibilityIsPrivate()
     {
-        Result<EventAggregate> result = EventAggregate.Create();
-        Assert.NotNull(result.PayLoad);
-        result.PayLoad.EventStatus = EventStatus.Ready;
-        result.PayLoad.EventVisibility = EventVisibility.Public;
-        result.PayLoad.MakeEventPrivate();
-        Assert.Equal(EventVisibility.Private, result.PayLoad.EventVisibility);
+        var eventAggregate = EventFactory.Init()
+            .WithStatus(EventStatus.Ready)
+            .WithVisibility(EventVisibility.Public)
+            .Build();
+        eventAggregate.MakeEventPrivate();
+        Assert.Equal(EventVisibility.Private, eventAggregate.EventVisibility);
     }
     
     [Fact]
     public void GivenEvent_AndStatusIsReady_EventIsPublic_WhenVisibilitySetToPrivate_ThenAndStatusUnchanged()
     {
-        Result<EventAggregate> result = EventAggregate.Create();
-        Assert.NotNull(result.PayLoad);
-        result.PayLoad.EventStatus = EventStatus.Ready;
-        result.PayLoad.EventVisibility = EventVisibility.Public;
-        result.PayLoad.MakeEventPrivate();
-        Assert.Equal(EventStatus.Ready, result.PayLoad.EventStatus);
+        var eventAggregate = EventFactory.Init()
+            .WithStatus(EventStatus.Ready)
+            .WithVisibility(EventVisibility.Public)
+            .Build();
+        eventAggregate.MakeEventPrivate();
+        Assert.Equal(EventStatus.Ready, eventAggregate.EventStatus);
     }
     
     
     [Fact]
     public void GivenEvent_AndStatusIsActive_WhenVisibilitySetToPrivate_ThenFailureMessageIsProvided()
     {
-        Result<EventAggregate> result = EventAggregate.Create();
-        Assert.NotNull(result.PayLoad);
-        var eventAggregate = result.PayLoad;
-        eventAggregate.EventStatus = EventStatus.Active;
-        result.PayLoad.EventVisibility = EventVisibility.Public;
+        var eventAggregate = EventFactory.Init()
+            .WithStatus(EventStatus.Active)
+            .WithVisibility(EventVisibility.Public)
+            .Build();
         Assert.Equal(EventAggregateErrors.CantMakeActiveEventPrivate,eventAggregate.MakeEventPrivate());
     }
     
     [Fact]
     public void GivenEvent_AndStatusIsActive_WhenVisibilitySetToPrivate_ThenStatusUnchanged()
     {
-        Result<EventAggregate> result = EventAggregate.Create();
-        Assert.NotNull(result.PayLoad);
-        var eventAggregate = result.PayLoad;
-        eventAggregate.EventStatus = EventStatus.Active;
-        result.PayLoad.EventVisibility = EventVisibility.Public;
-        result.PayLoad.MakeEventPrivate();
-        Assert.NotEqual(EventVisibility.Private, result.PayLoad.EventVisibility);
+        var eventAggregate = EventFactory.Init()
+            .WithStatus(EventStatus.Active)
+            .WithVisibility(EventVisibility.Public)
+            .Build();
+        eventAggregate.MakeEventPrivate();
+        Assert.NotEqual(EventVisibility.Private, eventAggregate.EventVisibility);
     }
     
     [Fact]
     public void GivenEvent_AndStatusIsCancelled_WhenVisibilitySetToPrivate_ThenFailureMessageIsProvided()
     {
-        Result<EventAggregate> result = EventAggregate.Create();
-        Assert.NotNull(result.PayLoad);
-        var eventAggregate = result.PayLoad;
-        eventAggregate.EventStatus = EventStatus.Cancelled;
+        var eventAggregate = EventFactory.Init()
+            .WithStatus(EventStatus.Cancelled)
+            .Build();
         Assert.Equal(EventAggregateErrors.CantMakeCancelledEventPrivate,eventAggregate.MakeEventPrivate());
     }
     
     [Fact]
     public void GivenEvent_AndStatusIsCancelled_WhenVisibilitySetToPrivate_ThenStatusUnchanged()
     {
-        Result<EventAggregate> result = EventAggregate.Create();
-        Assert.NotNull(result.PayLoad);
-        var eventAggregate = result.PayLoad;
-        eventAggregate.EventStatus = EventStatus.Cancelled;
-        result.PayLoad.MakeEventPrivate();
-        Assert.NotEqual(EventVisibility.Private, result.PayLoad.EventVisibility);
+        var eventAggregate = EventFactory.Init()
+            .WithStatus(EventStatus.Cancelled)
+            .Build();
+        eventAggregate.MakeEventPrivate();
+        Assert.NotEqual(EventVisibility.Private, eventAggregate.EventVisibility);
     }
     
 }

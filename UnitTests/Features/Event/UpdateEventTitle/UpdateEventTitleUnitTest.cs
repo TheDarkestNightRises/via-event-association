@@ -11,18 +11,17 @@ public class UpdateEventTitleUnitTest
     public void GivenAnEventId_WhenCreatorSelectsTheTitleOfTheEvent_ThenTheTitleOfTheEventIsUpdated()
     {
         // Arrange  
-        var updatedResult = EventAggregate.Create();
-        var eventAggregate = updatedResult.PayLoad;
-        eventAggregate.EventStatus = EventStatus.Draft;
-        var newUpdatedTitle = "Title is updated now.";
+        var eventAggregate = EventFactory.Init()
+            .WithStatus(EventStatus.Draft)
+            .Build();
+        var newUpdatedTitle = new EventTitle("Title is updated now.");
         
         // Act
         var result = eventAggregate.UpdateEventTitle(newUpdatedTitle);
         
         // Assert
         Assert.True(result.IsSuccess);
-        Assert.True((string) eventAggregate.EventTitle == newUpdatedTitle);
-        Assert.True(((string) eventAggregate.EventTitle).Length >= 3 && ((string) eventAggregate.EventTitle).Length <= 75);
+        Assert.True(eventAggregate.EventTitle == newUpdatedTitle);
     }
     
     //UC2.S2
@@ -30,29 +29,31 @@ public class UpdateEventTitleUnitTest
     public void GivenAnEventWithId_WhenCreatorSelectsTheTitleOfTheEventInReadyStatus_ThenTheTitleOfTheEventIsUpdated()
     {
         // Arrange  
-        var updatedResult = EventAggregate.Create();
-        var eventAggregate = updatedResult.PayLoad;
-        eventAggregate.EventStatus = EventStatus.Ready;
-        var newUpdatedTitle = "Title is updated now.";
+        var eventAggregate = EventFactory.Init()
+            .WithStatus(EventStatus.Ready)
+            .Build();
         
+        var newUpdatedTitle = new EventTitle("Title is updated now.");
         // Act
         var result = eventAggregate.UpdateEventTitle(newUpdatedTitle);
         
         // Assert
         Assert.True(result.IsSuccess);
-        Assert.True((string) eventAggregate.EventTitle == newUpdatedTitle);
+        Assert.True(eventAggregate.EventTitle == newUpdatedTitle);
         Assert.True(((string) eventAggregate.EventTitle).Length >= 3 && ((string) eventAggregate.EventTitle).Length <= 75);
     }
-    
+
     //UC2.F1
+    [Fact]
     public void GivenAnEventWithAnId_WhenCreatorSelectEventTitleWithZeroCharacters_ThenReturnFailureMessageIncorrectTitleLength()
     {
         // Arrange  
-        var updatedResult = EventAggregate.Create();
-        var eventAggregate = updatedResult.PayLoad;
-        eventAggregate.EventStatus = EventStatus.Ready;
-        var newUpdatedTitle = "";
-        
+        var eventAggregate = EventFactory.Init()
+            .WithStatus(EventStatus.Ready)
+            .Build();
+    
+        var newUpdatedTitle = new EventTitle(""); // Use the EventTitle constructor for consistency
+    
         // Act
         var result = eventAggregate.UpdateEventTitle(newUpdatedTitle);
         
@@ -60,91 +61,94 @@ public class UpdateEventTitleUnitTest
         Assert.True(result.IsFailure);
         Assert.Equal(EventAggregateErrors.TitleUpdateInputNotValid, result.Errors.First());
     }
-    
+
     //UC2.F2
+    [Fact]
     public void GivenAnEventWithAnId_WhenCreatorSelectEventTitleWithLessThenThreeCharacters_ThenReturnFailureMessageIncorrectTitleLength()
     {
-        // Arrange  
-        var updatedResult = EventAggregate.Create();
-        var eventAggregate = updatedResult.PayLoad;
-        eventAggregate.EventStatus = EventStatus.Ready;
-        var newUpdatedTitle = "xy";
-        
+        // Arrange
+        var eventAggregate = EventFactory.Init()
+            .WithStatus(EventStatus.Ready)
+            .Build();
+
+        var newUpdatedTitle = new EventTitle ("xy");
+    
         // Act
         var result = eventAggregate.UpdateEventTitle(newUpdatedTitle);
-        
+    
         // Assert
         Assert.True(result.IsFailure);
         Assert.Equal(EventAggregateErrors.TitleUpdateInputNotValid, result.Errors.First());
     }
-    
+
     //UC2.F3
+    [Fact]
     public void GivenAnEventWithAnId_WhenCreatorSelectEventTitleWithMoreThenSeventyFiveCharacters_ThenReturnFailureMessageIncorrectTitleLength()
     {
         // Arrange  
-        var updatedResult = EventAggregate.Create();
-        var eventAggregate = updatedResult.PayLoad;
-        eventAggregate.EventStatus = EventStatus.Ready;
-        var newUpdatedTitle = "abcdefghlk abcdefghlk abcdefghlk abcdefghlk abcdefghlk abcdefghlk abcdefghlk abcdefghlk ";
-        
-        
+        var eventAggregate = EventFactory.Init()
+            .WithStatus(EventStatus.Ready)
+            .Build();
+
+        var longTitle = new EventTitle ("abcdefghlk abcdefghlk abcdefghlk abcdefghlk abcdefghlk abcdefghlk abcdefghlk abcdefghlk ");
+    
         // Act
-        var result = eventAggregate.UpdateEventTitle(newUpdatedTitle);
+        var result = eventAggregate.UpdateEventTitle(longTitle);
         
         // Assert
         Assert.True(result.IsFailure);
         Assert.Equal(EventAggregateErrors.TitleUpdateInputNotValid, result.Errors.First());
     }
-    
+
     //UC2.F4
+    [Fact]
     public void GivenAnEventWithAnId_WhenCreatorSelectEventTitleWithNullCharacters_ThenReturnFailureMessageIncorrectTitleLength()
     {
-        // Arrange  
-        var updatedResult = EventAggregate.Create();
-        var eventAggregate = updatedResult.PayLoad;
-        eventAggregate.EventStatus = EventStatus.Ready;
-        String newUpdatedTitle = null;
-        
-        
+        // Arrange
+        string? nullUpdatedTitle = null;
+
+
         // Act
-        var result = eventAggregate.UpdateEventTitle(newUpdatedTitle);
-        
+        var result = EventAggregate.UpdateEventTitle(nullUpdatedTitle);
+
         // Assert
         Assert.True(result.IsFailure);
         Assert.Equal(EventAggregateErrors.TitleCanNotBeUpdatedWithNullValue, result.Errors.First());
     }
-    
+
     //UC2.F5
+    [Fact]
     public void GivenAnEventWithAnId_WhenCreatorSelectEventTitleInActiveStatus_ThenReturnFailureMessageEventCannotBeModified()
     {
-        // Arrange  
-        var updatedResult = EventAggregate.Create();
-        var eventAggregate = updatedResult.PayLoad;
-        eventAggregate.EventStatus = EventStatus.Active;
-        String newUpdatedTitle = "active event";
-        
-        
+        // Arrange
+        var eventAggregate = EventFactory.Init()
+            .WithStatus(EventStatus.Active)
+            .Build();
+
+        string newUpdatedTitle = "active event";
+
         // Act
         var result = eventAggregate.UpdateEventTitle(newUpdatedTitle);
-        
+
         // Assert
         Assert.True(result.IsFailure);
         Assert.Equal(EventAggregateErrors.CanNotUpdateTitleOnActiveEvent, result.Errors.First());
     }
-    
+
     //UC2.F6
+    [Fact]
     public void GivenAnEventWithAnId_WhenCreatorSelectEventTitleInCancelledStatus_ThenReturnFailureMessageEventCannotBeModified()
     {
-        // Arrange  
-        var updatedResult = EventAggregate.Create();
-        var eventAggregate = updatedResult.PayLoad;
-        eventAggregate.EventStatus = EventStatus.Cancelled;
-        String newUpdatedTitle = "active event";
-        
-        
+        // Arrange
+        var eventAggregate = EventFactory.Init()
+            .WithStatus(EventStatus.Cancelled)
+            .Build();
+
+        string newUpdatedTitle = "active event";
+
         // Act
         var result = eventAggregate.UpdateEventTitle(newUpdatedTitle);
-        
+
         // Assert
         Assert.True(result.IsFailure);
         Assert.Equal(EventAggregateErrors.CanNotUpdateTitleCancelledEvent, result.Errors.First());

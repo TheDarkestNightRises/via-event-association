@@ -24,4 +24,16 @@ public static class EventAggregateErrors
     
     public static readonly Error ActiveEventCantBeModified = new Error("Event.CancelledEventCantBeModified",
         "Active event can't be modified");
+    
+    public static readonly Error CanNotUpdateTitleOnActiveEvent = new Error("Event.CanNotUpdateTitleOnActiveEvent",
+        "Event could not be updated while active");
+    
+    public static readonly Error CanNotUpdateTitleCancelledEvent = new Error("Event.CanNotUpdateTitleCancelledEvent",
+        "Event could not be updated while cancelled");
+    
+    public static readonly Error TitleCanNotBeUpdatedWithNullValue = new Error("Event.TitleCanNotBeUpdatedWithNullValue",
+        "Title input cna not be null");
+    
+    public static readonly Error TitleUpdateInputNotValid = new Error("Event.TitleUpdateInputNotValid",
+        "Update title needs to be between 3 and 75");
 }

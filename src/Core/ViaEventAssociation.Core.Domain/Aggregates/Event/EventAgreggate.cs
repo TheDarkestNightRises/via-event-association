@@ -65,6 +65,32 @@ public class EventAggregate : AggregateRoot<EventId>
         return new Void();
     }
     
+    public Result<Void> UpdateEventTitle(string newUpdatedTitle)
+    {
+        // error if active status  with status error message explaing active status case 5
+        if (EventStatus is EventStatus.Active)
+        {
+            return EventAggregateErrors.CanNotUpdateTitleOnActiveEvent;
+        }
+        // error if canclled status  with status error message explaing canclled status case 6
+        if (EventStatus is EventStatus.Cancelled)
+        {
+            return EventAggregateErrors.CanNotUpdateTitleCancelledEvent;
+        }
+
+
+        var result = EventTitle.Create(newUpdatedTitle);
+        
+        return result.Match<Result<Void>>(
+            onPayLoad: payLoad =>
+            {
+                EventTitle = payLoad;
+                return new Void();
+            },
+            onError: errors => errors
+        );
+    }
+    
     public Result<Void> MakeEventPrivate()
     {
         switch (EventStatus)

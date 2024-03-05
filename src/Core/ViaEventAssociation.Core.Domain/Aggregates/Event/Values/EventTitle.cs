@@ -1,5 +1,8 @@
 ﻿
+using System.Runtime.InteropServices.JavaScript;
+using ViaEventAssociation.Core.Domain.Aggregates.Event.EventErrors;
 using ViaEventAssociation.Core.Tools.OperationResult;
+using Void = ViaEventAssociation.Core.Tools.OperationResult.Void;
 
 namespace ViaEventAssociation.Core.Domain.Aggregates.Event.Values;
 
@@ -14,8 +17,33 @@ public class EventTitle : ValueObject
 
     public static Result<EventTitle> Create(string title)
     {
-        return new EventTitle(title);
+        var validationResult = Validate(title);
+
+        return validationResult.Match<Result<EventTitle>>(
+            onPayLoad: _ => new EventTitle(title!),
+            onError: errors => errors); 
+
     }
+    
+    // validations
+    private static Result<Void> Validate(string? newUpdatedTitle)
+    {
+        // non null input case 4
+        if (newUpdatedTitle == null)
+        {
+            return EventAggregateErrors.TitleCanNotBeUpdatedWithNullValue;
+        }        
+        // length 3- 75 else error of legth case 1-2-3
+        if (newUpdatedTitle.Length < 3 && newUpdatedTitle.Length > 75)
+        {
+            return EventAggregateErrors.TitleUpdateInputNotValid;
+        }
+        return new Void();
+    }
+
+    
+    
+    
 
     public override IEnumerable<object> GetEqualityObjects()
     {
@@ -26,4 +54,5 @@ public class EventTitle : ValueObject
     {
         return eventTitle.Title;
     }
+    
 }

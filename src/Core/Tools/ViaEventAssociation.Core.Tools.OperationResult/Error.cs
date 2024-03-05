@@ -1,4 +1,4 @@
-﻿namespace ViaEventAssociation.Core.Tools.OperationResult;
+﻿namespace ViaEventAssociation.Core.Tools.OperationResult2;
 
 public sealed record Error(string Code, string? Description = null)
 {

@@ -1,43 +1,31 @@
-﻿namespace ViaEventAssociation.Core.Tools.OperationResult;
+﻿namespace ViaEventAssociation.Core.Tools.OperationResult2;
 
 public class Result<T>
 {
-    private readonly T? _payLoad = default;
-    private readonly List<Error> _errors = [];
-    public bool IsFailure => _errors.Count != 0;
+    public T? PayLoad;
+    public List<Error> Errors = new();
+    public bool IsFailure => Errors.Count != 0;
     public bool IsSuccess => !IsFailure;
     
     //Happy path
     public Result(T payLoad)
     {
-        _payLoad = payLoad;
+        PayLoad = payLoad;
     } 
     
     //Failure path 
     private Result(Error error)
     {
-        _errors.Add(error);
+        Errors.Add(error);
     }
 
     private Result(List<Error> errors)
     {
-        _errors.AddRange(errors);
+        Errors.AddRange(errors);
     }
-    public T PayLoad => _payLoad!;
-    public List<Error> Errors => _errors;
+    
     public static implicit operator Result<T>(T payload) => new(payload);
     public static implicit operator Result<T>(Error error) => new(error);
     public static implicit operator Result<T>(List<Error> errors) => new(errors);
     public static implicit operator Result<T>(Error[] errors) => new(errors.ToList());
-
-    public TNextValue Match<TNextValue>(Func<T, TNextValue> onPayLoad, Func<List<Error>, TNextValue> onError)
-    {
-        if (IsFailure)
-        {
-            return onError(_errors);
-        }
-
-        return onPayLoad(PayLoad);
-    }
-    
 }

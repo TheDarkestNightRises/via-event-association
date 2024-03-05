@@ -60,8 +60,9 @@ public class EventAggregate : AggregateRoot<EventId>
         {
             return EventAggregateErrors.CancelledEventCantBeModified;
         }
-
+        
         EventDescription = eventDescription;
+        EventStatus = EventStatus.Draft;
         return new Void();
     }
     

@@ -11,9 +11,10 @@ public class UpdateEventDescriptionTests
     public void GivenDraftEvent_WhenUpdatingDescription_Success()
     {
         // Arrange
-        var createdResult = EventAggregate.Create();
-        var eventAggregate = createdResult.PayLoad;
-        eventAggregate.EventStatus = EventStatus.Draft;
+        var eventAggregate = EventFactory.Init()
+            .WithStatus(EventStatus.Draft)
+            .Build();
+        
         var newDescription = new EventDescription("Nullam tempor lacus nisl, eget tempus quam maximus malesuada.");
 
         // Act
@@ -29,9 +30,9 @@ public class UpdateEventDescriptionTests
     public void GivenEvent_WhenUpdatingEmptyDescription_Success()
     {
         // Arrange
-        var createdResult = EventAggregate.Create();
-        var eventAggregate = createdResult.PayLoad;
-        eventAggregate.EventStatus = EventStatus.Draft;
+        var eventAggregate = EventFactory.Init()
+            .WithStatus(EventStatus.Draft)
+            .Build();
         var newDescription = new EventDescription("");
 
         // Act
@@ -47,9 +48,9 @@ public class UpdateEventDescriptionTests
     public void GivenReadyEvent_WhenUpdatingDescription_Success()
     {
         // Arrange
-        var createdResult = EventAggregate.Create();
-        var eventAggregate = createdResult.PayLoad;
-        eventAggregate.EventStatus = EventStatus.Ready;
+        var eventAggregate = EventFactory.Init()
+            .WithStatus(EventStatus.Ready)
+            .Build();        
         var newDescription = new EventDescription("Nullam tempor lacus nisl, eget tempus quam maximus malesuada.");
 
         // Act
@@ -60,17 +61,50 @@ public class UpdateEventDescriptionTests
         Assert.True(eventAggregate.EventDescription == newDescription);
     }
     
-    //UC3.F1
+    //UC3.S3
     [Fact]
-    public void GivenLongDescription_WhenUpdatingEventDescription_ThenReturnIncorrectLengthError()
+    public void GivenReadyEvent_WhenUpdatingDescription_BecomesDraft()
     {
         // Arrange
-        var createdResult = EventAggregate.Create();
-        var eventAggregate = createdResult.PayLoad;
-        var longDescription = new EventDescription(new string('A', 251));
+        var eventAggregate = EventFactory.Init()
+            .WithStatus(EventStatus.Ready)
+            .Build();        
+        var newDescription = new EventDescription("Nullam tempor lacus nisl, eget tempus quam maximus malesuada.");
 
         // Act
-        var result = eventAggregate.UpdateEventDescription(longDescription);
+        var result = eventAggregate.UpdateEventDescription(newDescription);
+
+        // Assert
+        Assert.True(result.IsSuccess);
+        Assert.True(eventAggregate.EventStatus == EventStatus.Draft);
+    }
+    
+    //UC3.F1
+    // [Fact]
+    // public void GivenLongDescription_WhenUpdatingEventDescription_ThenReturnIncorrectLengthError()
+    // {
+    //     // Arrange
+    //     var eventAggregate = EventFactory.Init()
+    //         .Build();       
+    //     
+    //     var longDescription = EventDescription.Create(new string('A', 251));
+    //
+    //     // Act
+    //     var result = eventAggregate.UpdateEventDescription(longDescription);
+    //
+    //     // Assert
+    //     Assert.True(result.IsFailure);
+    //     Assert.Equal(EventAggregateErrors.EventDescriptionIncorrectLength, result.Errors.First());
+    // }
+    //
+    [Fact]
+    public void GivenLongDescription_WhenCreatingEventDescription_ShouldReturnFailureResultWithIncorrectLengthError()
+    {
+        // Arrange
+        var longDescription = new string('A', 251);
+
+        // Act
+        var result = EventDescription.Create(longDescription);
 
         // Assert
         Assert.True(result.IsFailure);
@@ -82,9 +116,9 @@ public class UpdateEventDescriptionTests
     public void GivenCanceledEvent_WhenUpdatingEventDescription_ThenReturnCancelledEventCantBeModified()
     {
         // Arrange
-        var createdResult = EventAggregate.Create();
-        var eventAggregate = createdResult.PayLoad;
-        eventAggregate.EventStatus = EventStatus.Cancelled;
+        var eventAggregate = EventFactory.Init()
+            .WithStatus(EventStatus.Cancelled)
+            .Build();       
         var newDescription = new EventDescription("Nullam tempor lacus nisl, eget tempus quam maximus malesuada.");
 
         // Act
@@ -100,9 +134,9 @@ public class UpdateEventDescriptionTests
     public void GivenActiveEvent_WhenUpdatingEventDescription_ThenReturnActiveEventCantBeModified()
     {
         // Arrange
-        var createdResult = EventAggregate.Create();
-        var eventAggregate = createdResult.PayLoad;
-        eventAggregate.EventStatus = EventStatus.Active;
+        var eventAggregate = EventFactory.Init()
+            .WithStatus(EventStatus.Active)
+            .Build();       
         var newDescription = new EventDescription("Nullam tempor lacus nisl, eget tempus quam maximus malesuada.");
 
         // Act
@@ -114,20 +148,6 @@ public class UpdateEventDescriptionTests
     }
     
     //Validation for EventDescription
-    [Fact]
-    public void GivenLongDescription_WhenCreatingEventDescription_ShouldReturnFailureResultWithIncorrectLengthError()
-    {
-        // Arrange
-        var longDescription = new string('A', 251);
-
-        // Act
-        var result = EventDescription.Create(longDescription);
-
-        // Assert
-        Assert.True(result.IsFailure);
-        Assert.Equal(EventAggregateErrors.EventDescriptionIncorrectLength, result.Errors.First());
-    }
-
     [Fact]
     public void GivenNullDescription_WhenCreatingEventDescription_ShouldReturnFailureResultWithCantBeNullError()
     {

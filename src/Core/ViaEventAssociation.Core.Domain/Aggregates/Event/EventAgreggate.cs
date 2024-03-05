@@ -7,7 +7,7 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Event;
 
 public class EventAggregate : AggregateRoot<EventId>
 {
-    internal EventTitle EventTitle { get; }
+    internal EventTitle EventTitle {  get; private set; }
     internal EventDescription EventDescription { get; private set; }
     internal EventVisibility EventVisibility { get; set; }
     internal EventCapacity EventCapacity { get; }
@@ -59,6 +59,43 @@ public class EventAggregate : AggregateRoot<EventId>
             onPayLoad: payLoad =>
             {
                 EventDescription = payLoad;
+                return new Void();
+            },
+            onError: errors => errors
+        );
+    }
+    
+    public Result<Void> UpdateEventTitle(string newUpdatedTitle)
+    {
+        //vlaidations
+        // length 3- 75 else error of legth case 1-2-3
+        if (newUpdatedTitle.Length < 3 && newUpdatedTitle.Length > 75)
+        {
+            return EventAggregateErrors.TitleUpdateInputNotValid;
+        }
+        // non null input case 4
+        if (newUpdatedTitle == null)
+        {
+            return EventAggregateErrors.TitleCanNotBeUpdatedWithNullValue;
+        }
+        // error if active status  with status error message explaing active status case 5
+        if (EventStatus is EventStatus.Active)
+        {
+            return EventAggregateErrors.CanNotUpdateTitleOnActiveEvent;
+        }
+        // error if canclled status  with status error message explaing canclled status case 6
+        if (EventStatus is EventStatus.Cancelled)
+        {
+            return EventAggregateErrors.CanNotUpdateTitleCancelledEvent;
+        }
+
+
+        var result = EventTitle.Create(newUpdatedTitle);
+        
+        return result.Match<Result<Void>>(
+            onPayLoad: payLoad =>
+            {
+                EventTitle = payLoad;
                 return new Void();
             },
             onError: errors => errors

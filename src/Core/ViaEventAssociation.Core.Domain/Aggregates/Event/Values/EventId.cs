@@ -11,7 +11,7 @@ public class EventId : ValueObject
         Id = Guid.NewGuid();
     }
 
-    public static Result<EventId> Create()
+    public static EventId Create()
     {
         return new EventId();
     }

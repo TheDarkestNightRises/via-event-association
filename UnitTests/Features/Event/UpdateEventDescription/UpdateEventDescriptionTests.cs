@@ -14,14 +14,14 @@ public class UpdateEventDescriptionTests
         var createdResult = EventAggregate.Create();
         var eventAggregate = createdResult.PayLoad;
         eventAggregate.EventStatus = EventStatus.Draft;
-        var newDescription = "Nullam tempor lacus nisl, eget tempus quam maximus malesuada.";
+        var newDescription = new EventDescription("Nullam tempor lacus nisl, eget tempus quam maximus malesuada.");
 
         // Act
         var result = eventAggregate.UpdateEventDescription(newDescription);
 
         // Assert
         Assert.True(result.IsSuccess);
-        Assert.True((string) eventAggregate.EventDescription == newDescription);
+        Assert.True(eventAggregate.EventDescription == newDescription);
     }
     
     //UC3.S2
@@ -32,14 +32,14 @@ public class UpdateEventDescriptionTests
         var createdResult = EventAggregate.Create();
         var eventAggregate = createdResult.PayLoad;
         eventAggregate.EventStatus = EventStatus.Draft;
-        var newDescription = "";
+        var newDescription = new EventDescription("");
 
         // Act
         var result = eventAggregate.UpdateEventDescription(newDescription);
 
         // Assert
         Assert.True(result.IsSuccess);
-        Assert.True((string) eventAggregate.EventDescription == newDescription);
+        Assert.True(eventAggregate.EventDescription == newDescription);
     }
 
     //UC3.S3
@@ -50,14 +50,14 @@ public class UpdateEventDescriptionTests
         var createdResult = EventAggregate.Create();
         var eventAggregate = createdResult.PayLoad;
         eventAggregate.EventStatus = EventStatus.Ready;
-        var newDescription = "Nullam tempor lacus nisl, eget tempus quam maximus malesuada.";
+        var newDescription = new EventDescription("Nullam tempor lacus nisl, eget tempus quam maximus malesuada.");
 
         // Act
         var result = eventAggregate.UpdateEventDescription(newDescription);
 
         // Assert
         Assert.True(result.IsSuccess);
-        Assert.True((string) eventAggregate.EventDescription == newDescription);
+        Assert.True(eventAggregate.EventDescription == newDescription);
     }
     
     //UC3.F1
@@ -67,7 +67,7 @@ public class UpdateEventDescriptionTests
         // Arrange
         var createdResult = EventAggregate.Create();
         var eventAggregate = createdResult.PayLoad;
-        var longDescription = new string('A', 251);
+        var longDescription = new EventDescription(new string('A', 251));
 
         // Act
         var result = eventAggregate.UpdateEventDescription(longDescription);
@@ -85,7 +85,7 @@ public class UpdateEventDescriptionTests
         var createdResult = EventAggregate.Create();
         var eventAggregate = createdResult.PayLoad;
         eventAggregate.EventStatus = EventStatus.Cancelled;
-        var newDescription = "Nullam tempor lacus nisl, eget tempus quam maximus malesuada.";
+        var newDescription = new EventDescription("Nullam tempor lacus nisl, eget tempus quam maximus malesuada.");
 
         // Act
         var result = eventAggregate.UpdateEventDescription(newDescription);
@@ -103,7 +103,7 @@ public class UpdateEventDescriptionTests
         var createdResult = EventAggregate.Create();
         var eventAggregate = createdResult.PayLoad;
         eventAggregate.EventStatus = EventStatus.Active;
-        var newDescription = "Nullam tempor lacus nisl, eget tempus quam maximus malesuada.";
+        var newDescription = new EventDescription("Nullam tempor lacus nisl, eget tempus quam maximus malesuada.");
 
         // Act
         var result = eventAggregate.UpdateEventDescription(newDescription);

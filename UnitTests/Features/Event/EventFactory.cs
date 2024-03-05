@@ -41,6 +41,12 @@ public class EventFactory
         return this;
     }
     
+    public EventFactory WithCapacity(EventCapacity capacity)
+    {
+        _eventAggregate.EventCapacity = capacity;
+        return this;
+    }
+    
     public EventFactory WithStatus(EventStatus status)
     {
         _eventAggregate.EventStatus = status;

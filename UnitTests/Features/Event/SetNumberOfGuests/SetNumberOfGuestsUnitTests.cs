@@ -4,13 +4,20 @@ namespace UnitTests.Features.Event.SetNumberOfGuests;
 
 public class SetNumberOfGuestsUnitTests
 {
-    [Fact]
-    public void GivenEvent_AndStatusIsDraft_WhenNumberOfGuestsIsSet_AndNumberIsLessThan50_ThenSetSelectedValue()
+    // UC7.S1
+    [Theory]
+    [InlineData(50)]
+    [InlineData(42)]
+    [InlineData(36)]
+    [InlineData(21)]
+    [InlineData(5)]
+    public void GivenEvent_AndStatusIsDraft_WhenNumberOfGuestsIsSet_AndNumberIsLessOrEqualTo50_ThenCapacityIsSetToSelectedValue(int numberOfGuests)
     {
         var eventAggregate = EventFactory.Init()
             .WithStatus(EventStatus.Draft)
             .Build();
-        eventAggregate.SetNumberOfGuest();
-        Assert.Equal(EventVisibility.Public, eventAggregate.EventVisibility);
+        var capacity = new EventCapacity(numberOfGuests);
+        eventAggregate.SetNumberOfGuests(capacity);
+        Assert.Equal(capacity, eventAggregate.EventCapacity);
     }
 }

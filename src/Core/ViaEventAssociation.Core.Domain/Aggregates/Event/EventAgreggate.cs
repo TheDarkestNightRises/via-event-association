@@ -10,7 +10,7 @@ public class EventAggregate : AggregateRoot<EventId>
     internal EventTitle EventTitle { get; set; }
     internal EventDescription EventDescription { get; set; }
     internal EventVisibility EventVisibility { get; set; }
-    internal EventCapacity EventCapacity { get; }
+    internal EventCapacity EventCapacity { get; set; }
     internal EventStatus EventStatus { get; set; }
 
     private EventAggregate(EventId id, EventTitle title, EventDescription description,
@@ -109,6 +109,22 @@ public class EventAggregate : AggregateRoot<EventId>
         } 
         EventVisibility = EventVisibility.Public;
         return new Void();
+    }
+
+    public Result<Void> SetNumberOfGuests(EventCapacity capacity)
+    {
+        switch (EventStatus)
+        {
+            case EventStatus.Active when (int)capacity < (int)EventCapacity:
+                return EventAggregateErrors.NumberOfGuestsCanNotBeReduced;
+            case EventStatus.Cancelled:
+                return EventAggregateErrors.CancelledEventCantBeModified;
+            case EventStatus.Draft:
+            case EventStatus.Ready:
+            default:
+                EventCapacity = capacity;
+                return new Void();
+        }
     }
     
 }

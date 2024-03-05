@@ -1,4 +1,5 @@
 ﻿using ViaEventAssociation.Core.Tools.OperationResult;
+using Void = ViaEventAssociation.Core.Tools.OperationResult.Void;
 
 namespace ViaEventAssociation.Core.Domain.Aggregates.Event.EventErrors;
 
@@ -32,8 +33,20 @@ public static class EventAggregateErrors
         "Event could not be updated while cancelled");
     
     public static readonly Error TitleCanNotBeUpdatedWithNullValue = new Error("Event.TitleCanNotBeUpdatedWithNullValue",
-        "Title input cna not be null");
+        "Title input can not be null");
     
     public static readonly Error TitleUpdateInputNotValid = new Error("Event.TitleUpdateInputNotValid",
         "Update title needs to be between 3 and 75");
+
+    public static readonly Error EventCapacityCantBeNull = new Error("Event.EventCapacityCantBeNull",
+        "Number of guests needs to be between 5 and 50");
+    
+    public static readonly Error EventCapacityCannotBeNegative = new Error("Event.EventCapacityCannotBeNegative",
+        "Number of guests needs to be at least 5");
+    
+    public static readonly Error EventCapacityExceeded = new Error("Event.EventCapacityExceeded",
+        "Number of guests needs to be at most 50");
+
+    public static readonly Error NumberOfGuestsCanNotBeReduced = new Error("Event.NumberOfGuestsCanNotBeReduced",
+        "Maximum number of guests of an active cannot be reduced");
 }

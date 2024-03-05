@@ -8,18 +8,10 @@ public class CreateNewEventUnitTests
 {
     //Event Id
     [Fact]
-    public void GivenEventId_WhenCreated_Success()
-    {
-        var result = EventId.Create();
-        Assert.True(result.IsSuccess);
-    }
-
-    [Fact]
     public void GivenEventId_WhenCreated_ThenIdIsNotEmpty()
     {
         var result = EventId.Create();
-        Assert.NotNull(result.PayLoad);
-        Assert.NotEqual(Guid.Empty, result.PayLoad.Id);
+        Assert.NotEqual(Guid.Empty, result.Id);
     }
 
     //UC1.S1 
@@ -51,11 +43,12 @@ public class CreateNewEventUnitTests
     
     //UC1.S3
     [Fact]
-    public void GivenEvent_WhenCreated_ThenDescriptionIsNotEmpty()
+    public void GivenEvent_WhenCreated_ThenDescriptionIsEmpty()
     {
         var result = EventAggregate.Create();
-        Assert.NotNull(result.PayLoad);
-        Assert.NotNull(result.PayLoad.EventDescription);
+        var eventDescription = result.PayLoad.EventDescription;
+        Assert.NotNull(eventDescription);
+        Assert.True((string) eventDescription == "");
     }
     
     //UC1.S4

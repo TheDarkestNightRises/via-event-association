@@ -7,8 +7,8 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Event;
 
 public class EventAggregate : AggregateRoot<EventId>
 {
-    internal EventTitle EventTitle { get; }
-    internal EventDescription EventDescription { get; private set; }
+    internal EventTitle EventTitle { get; set; }
+    internal EventDescription EventDescription { get; set; }
     internal EventVisibility EventVisibility { get; set; }
     internal EventCapacity EventCapacity { get; }
     internal EventStatus EventStatus { get; set; }
@@ -24,24 +24,32 @@ public class EventAggregate : AggregateRoot<EventId>
         EventStatus = status;
     }
 
+    internal EventAggregate(EventId eventId) : base(eventId) {}
+
     public static Result<EventAggregate> Create()
     {
-        // var titleResult = EventTitle.Create(title);
-        // var descriptionResult = EventDescription.Create(description);
-        // var visibilityResult = EventVisibility.Create(visibility);
-        // var capacityResult = EventCapacity.Create(capacity);
-        // var statusResult = EventStatus.Create();   
+        var id = EventId.Create();
+        var statusResult = EventStatus.Draft;
+        var capacityResult = EventCapacity.Create(5);
+        var titleResult = EventTitle.Create("Working Title");
+        var descriptionResult = EventDescription.Create("");
+        var visibilityResult = EventVisibility.Private;
 
         
-        // var aggregate = new EventAggregate(id, titleResult.Value, descriptionResult.Value,
-        //                                   visibilityResult.Value, capacityResult.Value,
-        //                                   statusResult.Value);
+        var aggregate = new EventAggregate(id, titleResult.PayLoad, descriptionResult.PayLoad,
+                                          visibilityResult, capacityResult.PayLoad,
+                                          statusResult);
 
-        // return aggregate; 
-        throw new NotImplementedException();
+        return aggregate; 
     }
     
-    public Result<Void> UpdateEventDescription(string newDescription)
+    internal static EventAggregate Create(EventId eventId)
+    {
+        return new EventAggregate(eventId);
+    }
+
+    
+    public Result<Void> UpdateEventDescription(EventDescription eventDescription)
     {
         if (EventStatus is EventStatus.Active)
         {
@@ -52,17 +60,9 @@ public class EventAggregate : AggregateRoot<EventId>
         {
             return EventAggregateErrors.CancelledEventCantBeModified;
         }
-        
-        var result = EventDescription.Create(newDescription);
-        
-        return result.Match<Result<Void>>(
-            onPayLoad: payLoad =>
-            {
-                EventDescription = payLoad;
-                return new Void();
-            },
-            onError: errors => errors
-        );
+
+        EventDescription = eventDescription;
+        return new Void();
     }
     
     public Result<Void> MakeEventPrivate()

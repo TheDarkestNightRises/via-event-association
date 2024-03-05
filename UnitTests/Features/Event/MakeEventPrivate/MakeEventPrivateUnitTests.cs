@@ -10,12 +10,12 @@ public class MakeEventPrivateUnitTests
     [Fact]
     public void GivenEvent_AndStatusIsDraft_EventAlreadyPrivate_WhenVisibilitySetToPrivate_ThenVisibilityIsPrivate()
     {
-        Result<EventAggregate> result = EventAggregate.Create();
-        Assert.NotNull(result.PayLoad);
-        result.PayLoad.EventStatus = EventStatus.Draft;
-        result.PayLoad.MakeEventPrivate();
-        Assert.Equal(EventVisibility.Private, result.PayLoad.EventVisibility);
-        Assert.Equal(EventStatus.Draft, result.PayLoad.EventStatus);
+        var eventAggregate = EventFactory.Init()
+            .WithStatus(EventStatus.Draft)
+            .Build();
+        
+        eventAggregate.MakeEventPrivate();
+        Assert.Equal(EventVisibility.Private, eventAggregate.EventVisibility);
     }
     
     [Fact]

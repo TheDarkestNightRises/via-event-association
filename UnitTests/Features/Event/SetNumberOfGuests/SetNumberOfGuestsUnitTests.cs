@@ -136,12 +136,12 @@ public class SetNumberOfGuestsUnitTests
     [InlineData(3)]
     [InlineData(2)]
     [InlineData(1)]
-    public void GivenEvent__WhenNumberOfGuestsIsChangedToLessThan5_ThenFailureMessageProvided(int numberOfGuests)
+    public void GivenEvent_WhenNumberOfGuestsIsChangedToLessThan5_ThenFailureMessageProvided(int numberOfGuests)
     {
         var eventAggregate = EventFactory.Init()
-            .WithCapacity(EventCapacity.Create(40).PayLoad)
+            .WithCapacity(EventCapacity.Create(30).PayLoad)
             .Build();
-        var capacity = EventCapacity.Create(numberOfGuests).PayLoad;
+        var capacity = new EventCapacity(numberOfGuests);
         var result = eventAggregate.SetNumberOfGuests(capacity);
         Assert.Equal(EventAggregateErrors.EventCapacityCannotBeNegative,result.Errors.First());    
     }
@@ -152,12 +152,12 @@ public class SetNumberOfGuestsUnitTests
     [InlineData(53)]
     [InlineData(52)]
     [InlineData(51)]
-    public void GivenEvent__WhenNumberOfGuestsIsChangedToLessMoreThan50_ThenFailureMessageProvided(int numberOfGuests)
+    public void GivenEvent_WhenNumberOfGuestsIsChangedToMoreThan50_ThenFailureMessageProvided(int numberOfGuests)
     {
         var eventAggregate = EventFactory.Init()
             .WithCapacity(EventCapacity.Create(40).PayLoad)
             .Build();
-        var capacity = EventCapacity.Create(numberOfGuests).PayLoad;
+        var capacity = new EventCapacity(numberOfGuests);
         var result = eventAggregate.SetNumberOfGuests(capacity);
         Assert.Equal(EventAggregateErrors.EventCapacityExceeded,result.Errors.First());    
     }

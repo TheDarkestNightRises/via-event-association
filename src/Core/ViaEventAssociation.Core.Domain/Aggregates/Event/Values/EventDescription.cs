@@ -23,7 +23,7 @@ public class EventDescription : ValueObject
         );
     }
 
-    public static Result<Void> Validate(string? description)
+    private static Result<Void> Validate(string? description)
     {
         if (description is null)
         {

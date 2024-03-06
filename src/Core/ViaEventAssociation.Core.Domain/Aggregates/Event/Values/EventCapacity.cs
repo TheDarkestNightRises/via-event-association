@@ -32,6 +32,23 @@ public class EventCapacity : ValueObject
             _ => new Void()
         };
     }
+    
+    public static Result<Void> Validate(EventCapacity? capacity)
+    {
+        if (capacity == null)
+        {
+            return EventAggregateErrors.EventCapacityCantBeNull;
+        }
+        return (int)capacity switch
+            {
+                < 5 => EventAggregateErrors.EventCapacityCannotBeNegative,
+                > 50 => EventAggregateErrors.EventCapacityExceeded,
+                _ => new Void()
+            };
+    }
+
+    
+    
 
     public override IEnumerable<object> GetEqualityObjects()
     {

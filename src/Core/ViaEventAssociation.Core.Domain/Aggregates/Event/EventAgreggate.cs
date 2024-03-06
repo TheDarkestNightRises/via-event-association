@@ -130,8 +130,15 @@ public class EventAggregate : AggregateRoot<EventId>
             case EventStatus.Draft:
             case EventStatus.Ready:
             default:
-                EventCapacity = capacity;
-                return new Void();
+                var result = EventCapacity.Validate(capacity);
+                return result.Match<Result<Void>>(
+                    onPayLoad: _ =>
+                    {
+                        EventCapacity = capacity;
+                        return new Void();
+                    },
+                    onError: errors => errors
+                );
         }
     }
     

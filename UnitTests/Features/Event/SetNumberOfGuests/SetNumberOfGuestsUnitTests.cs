@@ -161,4 +161,43 @@ public class SetNumberOfGuestsUnitTests
         var result = eventAggregate.SetNumberOfGuests(capacity);
         Assert.Equal(EventAggregateErrors.EventCapacityExceeded,result.Errors.First());    
     }
+    
+    // Create EventCapacity
+    [Theory]
+    [InlineData(50)]
+    [InlineData(42)]
+    [InlineData(36)]
+    [InlineData(21)]
+    [InlineData(5)]
+    public void GivenNumberOfGuest_AndNumberIsBetween5And50_ThenCreateCapacity(int numberOfGuests)
+    {
+        var capacity = EventCapacity.Create(numberOfGuests).PayLoad;
+        Assert.Equal((int)capacity, numberOfGuests);
+    }
+    
+    // Create EventCapacity
+    [Theory]
+    [InlineData(0)]
+    [InlineData(1)]
+    [InlineData(2)]
+    [InlineData(3)]
+    [InlineData(4)]
+    public void GivenNumberOfGuest_AndNumberIsLessThan5_ThenFailureMessageProvided(int numberOfGuests)
+    {
+        var result = EventCapacity.Create(numberOfGuests).Errors.First();
+        Assert.Equal(EventAggregateErrors.EventCapacityCannotBeNegative,result);    
+    }
+    
+    // Create EventCapacity
+    [Theory]
+    [InlineData(55)]
+    [InlineData(54)]
+    [InlineData(53)]
+    [InlineData(52)]
+    [InlineData(51)]
+    public void GivenNumberOfGuest_AndNumberIsBiggerThan50_ThenFailureMessageProvided(int numberOfGuests)
+    {
+        var result = EventCapacity.Create(numberOfGuests).Errors.First();
+        Assert.Equal(EventAggregateErrors.EventCapacityExceeded,result);    
+    }
 }

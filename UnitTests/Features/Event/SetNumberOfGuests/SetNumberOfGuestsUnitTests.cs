@@ -34,9 +34,9 @@ public class SetNumberOfGuestsUnitTests
     {
         var eventAggregate = EventFactory.Init()
             .WithStatus(EventStatus.Ready)
-            .WithCapacity(new EventCapacity(5))
+            .WithCapacity(EventCapacity.Create(5).PayLoad)
             .Build();
-        var capacity = new EventCapacity(numberOfGuests);
+        var capacity = EventCapacity.Create(numberOfGuests).PayLoad;
         eventAggregate.SetNumberOfGuests(capacity);
         Assert.Equal(capacity, eventAggregate.EventCapacity);
     }
@@ -52,9 +52,9 @@ public class SetNumberOfGuestsUnitTests
     {
         var eventAggregate = EventFactory.Init()
             .WithStatus(EventStatus.Ready)
-            .WithCapacity(new EventCapacity(5))
+            .WithCapacity(EventCapacity.Create(5).PayLoad)
             .Build();
-        var capacity = new EventCapacity(numberOfGuests);
+        var capacity = EventCapacity.Create(numberOfGuests).PayLoad;
         eventAggregate.SetNumberOfGuests(capacity);
         Assert.Equal(capacity, eventAggregate.EventCapacity);
     }
@@ -70,9 +70,9 @@ public class SetNumberOfGuestsUnitTests
     {
         var eventAggregate = EventFactory.Init()
             .WithStatus(EventStatus.Draft)
-            .WithCapacity(new EventCapacity(5))
+            .WithCapacity(EventCapacity.Create(5).PayLoad)
             .Build();
-        var capacity = new EventCapacity(numberOfGuests);
+        var capacity = EventCapacity.Create(numberOfGuests).PayLoad;
         eventAggregate.SetNumberOfGuests(capacity);
         Assert.Equal(capacity, eventAggregate.EventCapacity);
     }
@@ -88,9 +88,9 @@ public class SetNumberOfGuestsUnitTests
     {
         var eventAggregate = EventFactory.Init()
             .WithStatus(EventStatus.Active)
-            .WithCapacity(new EventCapacity(5))
+            .WithCapacity(EventCapacity.Create(5).PayLoad)
             .Build();
-        var capacity = new EventCapacity(numberOfGuests);
+        var capacity = EventCapacity.Create(numberOfGuests).PayLoad;
         eventAggregate.SetNumberOfGuests(capacity);
         Assert.Equal(capacity, eventAggregate.EventCapacity);
     }
@@ -104,13 +104,29 @@ public class SetNumberOfGuestsUnitTests
     {
         var eventAggregate = EventFactory.Init()
             .WithStatus(EventStatus.Active)
-            .WithCapacity(new EventCapacity(40))
+            .WithCapacity(EventCapacity.Create(40).PayLoad)
             .Build();
-        var capacity = new EventCapacity(numberOfGuests);
+        var capacity = EventCapacity.Create(numberOfGuests).PayLoad;
         var result = eventAggregate.SetNumberOfGuests(capacity);
         Assert.Equal(EventAggregateErrors.NumberOfGuestsCanNotBeReduced,result.Errors.First());    
     }
+    
     // UC7.F2
+    [Theory]
+    [InlineData(45)]
+    [InlineData(42)]
+    [InlineData(35)]
+    [InlineData(9)]
+    public void GivenEvent_AndStatusIsCancelled_WhenNumberOfGuestsIsChanged_ThenFailureMessageProvided(int numberOfGuests)
+    {
+        var eventAggregate = EventFactory.Init()
+            .WithStatus(EventStatus.Cancelled)
+            .WithCapacity(EventCapacity.Create(40).PayLoad)
+            .Build();
+        var capacity = EventCapacity.Create(numberOfGuests).PayLoad;
+        var result = eventAggregate.SetNumberOfGuests(capacity);
+        Assert.Equal(EventAggregateErrors.CancelledEventCantBeModified,result.Errors.First());    
+    }
     // UC7.F3
     // UC7.F4
 }

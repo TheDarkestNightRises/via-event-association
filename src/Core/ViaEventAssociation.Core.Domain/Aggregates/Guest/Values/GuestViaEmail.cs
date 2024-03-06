@@ -40,7 +40,7 @@ public partial class GuestViaEmail : ValueObject
         
         var username = email[..^"@via.dk".Length];
         
-        if (username.Length is <= 3 or >= 6)
+        if (username.Length is < 3 or > 6)
         {
             errors.Add(GuestAggregateErrors.ViaEmail.UsernameOutOfLength);
         }

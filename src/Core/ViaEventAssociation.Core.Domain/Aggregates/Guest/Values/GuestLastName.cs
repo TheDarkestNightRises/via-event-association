@@ -24,7 +24,7 @@ public partial class GuestLastName : ValueObject
             onError: errors => errors
         );
     }
-
+    
     private static Result<Void> Validate(string? lastName)
     { 
         if (string.IsNullOrEmpty(lastName))
@@ -37,12 +37,12 @@ public partial class GuestLastName : ValueObject
             return GuestAggregateErrors.LastName.LastNameContainsInvalidCharacters;
         }
         
-        if (lastName.Length > 25)
+        if (lastName.Length >= 25)
         {
             return GuestAggregateErrors.LastName.LastNameTooLong;
         }
 
-        if (lastName.Length < 2)
+        if (lastName.Length <= 2)
         {
             return GuestAggregateErrors.LastName.LastNameTooShort;
         }

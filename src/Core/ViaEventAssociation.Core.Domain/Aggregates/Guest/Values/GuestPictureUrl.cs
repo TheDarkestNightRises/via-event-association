@@ -28,7 +28,7 @@ public class GuestPictureUrl : ValueObject
     {
         if (pictureUrl is null)
         {
-            return EventAggregateErrors.EventDescriptionCantBeNull;
+            return GuestAggregateErrors.PictureUrl.PictureCantBeEmpty;
         }
         
         return new Void();

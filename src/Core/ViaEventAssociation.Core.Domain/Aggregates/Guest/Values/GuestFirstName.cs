@@ -37,12 +37,12 @@ public class GuestFirstName : ValueObject
             return GuestAggregateErrors.FirstName.FirstNameContainsInvalidCharacters;
         }
 
-        if (firstName.Length > 25)
+        if (firstName.Length >= 25)
         {
             return GuestAggregateErrors.FirstName.FirstNameTooLong;
         }
 
-        if (firstName.Length < 2)
+        if (firstName.Length <= 2)
         {
             return GuestAggregateErrors.FirstName.FirstNameTooShort;
         }

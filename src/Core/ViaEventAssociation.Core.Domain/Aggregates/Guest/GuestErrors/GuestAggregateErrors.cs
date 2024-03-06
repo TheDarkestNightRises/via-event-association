@@ -33,4 +33,11 @@ public static class GuestAggregateErrors
         public static Error InvalidEmailFormat => new(Code, "Email must contain 3 or 4 uppercase/lowercase English letters, or 6 digits from 0 to 9");
         public static Error UsernameOutOfLength => new(Code, "Via email username is is between 3 and 6 (inclusive) characters long");
     }
+
+    public static class PictureUrl
+    {
+        private const string Code = "Guest.PictureUrl";
+
+        public static Error PictureCantBeEmpty => new(Code, "Picture cannot be empty");
+    }
 }

@@ -127,6 +127,38 @@ public class SetNumberOfGuestsUnitTests
         var result = eventAggregate.SetNumberOfGuests(capacity);
         Assert.Equal(EventAggregateErrors.CancelledEventCantBeModified,result.Errors.First());    
     }
-    // UC7.F3
+    
+    // UC7.F3 TODO: after DB is implemented
+    
     // UC7.F4
+    [Theory]
+    [InlineData(4)]
+    [InlineData(3)]
+    [InlineData(2)]
+    [InlineData(1)]
+    public void GivenEvent__WhenNumberOfGuestsIsChangedToLessThan5_ThenFailureMessageProvided(int numberOfGuests)
+    {
+        var eventAggregate = EventFactory.Init()
+            .WithCapacity(EventCapacity.Create(40).PayLoad)
+            .Build();
+        var capacity = EventCapacity.Create(numberOfGuests).PayLoad;
+        var result = eventAggregate.SetNumberOfGuests(capacity);
+        Assert.Equal(EventAggregateErrors.EventCapacityCannotBeNegative,result.Errors.First());    
+    }
+    
+    // UC7.F5
+    [Theory]
+    [InlineData(54)]
+    [InlineData(53)]
+    [InlineData(52)]
+    [InlineData(51)]
+    public void GivenEvent__WhenNumberOfGuestsIsChangedToLessMoreThan50_ThenFailureMessageProvided(int numberOfGuests)
+    {
+        var eventAggregate = EventFactory.Init()
+            .WithCapacity(EventCapacity.Create(40).PayLoad)
+            .Build();
+        var capacity = EventCapacity.Create(numberOfGuests).PayLoad;
+        var result = eventAggregate.SetNumberOfGuests(capacity);
+        Assert.Equal(EventAggregateErrors.EventCapacityExceeded,result.Errors.First());    
+    }
 }

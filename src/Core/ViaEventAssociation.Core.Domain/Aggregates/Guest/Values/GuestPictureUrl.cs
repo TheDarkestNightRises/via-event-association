@@ -1,4 +1,5 @@
-﻿using ViaEventAssociation.Core.Domain.Aggregates.Guest.GuestErrors;
+﻿using ViaEventAssociation.Core.Domain.Aggregates.Event.EventErrors;
+using ViaEventAssociation.Core.Domain.Aggregates.Guest.GuestErrors;
 using ViaEventAssociation.Core.Tools.OperationResult;
 using Void = ViaEventAssociation.Core.Tools.OperationResult.Void;
 
@@ -27,7 +28,7 @@ public class GuestPictureUrl : ValueObject
     {
         if (pictureUrl is null)
         {
-            return GuestAggregateErrors.EventDescriptionCantBeNull;
+            return EventAggregateErrors.EventDescriptionCantBeNull;
         }
         
         return new Void();

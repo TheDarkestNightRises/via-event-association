@@ -1,10 +1,12 @@
-﻿using ViaEventAssociation.Core.Domain.Aggregates.Event.EventErrors;
+﻿using System.Text.RegularExpressions;
+using ViaEventAssociation.Core.Domain.Aggregates.Event.EventErrors;
+using ViaEventAssociation.Core.Domain.Aggregates.Guest.GuestErrors;
 using ViaEventAssociation.Core.Tools.OperationResult;
 using Void = ViaEventAssociation.Core.Tools.OperationResult.Void;
 
 namespace ViaEventAssociation.Core.Domain.Aggregates.Guest.Values;
 
-public class GuestLastName : ValueObject
+public partial class GuestLastName : ValueObject
 {
     internal string LastName { get; }
 
@@ -24,10 +26,25 @@ public class GuestLastName : ValueObject
     }
 
     private static Result<Void> Validate(string? lastName)
-    {
-        if (lastName is null)
+    { 
+        if (string.IsNullOrEmpty(lastName))
         {
-            return EventAggregateErrors.EventDescriptionCantBeNull;
+            return GuestAggregateErrors.LastName.LastNameCantBeEmpty;
+        }
+        
+        if (!AlphabeticCharacters().IsMatch(lastName))
+        {
+            return GuestAggregateErrors.LastName.LastNameContainsInvalidCharacters;
+        }
+        
+        if (lastName.Length > 25)
+        {
+            return GuestAggregateErrors.LastName.LastNameTooLong;
+        }
+
+        if (lastName.Length < 2)
+        {
+            return GuestAggregateErrors.LastName.LastNameTooShort;
         }
         
         return new Void();
@@ -43,4 +60,6 @@ public class GuestLastName : ValueObject
         return guestLastName.LastName;
     }
 
+    [GeneratedRegex(@"^[a-zA-Z]+$")]
+    private static partial Regex AlphabeticCharacters();
 }

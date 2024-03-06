@@ -1,4 +1,6 @@
-﻿using ViaEventAssociation.Core.Domain.Aggregates.Event.EventErrors;
+﻿using System.Text.RegularExpressions;
+using ViaEventAssociation.Core.Domain.Aggregates.Event.EventErrors;
+using ViaEventAssociation.Core.Domain.Aggregates.Guest.GuestErrors;
 using ViaEventAssociation.Core.Tools.OperationResult;
 using Void = ViaEventAssociation.Core.Tools.OperationResult.Void;
 
@@ -25,9 +27,24 @@ public class GuestFirstName : ValueObject
 
     private static Result<Void> Validate(string? firstName)
     {
-        if (firstName is null)
+        if (string.IsNullOrEmpty(firstName))
         {
-            return EventAggregateErrors.EventDescriptionCantBeNull;
+            return GuestAggregateErrors.FirstName.FirstNameCantBeEmpty;
+        }
+        
+        if (!Regex.IsMatch(firstName, @"^[a-zA-Z]+$"))
+        {
+            return GuestAggregateErrors.FirstName.FirstNameContainsInvalidCharacters;
+        }
+
+        if (firstName.Length > 25)
+        {
+            return GuestAggregateErrors.FirstName.FirstNameTooLong;
+        }
+
+        if (firstName.Length < 2)
+        {
+            return GuestAggregateErrors.FirstName.FirstNameTooShort;
         }
         
         return new Void();

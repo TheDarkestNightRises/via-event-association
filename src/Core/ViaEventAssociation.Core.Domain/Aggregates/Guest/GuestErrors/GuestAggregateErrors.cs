@@ -4,36 +4,33 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Guest.GuestErrors;
 
 public static class GuestAggregateErrors
 {
-    public static readonly Error CantMakeCancelledEventPublic = new Error("EventStatus.CannotMakeCancelledEventPublic",
-        "Cannot make a cancelled event public.");
+    public static class FirstName
+    {
+        private const string Code = "Guest.FirstName";
+
+        public static Error FirstNameCantBeEmpty => new(Code, "First name cannot be empty");
+        public static Error FirstNameTooShort => new(Code, "First name should contain more than 2 characters");
+        public static Error FirstNameTooLong => new(Code, "First name should contain less than 25 characters");
+        public static Error FirstNameContainsInvalidCharacters => new(Code, "Last name cannot contain invalid characters");
+    }
     
-    public static readonly Error CantMakeCancelledEventPrivate = new Error("EventStatus.CannotMakeCancelledEventPrivate",
-        "Cannot make a cancelled event private.");
+    public static class LastName
+    {
+        private const string Code = "Guest.LastName";
+
+        public static Error LastNameCantBeEmpty => new(Code, "First name cannot be empty");
+        public static Error LastNameTooShort => new(Code, "Last name should contain more than 2 characters");
+        public static Error LastNameTooLong => new(Code, "First name should contain less than 25 characters");
+        public static Error LastNameContainsInvalidCharacters => new(Code, "Last name cannot contain invalid characters");
+    }
     
-    public static readonly Error CantMakeActiveEventPrivate = new Error("EventStatus.CannotMakeActiveEventPublic",
-        "Cannot make an active event private.");
-    
-    public static readonly Error EventDescriptionIncorrectLength = new Error("EventDescription.EventDescriptionIncorrectLength",
-        "The description length should be between 0 and 250 (inclusive).");
-    
-    public static readonly Error EventDescriptionCantBeNull = new Error("EventDescription.EventDescriptionIncorrectLength",
-        "The description cannot be null.");
-    
-    public static readonly Error CancelledEventCantBeModified = new Error("Event.CancelledEventCantBeModified",
-        "Cancelled event can't be modified");
-    
-    public static readonly Error ActiveEventCantBeModified = new Error("Event.CancelledEventCantBeModified",
-        "Active event can't be modified");
-    
-    public static readonly Error CanNotUpdateTitleOnActiveEvent = new Error("Event.CanNotUpdateTitleOnActiveEvent",
-        "Event could not be updated while active");
-    
-    public static readonly Error CanNotUpdateTitleCancelledEvent = new Error("Event.CanNotUpdateTitleCancelledEvent",
-        "Event could not be updated while cancelled");
-    
-    public static readonly Error TitleCanNotBeUpdatedWithNullValue = new Error("Event.TitleCanNotBeUpdatedWithNullValue",
-        "Title input cna not be null");
-    
-    public static readonly Error TitleUpdateInputNotValid = new Error("Event.TitleUpdateInputNotValid",
-        "Update title needs to be between 3 and 75");
+    public static class ViaEmail
+    {
+        private const string Code = "Guest.ViaEmail";
+
+        public static Error EmailCantBeEmpty => new(Code, "Email cannot be empty");
+        public static Error WrongDomain => new(Code, "Only people with VIA email can register");
+        public static Error InvalidEmailFormat => new(Code, "Email must contain 3 or 4 uppercase/lowercase English letters, or 6 digits from 0 to 9");
+        public static Error UsernameOutOfLength => new(Code, "Via email username is is between 3 and 6 (inclusive) characters long");
+    }
 }

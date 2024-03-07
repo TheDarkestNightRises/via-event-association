@@ -64,5 +64,13 @@ public static class EventAggregateErrors
 
     public static readonly Error CanNotReadyAnEventWithNoVisibility = new Error("Event.CanNotReadyAnEventWithNoVisibility",
         "Can no ready an event with no visibility");
-
+    
+    public static readonly Error CantParticipateInPrivateEvent = new Error("Event.CantParticipateInPrivateEvent",
+        "Can not participate in a private event");
+    
+    public static readonly Error CantParticipateIfEventIsNotActive = new Error("Event.CantParticipateIfEventIsNotActive",
+        "Can not participate because event is not active");
+    
+    public static readonly Error GuestAlreadyRegistered = new Error("Event.GuestAlreadyRegistered",
+        "Can not participate again, because you are already registered in the event");
 }

@@ -1,5 +1,6 @@
 ﻿using ViaEventAssociation.Core.Domain.Aggregates.Event.EventErrors;
 using ViaEventAssociation.Core.Domain.Aggregates.Event.Values;
+using ViaEventAssociation.Core.Domain.Aggregates.Guest.Values;
 using ViaEventAssociation.Core.Tools.OperationResult;
 using Void = ViaEventAssociation.Core.Tools.OperationResult.Void;
 
@@ -12,6 +13,8 @@ public class EventAggregate : AggregateRoot<EventId>
     internal EventVisibility EventVisibility { get; set; }
     internal EventCapacity EventCapacity { get; set; }
     internal EventStatus EventStatus { get; set; }
+    internal List<GuestId> EventGuests { get; set; } = [];
+
 
     private EventAggregate(EventId id, EventTitle title, EventDescription description,
         EventVisibility visibility, EventCapacity capacity,
@@ -184,5 +187,27 @@ public class EventAggregate : AggregateRoot<EventId>
         return new Void();
     }
     
+    public Result<Void> ParticipateInPublicEvent(GuestId guestId)
+    {
+        if (EventVisibility is EventVisibility.Private)
+        {
+            return EventAggregateErrors.CantParticipateInPrivateEvent;
+        }
+        if (EventStatus is not EventStatus.Active)
+        {
+            return EventAggregateErrors.CantParticipateIfEventIsNotActive;
+        }
+        if (EventGuests.Count >= (int)EventCapacity)
+        {
+            return EventAggregateErrors.EventCapacityExceeded;
+        }
+        if (EventGuests.Contains(guestId))
+        {
+            return EventAggregateErrors.GuestAlreadyRegistered;
+        }
+        EventGuests.Add(guestId);
+        return new Void();
+    }
 }
+
 

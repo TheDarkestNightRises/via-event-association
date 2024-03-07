@@ -49,4 +49,20 @@ public static class EventAggregateErrors
 
     public static readonly Error NumberOfGuestsCanNotBeReduced = new Error("Event.NumberOfGuestsCanNotBeReduced",
         "Maximum number of guests of an active cannot be reduced");
+    
+    public static readonly Error CancelledEventCanNotBeReadied = new Error("Event.CancelledEventCanNotBeReadied",
+        "Cancelled event can not be readied");
+
+    public static readonly Error CanNotReadyAnEventWithDefaultTitle = new Error("Event.CanNotReadyAnEventWithDefaultTitle",
+        "Can not ready an event with default title");
+
+    public static readonly Error CanNotReadyAnEventWithNoTitle = new Error("Event.CanNotReadyAnEventWithNoTitle",
+        "Can not ready an event with no title");
+
+    public static readonly Error CanNotReadyAnEventWithNoDescription = new Error("Event.CanNotReadyAnEventWithNoDescription",
+        "Can not ready an event with no description");
+
+    public static readonly Error CanNotReadyAnEventWithNoVisibility = new Error("Event.CanNotReadyAnEventWithNoVisibility",
+        "Can no ready an event with no visibility");
+
 }

@@ -141,5 +141,46 @@ public class EventAggregate : AggregateRoot<EventId>
                 );
         }
     }
+    public Result<Void> MakeEventReady()
+    {
+        if (EventStatus is EventStatus.Cancelled)
+        {
+            return EventAggregateErrors.CancelledEventCanNotBeReadied;
+        }
+
+        if (EventStatus is not EventStatus.Draft) return new Void();
+        var defaultTitle = Create().PayLoad.EventTitle;
+        var noTitle = EventTitle.Create("").PayLoad;
+        var noDescription =  Create().PayLoad.EventDescription;
+        var minCapacity = EventCapacity.Create(5).PayLoad;
+        var maxCapacity = EventCapacity.Create(50).PayLoad;
+        if (EventTitle == defaultTitle)
+        {
+            return EventAggregateErrors.CanNotReadyAnEventWithDefaultTitle;
+        }
+        if (EventTitle == noTitle)
+        {
+            return EventAggregateErrors.CanNotReadyAnEventWithNoTitle;
+        }
+        if (EventDescription == noDescription)
+        {
+            return EventAggregateErrors.CanNotReadyAnEventWithNoDescription;
+        }
+        // // Todo: add time check
+        if (EventVisibility is EventVisibility.None)
+        {
+            return EventAggregateErrors.CanNotReadyAnEventWithNoVisibility;
+        }
+        if ((int)EventCapacity < (int)minCapacity)
+        {
+            return EventAggregateErrors.EventCapacityCannotBeNegative;
+        }
+        if ((int)EventCapacity > (int)maxCapacity)
+        {
+            return EventAggregateErrors.EventCapacityExceeded;
+        }
+        EventStatus = EventStatus.Ready;
+        return new Void();
+    }
     
 }

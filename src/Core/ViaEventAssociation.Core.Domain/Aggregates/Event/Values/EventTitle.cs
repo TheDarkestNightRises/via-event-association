@@ -10,7 +10,7 @@ public class EventTitle : ValueObject
 {
     protected string Title { get; }
 
-    private EventTitle(string title)
+    internal EventTitle(string title)
     {
         Title = title;
     }

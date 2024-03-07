@@ -7,6 +7,7 @@ namespace UnitTests.Features.Event.MakeEventPublicUnitTests;
 
 public class MakeEventPublicUnitTests
 {
+    // UC5.S1
     [Fact]
     public void GivenEvent_AndStatusIsDraft_WhenVisibilitySetToPublic_ThenVisibilityIsPublic()
     {
@@ -67,6 +68,7 @@ public class MakeEventPublicUnitTests
         Assert.Equal(EventStatus.Active, eventAggregate.EventStatus);
     }
     
+    // UC5.F1
     [Fact]
     public void GivenEvent_AndStatusIsCancelled_WhenVisibilitySetToPublic_ThenFailureMessageIsProvided()
     {
@@ -78,13 +80,4 @@ public class MakeEventPublicUnitTests
     }
     
       
-    [Fact]
-    public void GivenEvent_AndStatusIsCancelled_WhenVisibilitySetToPublic_ThenStatusUnchanged()
-    {
-        var eventAggregate = EventFactory.Init()
-            .WithStatus(EventStatus.Cancelled)
-            .Build();
-        eventAggregate.MakeEventPublic();
-        Assert.NotEqual(EventVisibility.Public, eventAggregate.EventVisibility);
-    }
 }

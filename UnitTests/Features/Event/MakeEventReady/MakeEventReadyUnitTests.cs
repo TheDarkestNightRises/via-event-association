@@ -41,7 +41,7 @@ public class MakeEventReadyUnitTests
     {
         var eventAggregate = EventFactory.Init()
             .WithStatus(EventStatus.Draft)
-            .WithTitle(EventTitle.Create("").PayLoad)
+            .WithTitle(new EventTitle(""))
             .WithDescription(EventDescription.Create("Description").PayLoad)
             .WithVisibility(EventVisibility.Public)
             .WithCapacity(EventCapacity.Create(25).PayLoad)

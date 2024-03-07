@@ -151,7 +151,7 @@ public class EventAggregate : AggregateRoot<EventId>
 
         if (EventStatus is not EventStatus.Draft) return new Void();
         var defaultTitle = Create().PayLoad.EventTitle;
-        var noTitle = EventTitle.Create("").PayLoad;
+        var noTitle = new EventTitle("");
         var noDescription =  Create().PayLoad.EventDescription;
         var minCapacity = EventCapacity.Create(5).PayLoad;
         var maxCapacity = EventCapacity.Create(50).PayLoad;
@@ -167,7 +167,7 @@ public class EventAggregate : AggregateRoot<EventId>
         {
             return EventAggregateErrors.CanNotReadyAnEventWithNoDescription;
         }
-        // // Todo: add time check
+        // Todo: add time check
         if (EventVisibility is EventVisibility.None)
         {
             return EventAggregateErrors.CanNotReadyAnEventWithNoVisibility;

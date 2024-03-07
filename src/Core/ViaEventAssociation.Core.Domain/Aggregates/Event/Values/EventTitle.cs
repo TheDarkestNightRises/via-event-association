@@ -15,7 +15,7 @@ public class EventTitle : ValueObject
         Title = title;
     }
 
-    public  Result<EventTitle> Create(string title)
+    public static Result<EventTitle> Create(string? title)
     {
         var validationResult = Validate(title);
 
@@ -26,7 +26,7 @@ public class EventTitle : ValueObject
     }
     
     // validations
-    public Result<Void> Validate(string? newUpdatedTitle)
+    public static Result<Void> Validate(string? newUpdatedTitle)
     {
         // non null input case 4
         if (newUpdatedTitle == null)
@@ -34,7 +34,7 @@ public class EventTitle : ValueObject
             return EventAggregateErrors.TitleCanNotBeUpdatedWithNullValue;
         }        
         // length 3- 75 else error of legth case 1-2-3
-        if (newUpdatedTitle.Length < 3 && newUpdatedTitle.Length > 75)
+        if (newUpdatedTitle.Length is < 3 or > 75)
         {
             return EventAggregateErrors.TitleUpdateInputNotValid;
         }

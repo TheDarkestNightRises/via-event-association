@@ -4,9 +4,9 @@ using ViaEventAssociation.Core.Domain.Aggregates.Event.Values;
 using ViaEventAssociation.Core.Domain.Aggregates.Guest;
 using ViaEventAssociation.Core.Domain.Aggregates.Guest.Values;
 
-namespace UnitTests.Features.Event.ParticipateInEvent;
+namespace UnitTests.Features.Event.ParticipateInPublicEvent;
 
-public class ParticipateInEventUnitTests
+public class ParticipateInPublicEventUnitTests
 {
     // UC11.S1
     [Fact]

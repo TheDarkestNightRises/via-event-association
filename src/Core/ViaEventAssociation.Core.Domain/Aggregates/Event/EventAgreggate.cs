@@ -208,6 +208,16 @@ public class EventAggregate : AggregateRoot<EventId>
         EventGuests.Add(guestId);
         return new Void();
     }
+    
+    public Result<Void> CancelParticipationInEvent(GuestId guestId)
+    {
+        if (!EventGuests.Contains(guestId))
+        {
+            return new Void();
+        }
+        EventGuests.Remove(guestId);
+        return new Void();
+    }
 }
 
 

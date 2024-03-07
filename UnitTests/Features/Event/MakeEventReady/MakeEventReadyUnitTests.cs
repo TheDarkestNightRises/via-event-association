@@ -36,6 +36,7 @@ public class MakeEventReadyUnitTests
         Assert.Equal(EventAggregateErrors.CanNotReadyAnEventWithDefaultTitle, result.Errors.First());
     }
     
+    // UC8.F1
     [Fact]
     public void GivenEvent_AndStatusIsDraft_WhenNoTitle_ThenFailureMessageIsProvided()
     {
@@ -50,6 +51,7 @@ public class MakeEventReadyUnitTests
         Assert.Equal(EventAggregateErrors.CanNotReadyAnEventWithNoTitle, result.Errors.First());
     }
     
+    // UC8.F1
     [Fact]
     public void GivenEvent_AndStatusIsDraft_WhenNoDescription_ThenFailureMessageIsProvided()
     {
@@ -64,6 +66,7 @@ public class MakeEventReadyUnitTests
         Assert.Equal(EventAggregateErrors.CanNotReadyAnEventWithNoDescription, result.Errors.First());
     }
     
+    // UC8.F1
     [Fact]
     public void GivenEvent_AndStatusIsDraft_WhenVisibilityNone_ThenFailureMessageIsProvided()
     {
@@ -78,6 +81,7 @@ public class MakeEventReadyUnitTests
         Assert.Equal(EventAggregateErrors.CanNotReadyAnEventWithNoVisibility, result.Errors.First());
     }
     
+    // UC8.F1
     [Fact]
     public void GivenEvent_AndStatusIsDraft_WhenCapacitySmallerThan5_ThenFailureMessageIsProvided()
     {
@@ -92,6 +96,7 @@ public class MakeEventReadyUnitTests
         Assert.Equal(EventAggregateErrors.EventCapacityCannotBeNegative, result.Errors.First());
     }
     
+    // UC8.F1
     [Fact]
     public void GivenEvent_AndStatusIsDraft_WhenCapacityBiggerThan50_ThenFailureMessageIsProvided()
     {

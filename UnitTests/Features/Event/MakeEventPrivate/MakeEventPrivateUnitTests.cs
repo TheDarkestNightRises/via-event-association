@@ -16,6 +16,7 @@ public class MakeEventPrivateUnitTests
         _testOutputHelper = testOutputHelper;
     }
 
+    // UC6.S1
     [Fact]
     public void GivenEvent_AndStatusIsDraft_EventAlreadyPrivate_WhenVisibilitySetToPrivate_ThenVisibilityIsPrivate()
     {
@@ -27,6 +28,7 @@ public class MakeEventPrivateUnitTests
         Assert.Equal(EventVisibility.Private, eventAggregate.EventVisibility);
     }
     
+    // UC6.S1
     [Fact]
     public void GivenEvent_AndStatusIsDraft_EventAlreadyPrivate_WhenVisibilitySetToPrivate_ThenStatusUnchanged()
     {
@@ -37,6 +39,7 @@ public class MakeEventPrivateUnitTests
         Assert.Equal(EventStatus.Draft, eventAggregate.EventStatus);
     }
     
+    // UC6.S1
     [Fact]
     public void GivenEvent_AndStatusIsReady_EventAlreadyPrivate_WhenVisibilitySetToPrivate_ThenVisibilityIsPrivate()
     {
@@ -47,6 +50,7 @@ public class MakeEventPrivateUnitTests
         Assert.Equal(EventVisibility.Private, eventAggregate.EventVisibility);
     }
     
+    // UC6.S1
     [Fact]
     public void GivenEvent_AndStatusIsReady_EventAlreadyPrivate_WhenVisibilitySetToPrivate_ThenStatusUnchanged()
     {
@@ -57,6 +61,7 @@ public class MakeEventPrivateUnitTests
         Assert.Equal(EventStatus.Ready, eventAggregate.EventStatus);
     }
     
+    // UC6.S2
     [Fact]
     public void GivenEvent_AndStatusIsDraft_EventIsPublic_WhenVisibilitySetToPrivate_ThenVisibilityIsPrivate()
     {
@@ -68,6 +73,7 @@ public class MakeEventPrivateUnitTests
         Assert.Equal(EventVisibility.Private, eventAggregate.EventVisibility);
     }
     
+    // UC6.S2
     [Fact]
     public void GivenEvent_AndStatusIsDraft_EventIsPublic_WhenVisibilitySetToPrivate_ThenStatusUnchanged()
     {
@@ -79,6 +85,7 @@ public class MakeEventPrivateUnitTests
         Assert.Equal(EventStatus.Draft, eventAggregate.EventStatus);
     }
     
+    // UC6.S2
     [Fact]
     public void GivenEvent_AndStatusIsReady_EventIsPublic_WhenVisibilitySetToPrivate_ThenVisibilityIsPrivate()
     {
@@ -90,6 +97,7 @@ public class MakeEventPrivateUnitTests
         Assert.Equal(EventVisibility.Private, eventAggregate.EventVisibility);
     }
     
+    // UC6.S2
     [Fact]
     public void GivenEvent_AndStatusIsReady_EventIsPublic_WhenVisibilitySetToPrivate_ThenAndStatusUnchanged()
     {
@@ -101,7 +109,7 @@ public class MakeEventPrivateUnitTests
         Assert.Equal(EventStatus.Ready, eventAggregate.EventStatus);
     }
     
-    
+    // UC6.F1
     [Fact]
     public void GivenEvent_AndStatusIsActive_WhenVisibilitySetToPrivate_ThenFailureMessageIsProvided()
     {
@@ -113,6 +121,7 @@ public class MakeEventPrivateUnitTests
         Assert.Equal(EventAggregateErrors.CantMakeActiveEventPrivate,result.Errors.First());
     }
     
+    // UC6.F1
     [Fact]
     public void GivenEvent_AndStatusIsActive_WhenVisibilitySetToPrivate_ThenStatusUnchanged()
     {
@@ -124,6 +133,7 @@ public class MakeEventPrivateUnitTests
         Assert.NotEqual(EventVisibility.Private, eventAggregate.EventVisibility);
     }
     
+    // UC6.F2
     [Fact]
     public void GivenEvent_AndStatusIsCancelled_WhenVisibilitySetToPrivate_ThenFailureMessageIsProvided()
     {
@@ -134,6 +144,7 @@ public class MakeEventPrivateUnitTests
         Assert.Equal(EventAggregateErrors.CantMakeCancelledEventPrivate,result.Errors.First());
     }
     
+    // UC6.F2
     [Fact]
     public void GivenEvent_AndStatusIsCancelled_WhenVisibilitySetToPrivate_ThenStatusUnchanged()
     {

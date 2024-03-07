@@ -18,6 +18,7 @@ public class MakeEventPublicUnitTests
         Assert.Equal(EventVisibility.Public, eventAggregate.EventVisibility);
     }
     
+    // UC5.S1
     [Fact]
     public void GivenEvent_AndStatusIsDraft_WhenVisibilitySetToPublic_ThenStatusUnchanged()
     {
@@ -28,6 +29,7 @@ public class MakeEventPublicUnitTests
         Assert.Equal(EventStatus.Draft, eventAggregate.EventStatus);
     }
     
+    // UC5.S1
     [Fact]
     public void GivenEvent_AndStatusIsReady_WhenVisibilitySetToPublic_ThenVisibilityIsPublic()
     {
@@ -38,6 +40,7 @@ public class MakeEventPublicUnitTests
         Assert.Equal(EventVisibility.Public, eventAggregate.EventVisibility);
     }
     
+    // UC5.S1
     [Fact]
     public void GivenEvent_AndStatusIsReady_WhenVisibilitySetToPublic_ThenStatusUnchanged()
     {
@@ -48,6 +51,7 @@ public class MakeEventPublicUnitTests
         Assert.Equal(EventStatus.Ready, eventAggregate.EventStatus);
     }
     
+    // UC5.S1
     [Fact]
     public void GivenEvent_AndStatusIsActive_WhenVisibilitySetToPublic_ThenVisibilityIsPublic()
     {
@@ -58,6 +62,7 @@ public class MakeEventPublicUnitTests
         Assert.Equal(EventVisibility.Public, eventAggregate.EventVisibility);
     }
     
+    // UC5.S1
     [Fact]
     public void GivenEvent_AndStatusIsActive_WhenVisibilitySetToPublic_ThenStatusUnchanged()
     {

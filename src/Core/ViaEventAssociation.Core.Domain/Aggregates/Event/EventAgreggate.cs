@@ -14,8 +14,8 @@ public class EventAggregate : AggregateRoot<EventId>
     internal EventStatus EventStatus { get; set; }
 
     private EventAggregate(EventId id, EventTitle title, EventDescription description,
-                           EventVisibility visibility, EventCapacity capacity,
-                           EventStatus status) : base(id)
+        EventVisibility visibility, EventCapacity capacity,
+        EventStatus status) : base(id)
     {
         EventTitle = title;
         EventDescription = description;
@@ -24,7 +24,9 @@ public class EventAggregate : AggregateRoot<EventId>
         EventStatus = status;
     }
 
-    internal EventAggregate(EventId eventId) : base(eventId) {}
+    internal EventAggregate(EventId eventId) : base(eventId)
+    {
+    }
 
     public static Result<EventAggregate> Create()
     {
@@ -35,24 +37,24 @@ public class EventAggregate : AggregateRoot<EventId>
         var descriptionResult = EventDescription.Create("");
         var visibilityResult = EventVisibility.Private;
         var aggregate = new EventAggregate(id, titleResult.PayLoad, descriptionResult.PayLoad,
-                                          visibilityResult, capacityResult.PayLoad,
-                                          statusResult);
-        return aggregate; 
+            visibilityResult, capacityResult.PayLoad,
+            statusResult);
+        return aggregate;
     }
-    
+
     internal static EventAggregate Create(EventId eventId)
     {
         return new EventAggregate(eventId);
     }
 
-    
+
     public Result<Void> UpdateEventDescription(EventDescription eventDescription)
     {
         if (EventStatus is EventStatus.Active)
         {
             return EventAggregateErrors.ActiveEventCantBeModified;
-        }   
-        
+        }
+
         if (EventStatus is EventStatus.Cancelled)
         {
             return EventAggregateErrors.CancelledEventCantBeModified;
@@ -69,30 +71,27 @@ public class EventAggregate : AggregateRoot<EventId>
             onError: errors => errors
         );
     }
-    
-    public Result<Void> UpdateEventTitle(string newUpdatedTitle)
+
+    public Result<Void> UpdateEventTitle(EventTitle eventTitle)
     {
-        // error if active status  with status error message explaing active status case 5
+        // Error if active status with status error message explaining the active status case
         if (EventStatus is EventStatus.Active)
         {
             return EventAggregateErrors.CanNotUpdateTitleOnActiveEvent;
         }
-        // error if cancelled status  with status error message explaining cancelled status case 6
+
+        // Error if cancelled status with status error message explaining the cancelled status case
         if (EventStatus is EventStatus.Cancelled)
         {
             return EventAggregateErrors.CanNotUpdateTitleCancelledEvent;
         }
-        var result = EventTitle.Create(newUpdatedTitle);
-        return result.Match<Result<Void>>(
-            onPayLoad: payLoad =>
-            {
-                EventTitle = payLoad;
-                return new Void();
-            },
-            onError: errors => errors
-        );
+
+        // Assuming Validate method for EventTitle is available in EventTitle class
+        EventTitle = eventTitle;
+        EventStatus = EventStatus.Draft;
+        return new Void();
     }
-    
+
     public Result<Void> MakeEventPrivate()
     {
         switch (EventStatus)
@@ -108,13 +107,14 @@ public class EventAggregate : AggregateRoot<EventId>
                 return new Void();
         }
     }
-    
+
     public Result<Void> MakeEventPublic()
     {
         if (EventStatus is EventStatus.Cancelled)
         {
             return EventAggregateErrors.CantMakeCancelledEventPublic;
-        } 
+        }
+
         EventVisibility = EventVisibility.Public;
         return new Void();
     }
@@ -141,6 +141,7 @@ public class EventAggregate : AggregateRoot<EventId>
                 );
         }
     }
+
     public Result<Void> MakeEventReady()
     {
         if (EventStatus is EventStatus.Cancelled)
@@ -184,3 +185,4 @@ public class EventAggregate : AggregateRoot<EventId>
     }
     
 }
+

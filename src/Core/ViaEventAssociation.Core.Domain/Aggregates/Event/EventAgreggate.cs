@@ -70,23 +70,28 @@ public class EventAggregate : AggregateRoot<EventId>
         );
     }
     
-    public Result<Void> UpdateEventTitle(string newUpdatedTitle)
+    public Result<Void> UpdateEventTitle(EventTitle eventTitle)
     {
-        // error if active status  with status error message explaing active status case 5
+        
+        // Error if active status with status error message explaining the active status case
         if (EventStatus is EventStatus.Active)
         {
             return EventAggregateErrors.CanNotUpdateTitleOnActiveEvent;
         }
-        // error if cancelled status  with status error message explaining cancelled status case 6
+
+        // Error if cancelled status with status error message explaining the cancelled status case
         if (EventStatus is EventStatus.Cancelled)
         {
             return EventAggregateErrors.CanNotUpdateTitleCancelledEvent;
         }
-        var result = EventTitle.Create(newUpdatedTitle);
+
+        // Assuming Validate method for EventTitle is available in EventTitle class
+        var result = eventTitle.Validate(eventTitle.Title);
         return result.Match<Result<Void>>(
-            onPayLoad: payLoad =>
+            onPayLoad: _ =>
             {
-                EventTitle = payLoad;
+                EventTitle = eventTitle;
+                EventStatus = EventStatus.Draft;
                 return new Void();
             },
             onError: errors => errors

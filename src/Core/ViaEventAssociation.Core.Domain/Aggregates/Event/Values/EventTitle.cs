@@ -8,14 +8,14 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Event.Values;
 
 public class EventTitle : ValueObject
 {
-    protected string Title { get; }
+    internal string Title { get; }
 
-    private EventTitle(string title)
+    internal EventTitle(string title)
     {
         Title = title;
     }
 
-    public static Result<EventTitle> Create(string title)
+    public  Result<EventTitle> Create(string title)
     {
         var validationResult = Validate(title);
 
@@ -26,7 +26,7 @@ public class EventTitle : ValueObject
     }
     
     // validations
-    private static Result<Void> Validate(string? newUpdatedTitle)
+    public Result<Void> Validate(string? newUpdatedTitle)
     {
         // non null input case 4
         if (newUpdatedTitle == null)
@@ -40,10 +40,6 @@ public class EventTitle : ValueObject
         }
         return new Void();
     }
-
-    
-    
-    
 
     public override IEnumerable<object> GetEqualityObjects()
     {

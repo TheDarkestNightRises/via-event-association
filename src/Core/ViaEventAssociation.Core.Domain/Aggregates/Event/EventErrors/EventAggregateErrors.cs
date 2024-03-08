@@ -73,4 +73,11 @@ public static class EventAggregateErrors
     
     public static readonly Error GuestAlreadyRegistered = new Error("Event.GuestAlreadyRegistered",
         "Can not participate again, because you are already registered in the event");
+    // Errors
+    public static readonly Error CancelledEventCantBeActivated = new Error("Event.CancelledEventCantBeActivated",
+        "Cancelled event can't be activated");
+    
+    public static readonly Error InvalidEventData = new Error("Event.InvalidEventData",
+        " Input can not be Invalid Data");
+    
 }

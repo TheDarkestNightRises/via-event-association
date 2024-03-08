@@ -110,6 +110,9 @@ public class EventAggregate : AggregateRoot<EventId>
                 return new Void();
         }
     }
+    
+    
+
 
     public Result<Void> MakeEventPublic()
     {
@@ -186,6 +189,45 @@ public class EventAggregate : AggregateRoot<EventId>
         EventStatus = EventStatus.Ready;
         return new Void();
     }
+    
+    // Make an event active
+    public Result<Void> MakeEventActive()
+    {
+        if (EventStatus == EventStatus.Draft)
+        {
+            Result<Void> makeEventReady = MakeEventReady();
+            makeEventReady.Match<Result<Void>>(
+                onPayLoad: _ =>
+                {
+                    EventStatus = EventStatus.Active;
+                    return new Void();
+                },
+                onError: errors => errors
+            );
+            if(EventStatus == EventStatus.Draft)
+            {
+                return EventAggregateErrors.InvalidEventData;
+            }
+        
+            if (EventStatus == EventStatus.Ready)
+            {
+                EventStatus = EventStatus.Active;
+                return new Void();
+            }
+        }
+        if (EventStatus == EventStatus.Active)
+        {
+            EventStatus = EventStatus.Active;
+            return new Void();
+        }
+        if (EventStatus == EventStatus.Cancelled)
+        {
+            return EventAggregateErrors.CancelledEventCantBeActivated;
+        }
+        return new Void();
+    }
+    
+    
     
     public Result<Void> ParticipateInPublicEvent(GuestId guestId)
     {

@@ -196,7 +196,7 @@ public class EventAggregate : AggregateRoot<EventId>
         if (EventStatus == EventStatus.Draft)
         {
             Result<Void> makeEventReady = MakeEventReady();
-                makeEventReady.Match<Result<Void>>(
+            makeEventReady.Match<Result<Void>>(
                 onPayLoad: _ =>
                 {
                     EventStatus = EventStatus.Active;
@@ -204,7 +204,11 @@ public class EventAggregate : AggregateRoot<EventId>
                 },
                 onError: errors => errors
             );
-                
+            if(EventStatus == EventStatus.Draft)
+            {
+                return EventAggregateErrors.InvalidEventData;
+            }
+        
             if (EventStatus == EventStatus.Ready)
             {
                 EventStatus = EventStatus.Active;
@@ -216,8 +220,14 @@ public class EventAggregate : AggregateRoot<EventId>
             EventStatus = EventStatus.Active;
             return new Void();
         }
+        if (EventStatus == EventStatus.Cancelled)
+        {
+            return EventAggregateErrors.CancelledEventCantBeActivated;
+        }
         return new Void();
     }
+    
+    
     
     public Result<Void> ParticipateInPublicEvent(GuestId guestId)
     {

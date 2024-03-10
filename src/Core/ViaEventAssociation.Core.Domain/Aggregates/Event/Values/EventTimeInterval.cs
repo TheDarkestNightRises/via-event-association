@@ -8,7 +8,7 @@ public class EventTimeInterval : ValueObject
 {
     internal DateTime Start { get; }
     internal DateTime End { get; }
-    internal readonly TimeProvider CurrentTimeProvider;
+    internal TimeProvider CurrentTimeProvider;
 
     // internal EventTimeInterval(DateTime start, DateTime end)
     // {

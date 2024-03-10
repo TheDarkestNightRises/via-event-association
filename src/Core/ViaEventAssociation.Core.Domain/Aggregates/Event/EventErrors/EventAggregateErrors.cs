@@ -65,6 +65,12 @@ public static class EventAggregateErrors
     public static readonly Error CanNotReadyAnEventWithNoVisibility = new Error("Event.CanNotReadyAnEventWithNoVisibility",
         "Can no ready an event with no visibility");
     
+    public static readonly Error CanNotReadyAnEventWithNoTimeInterval = new Error("Event.CanNotReadyAnEventWithNoTimeInterval",
+        "Can no ready an event with no time interval");
+    
+    public static readonly Error CanNotReadyAnEventWithTimeIntervalSetInThePast = new Error("Event.CanNotReadyAnEventWithTimeIntervalSetInThePast",
+        "Can no ready an event with time interval set in the past");
+    
     public static readonly Error CantParticipateInPrivateEvent = new Error("Event.CantParticipateInPrivateEvent",
         "Can not participate in a private event");
     
@@ -81,7 +87,7 @@ public static class EventAggregateErrors
         " Input can not be Invalid Data");
     public static readonly Error EndTimeBeforeStartTime = new Error("Event.EndTimeBeforeStartTime",
         "End time of event cannot be before Start time");
-    public static readonly Error EventDurationOufOfRange = new Error("Event.EventDurationOurOfRange",
+    public static readonly Error EventDurationOufOfRange = new Error("Event.EventDurationOutOfRange",
         "Event needs to be between 1 and 10 hours long");
     public static readonly Error EventInThePast = new Error("Event.EventInThePast",
         "Event cannot be in the past");
@@ -89,7 +95,7 @@ public static class EventAggregateErrors
         "Event cannot be held between 01:00 and 08:00 and can0not start after midnight");
     public static readonly Error CanNotChangeTimeOfActiveEvent = new Error("Event.CannotChangeTimeOfActiveEvent",
         "Cannot change the time of an active event");
-    public static readonly Error CanNotChangeTimeOfCancelledEvent = new Error("Event.CannotChangeTimeOfActiveEvent",
+    public static readonly Error CanNotChangeTimeOfCancelledEvent = new Error("Event.CanNotChangeTimeOfCancelledEvent",
         "Cannot change the time of a cancelled event");
     
     

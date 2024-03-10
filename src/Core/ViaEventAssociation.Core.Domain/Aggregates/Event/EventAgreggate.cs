@@ -175,6 +175,14 @@ public class EventAggregate : AggregateRoot<EventId>
             return EventAggregateErrors.CanNotReadyAnEventWithNoDescription;
         }
         // Todo: add time check
+        if (EventTimeInterval is null)
+        {
+            return EventAggregateErrors.CanNotReadyAnEventWithNoTimeInterval;
+        }
+        if (EventTimeInterval.Start < EventTimeInterval.CurrentTimeProvider.GetLocalNow())
+        {
+            return EventAggregateErrors.CanNotReadyAnEventWithTimeIntervalSetInThePast;
+        }
         if (EventVisibility is EventVisibility.None)
         {
             return EventAggregateErrors.CanNotReadyAnEventWithNoVisibility;

@@ -12,8 +12,6 @@ public class UpdateStartAndEndTimeTests
     {
         // Set the current time in fake time provider in order to test methoids which make use of DateTime.Now
         _timeProvider = new FakeTimeProvider(new DateTime(2023,7,20,19,0,0));
-        
-
     }
     
     // UC4.S1 + S2

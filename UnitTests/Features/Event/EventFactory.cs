@@ -52,4 +52,9 @@ public class EventFactory
         _eventAggregate.EventStatus = status;
         return this;
     }
+    public EventFactory WithTimeInterval(EventTimeInterval interval)
+    {
+        _eventAggregate.EventTimeInterval = interval;
+        return this;
+    }
 }

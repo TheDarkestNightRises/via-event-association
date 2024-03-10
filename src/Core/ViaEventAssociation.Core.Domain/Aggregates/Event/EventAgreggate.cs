@@ -13,6 +13,7 @@ public class EventAggregate : AggregateRoot<EventId>
     internal EventVisibility EventVisibility { get; set; }
     internal EventCapacity EventCapacity { get; set; }
     internal EventStatus EventStatus { get; set; }
+    internal EventTimeInterval? EventTimeInterval { get; set; }
     internal List<GuestId> EventGuests { get; set; } = [];
 
 
@@ -259,6 +260,29 @@ public class EventAggregate : AggregateRoot<EventId>
         }
         EventGuests.Remove(guestId);
         return new Void();
+    }
+
+    public Result<Void> UpdateEventTimeInterval(EventTimeInterval interval)
+    {
+        switch (EventStatus)
+        {
+            case EventStatus.Active:
+                return EventAggregateErrors.CanNotChangeTimeOfActiveEvent;
+            case EventStatus.Cancelled:
+                return EventAggregateErrors.CanNotChangeTimeOfCancelledEvent;
+            default:
+                var result = EventTimeInterval.Validate(interval);
+                return result.Match<Result<Void>>(
+                    onPayLoad: _ =>
+                    {
+                        EventTimeInterval = interval;
+                        if (EventStatus == EventStatus.Ready)
+                            EventStatus = EventStatus.Draft;
+                        return new Void();
+                    },
+                    onError: errors => errors
+                );
+        }
     }
 }
 

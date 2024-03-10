@@ -79,5 +79,18 @@ public static class EventAggregateErrors
     
     public static readonly Error InvalidEventData = new Error("Event.InvalidEventData",
         " Input can not be Invalid Data");
+    public static readonly Error EndTimeBeforeStartTime = new Error("Event.EndTimeBeforeStartTime",
+        "End time of event cannot be before Start time");
+    public static readonly Error EventDurationOufOfRange = new Error("Event.EventDurationOurOfRange",
+        "Event needs to be between 1 and 10 hours long");
+    public static readonly Error EventInThePast = new Error("Event.EventInThePast",
+        "Event cannot be in the past");
+    public static readonly Error TimeIntervalUnavailable = new Error("Event.EventIntervalUnavailable",
+        "Event cannot be held between 01:00 and 08:00 and can0not start after midnight");
+    public static readonly Error CanNotChangeTimeOfActiveEvent = new Error("Event.CannotChangeTimeOfActiveEvent",
+        "Cannot change the time of an active event");
+    public static readonly Error CanNotChangeTimeOfCancelledEvent = new Error("Event.CannotChangeTimeOfActiveEvent",
+        "Cannot change the time of a cancelled event");
+    
     
 }

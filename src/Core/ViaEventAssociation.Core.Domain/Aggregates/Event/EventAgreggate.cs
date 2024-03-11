@@ -14,7 +14,7 @@ public class EventAggregate : AggregateRoot<EventId>
     internal EventCapacity EventCapacity { get; set; }
     internal EventStatus EventStatus { get; set; }
     internal EventTimeInterval? EventTimeInterval { get; set; }
-    internal List<GuestId> EventGuests { get; set; } = [];
+    internal List<GuestId> EventParticipants { get; set; } = [];
 
 
     private EventAggregate(EventId id, EventTitle title, EventDescription description,
@@ -248,25 +248,25 @@ public class EventAggregate : AggregateRoot<EventId>
         {
             return EventAggregateErrors.CantParticipateIfEventIsNotActive;
         }
-        if (EventGuests.Count >= (int)EventCapacity)
+        if (EventParticipants.Count >= (int)EventCapacity)
         {
             return EventAggregateErrors.EventCapacityExceeded;
         }
-        if (EventGuests.Contains(guestId))
+        if (EventParticipants.Contains(guestId))
         {
             return EventAggregateErrors.GuestAlreadyRegistered;
         }
-        EventGuests.Add(guestId);
+        EventParticipants.Add(guestId);
         return new Void();
     }
     
     public Result<Void> CancelParticipationInEvent(GuestId guestId)
     {
-        if (!EventGuests.Contains(guestId))
+        if (!EventParticipants.Contains(guestId))
         {
             return new Void();
         }
-        EventGuests.Remove(guestId);
+        EventParticipants.Remove(guestId);
         return new Void();
     }
 

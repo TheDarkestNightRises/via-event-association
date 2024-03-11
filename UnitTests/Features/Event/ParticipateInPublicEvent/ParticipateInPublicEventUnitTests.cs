@@ -25,9 +25,9 @@ public class ParticipateInPublicEventUnitTests
             .WithVisibility(EventVisibility.Public)
             .WithCapacity(EventCapacity.Create(25).PayLoad)
             .Build();
-        var initialNumberOfGuests = eventAggregate.EventGuests.Count;
+        var initialNumberOfGuests = eventAggregate.EventParticipants.Count;
         eventAggregate.ParticipateInPublicEvent(guestAggregate.Id);
-        Assert.Equal(initialNumberOfGuests + 1, eventAggregate.EventGuests.Count);
+        Assert.Equal(initialNumberOfGuests + 1, eventAggregate.EventParticipants.Count);
     }
     
     // UC11.S1
@@ -48,7 +48,7 @@ public class ParticipateInPublicEventUnitTests
             .WithCapacity(EventCapacity.Create(25).PayLoad)
             .Build();
         eventAggregate.ParticipateInPublicEvent(guestAggregate.Id);
-        Assert.Contains(guestAggregate.Id, eventAggregate.EventGuests);
+        Assert.Contains(guestAggregate.Id, eventAggregate.EventParticipants);
     }
     
     // UC11.F1

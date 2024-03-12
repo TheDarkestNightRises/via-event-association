@@ -1,4 +1,5 @@
-﻿using ViaEventAssociation.Core.Domain.Aggregates.Event.EventErrors;
+﻿using ViaEventAssociation.Core.Domain.Aggregates.Entity;
+using ViaEventAssociation.Core.Domain.Aggregates.Event.EventErrors;
 using ViaEventAssociation.Core.Domain.Aggregates.Event.Values;
 using ViaEventAssociation.Core.Domain.Aggregates.Guest.Values;
 using ViaEventAssociation.Core.Tools.OperationResult;
@@ -15,6 +16,8 @@ public class EventAggregate : AggregateRoot<EventId>
     internal EventStatus EventStatus { get; set; }
     internal EventTimeInterval? EventTimeInterval { get; set; }
     internal List<GuestId> EventParticipants { get; set; } = [];
+    
+    internal List<InvitationAggregate> Invitations { get; set; } = new List<InvitationAggregate>();
 
 
     private EventAggregate(EventId id, EventTitle title, EventDescription description,
@@ -50,7 +53,11 @@ public class EventAggregate : AggregateRoot<EventId>
     {
         return new EventAggregate(eventId);
     }
-
+    
+    public void AddInvitation(InvitationAggregate invitation)
+    {
+        Invitations.Add(invitation);
+    }
 
     public Result<Void> UpdateEventDescription(EventDescription eventDescription)
     {

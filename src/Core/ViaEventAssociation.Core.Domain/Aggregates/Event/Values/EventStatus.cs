@@ -5,5 +5,6 @@ public enum EventStatus
     Draft,
     Ready,
     Active,
-    Cancelled
+    Cancelled,
+    Approved
 }

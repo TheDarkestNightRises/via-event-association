@@ -1,4 +1,7 @@
-﻿using ViaEventAssociation.Core.Domain.Aggregates.Event.EventErrors;
+﻿using ViaEventAssociation.Core.Domain.Aggregates.Entity;
+using ViaEventAssociation.Core.Domain.Aggregates.Event.Entities.InvitationEntity;
+using ViaEventAssociation.Core.Domain.Aggregates.Event.Entities.InvitationEntity.InvitationErrors;
+using ViaEventAssociation.Core.Domain.Aggregates.Event.EventErrors;
 using ViaEventAssociation.Core.Domain.Aggregates.Event.Values;
 using ViaEventAssociation.Core.Domain.Aggregates.Guest.Values;
 using ViaEventAssociation.Core.Tools.OperationResult;
@@ -15,6 +18,7 @@ public class EventAggregate : AggregateRoot<EventId>
     internal EventStatus EventStatus { get; set; }
     internal EventTimeInterval? EventTimeInterval { get; set; }
     internal List<GuestId> EventParticipants { get; set; } = [];
+    internal List<Invitation> Invitations { get; set; } = [];
 
 
     private EventAggregate(EventId id, EventTitle title, EventDescription description,
@@ -51,6 +55,10 @@ public class EventAggregate : AggregateRoot<EventId>
         return new EventAggregate(eventId);
     }
 
+    public void AddInvitation(Invitation invitation)
+    {
+        Invitations.Add(invitation);
+    }
 
     public Result<Void> UpdateEventDescription(EventDescription eventDescription)
     {
@@ -111,8 +119,6 @@ public class EventAggregate : AggregateRoot<EventId>
                 return new Void();
         }
     }
-    
-    
 
 
     public Result<Void> MakeEventPublic()
@@ -159,46 +165,54 @@ public class EventAggregate : AggregateRoot<EventId>
         if (EventStatus is not EventStatus.Draft) return new Void();
         var defaultTitle = Create().PayLoad.EventTitle;
         var noTitle = new EventTitle("");
-        var noDescription =  Create().PayLoad.EventDescription;
+        var noDescription = Create().PayLoad.EventDescription;
         var minCapacity = EventCapacity.Create(5).PayLoad;
         var maxCapacity = EventCapacity.Create(50).PayLoad;
         if (EventTitle == defaultTitle)
         {
             return EventAggregateErrors.CanNotReadyAnEventWithDefaultTitle;
         }
+
         if (EventTitle == noTitle)
         {
             return EventAggregateErrors.CanNotReadyAnEventWithNoTitle;
         }
+
         if (EventDescription == noDescription)
         {
             return EventAggregateErrors.CanNotReadyAnEventWithNoDescription;
         }
+
         // Todo: add time check
         if (EventTimeInterval is null)
         {
             return EventAggregateErrors.CanNotReadyAnEventWithNoTimeInterval;
         }
+
         if (EventTimeInterval.Start < EventTimeInterval.CurrentTimeProvider.GetLocalNow())
         {
             return EventAggregateErrors.CanNotReadyAnEventWithTimeIntervalSetInThePast;
         }
+
         if (EventVisibility is EventVisibility.None)
         {
             return EventAggregateErrors.CanNotReadyAnEventWithNoVisibility;
         }
+
         if ((int)EventCapacity < (int)minCapacity)
         {
             return EventAggregateErrors.EventCapacityCannotBeNegative;
         }
+
         if ((int)EventCapacity > (int)maxCapacity)
         {
             return EventAggregateErrors.EventCapacityExceeded;
         }
+
         EventStatus = EventStatus.Ready;
         return new Void();
     }
-    
+
     // Make an event active
     public Result<Void> MakeEventActive()
     {
@@ -213,59 +227,66 @@ public class EventAggregate : AggregateRoot<EventId>
                 },
                 onError: errors => errors
             );
-            if(EventStatus == EventStatus.Draft)
+            if (EventStatus == EventStatus.Draft)
             {
                 return EventAggregateErrors.InvalidEventData;
             }
-        
+
             if (EventStatus == EventStatus.Ready)
             {
                 EventStatus = EventStatus.Active;
                 return new Void();
             }
         }
+
         if (EventStatus == EventStatus.Active)
         {
             EventStatus = EventStatus.Active;
             return new Void();
         }
+
         if (EventStatus == EventStatus.Cancelled)
         {
             return EventAggregateErrors.CancelledEventCantBeActivated;
         }
+
         return new Void();
     }
-    
-    
-    
+
+
     public Result<Void> ParticipateInPublicEvent(GuestId guestId)
     {
         if (EventVisibility is EventVisibility.Private)
         {
             return EventAggregateErrors.CantParticipateInPrivateEvent;
         }
+
         if (EventStatus is not EventStatus.Active)
         {
             return EventAggregateErrors.CantParticipateIfEventIsNotActive;
         }
+
         if (EventParticipants.Count >= (int)EventCapacity)
         {
             return EventAggregateErrors.EventCapacityExceeded;
         }
+
         if (EventParticipants.Contains(guestId))
         {
             return EventAggregateErrors.GuestAlreadyRegistered;
         }
+
         EventParticipants.Add(guestId);
         return new Void();
     }
-    
+
     public Result<Void> CancelParticipationInEvent(GuestId guestId)
     {
         if (!EventParticipants.Contains(guestId))
         {
             return new Void();
         }
+
         EventParticipants.Remove(guestId);
         return new Void();
     }
@@ -292,6 +313,21 @@ public class EventAggregate : AggregateRoot<EventId>
                 );
         }
     }
+
+    public Result<Void> InviteGuestToEvent(GuestId guestId)
+    {
+        if (EventStatus is EventStatus.Draft || EventStatus is EventStatus.Cancelled)
+        {
+            return InvitationErrors.Invitation.CantInviteGuestToDraftOrCancelledEvent;
+        }
+
+        if (EventStatus is EventStatus.Active && (int)EventCapacity == EventParticipants.Count)
+        {
+            return InvitationErrors.Invitation.CantInviteGuestIfEventIsFull;
+        }
+
+        var invitation = Invitation.Create(guestId);
+        Invitations.Add(invitation.PayLoad);
+        return new Void();
+    }
 }
-
-

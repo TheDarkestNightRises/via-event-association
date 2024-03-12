@@ -1,37 +1,39 @@
 using ViaEventAssociation.Core.Domain.Aggregates.Entity;
 using ViaEventAssociation.Core.Domain.Aggregates.Entity.Values;
+using ViaEventAssociation.Core.Domain.Aggregates.Event.Entities.InvitationEntity;
+using ViaEventAssociation.Core.Domain.Aggregates.Guest.Values;
 
-namespace UnitTests.Features.Invitation;
+namespace UnitTests.Features.Event;
 
 public class InvitationFactory
 {
-    private InvitationAggregate _invitationAggregate;
+    private Invitation _invitation;
 
     private InvitationFactory()
     {
         var id = InvitationId.Create();
-        _invitationAggregate =  InvitationAggregate.Create(id, false); 
+        _invitation = Invitation.Create(id);
     }
-
+    
     public static InvitationFactory Init()
     {
         return new InvitationFactory();
     }
     
-    public InvitationAggregate Build()
+    public Invitation Build()
     {
-        return _invitationAggregate;
+        return _invitation;
     }
     
     public InvitationFactory WithStatus(InvitationStatus status)
     {
-        _invitationAggregate.Status = status;
+        _invitation.InvitationStatus = status;
         return this;
-    }
-
-    public InvitationFactory WithApproval(bool approved)
+    }    
+    
+    public InvitationFactory WithGuest(GuestId guestId)
     {
-        _invitationAggregate.Approved = approved;
+        _invitation.GuestId = guestId;
         return this;
     }
 }

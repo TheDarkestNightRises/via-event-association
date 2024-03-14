@@ -101,4 +101,6 @@ public static class EventAggregateErrors
         "Cannot participate in an event which has already passed");
     public static readonly Error CanNotParticipateInUndatedEvent = new Error("Event.CanNotParticipateInUndatedEvent",
         "Cannot participate in undated events");
+    public static readonly Error CanNotCancelParticipationInPastOrOngoingEvent = new Error("Event.CanNotPCanNotCancelParticipationInPAstOrOngoingEventarticipateInUndatedEvent",
+        "Cannot cancel participation in past or ongoing events");
 }

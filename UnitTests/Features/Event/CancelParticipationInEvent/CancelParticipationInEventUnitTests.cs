@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Time.Testing;
 using UnitTests.Features.Guest;
+using ViaEventAssociation.Core.Domain.Aggregates.Event.EventErrors;
 using ViaEventAssociation.Core.Domain.Aggregates.Event.Values;
 using ViaEventAssociation.Core.Domain.Aggregates.Guest.Values;
 
@@ -123,12 +124,45 @@ public class CancelParticipationInEventUnitTests
             .WithDescription(EventDescription.Create("Description").PayLoad)
             .WithVisibility(EventVisibility.Public)
             .WithCapacity(EventCapacity.Create(25).PayLoad)
+            .WithTimeInterval(EventTimeInterval.Create(
+                new DateTime(2023,8,20,19,0,0), 
+                new DateTime(2023,8,20,21,0,0),
+                _timeProvider).PayLoad)
             .Build();
-        var initialNumberOfGuests = eventAggregate.EventParticipants.Count;
         eventAggregate.ParticipateInPublicEvent(guestAggregate1.Id);
         eventAggregate.CancelParticipationInEvent(guestAggregate2.Id);
         Assert.DoesNotContain(guestAggregate2.Id, eventAggregate.EventParticipants);
     }
     
-    // Todo: UC12.F1 add when date time is implemented
+    // UC12.F1
+    [Fact]
+    public void GivenEvent_AndRegisteredGuest_WhenCancelParticipation_AndEventInThePast_ThenFailure()
+    {
+        var guestAggregate1 = GuestFactory.Init()
+            .WithEmail(GuestViaEmail.Create("321312@outlook.com").PayLoad)
+            .WithFirstName(GuestFirstName.Create("Polo").PayLoad)
+            .WithLastName(GuestLastName.Create("Marco").PayLoad)
+            .WithPictureUrl(GuestPictureUrl.Create("picture.png").PayLoad)
+            .Build();
+        var eventAggregate = EventFactory.Init()
+            .WithStatus(EventStatus.Active)
+            .WithTitle(EventTitle.Create("Another title").PayLoad)
+            .WithDescription(EventDescription.Create("Description").PayLoad)
+            .WithVisibility(EventVisibility.Public)
+            .WithCapacity(EventCapacity.Create(25).PayLoad)
+            .WithTimeInterval(EventTimeInterval.Create(
+                new DateTime(2023,8,20,19,0,0), 
+                new DateTime(2023,8,20,21,0,0),
+                _timeProvider).PayLoad)
+            .Build();
+
+        eventAggregate.ParticipateInPublicEvent(guestAggregate1.Id);
+        eventAggregate.EventTimeInterval!.CurrentTimeProvider = new FakeTimeProvider(new DateTime(2023, 9, 22, 10, 0, 0));
+        var result = eventAggregate.CancelParticipationInEvent(guestAggregate1.Id);
+        Assert.True(result.IsFailure);
+        Assert.Contains(guestAggregate1.Id, eventAggregate.EventParticipants);
+        Assert.Equal(EventAggregateErrors.CanNotCancelParticipationInPastOrOngoingEvent, result.Errors.First());
+        
+    }
+    
 }

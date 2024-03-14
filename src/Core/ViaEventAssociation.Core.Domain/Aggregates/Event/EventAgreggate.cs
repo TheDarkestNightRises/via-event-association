@@ -291,6 +291,11 @@ public class EventAggregate : AggregateRoot<EventId>
 
     public Result<Void> CancelParticipationInEvent(GuestId guestId)
     {
+        if (EventTimeInterval is not null && EventTimeInterval.Start <= EventTimeInterval.CurrentTimeProvider.GetLocalNow())
+        {
+            return EventAggregateErrors.CanNotCancelParticipationInPastOrOngoingEvent;
+        }
+        
         if (!EventParticipants.Contains(guestId))
         {
             return new Void();

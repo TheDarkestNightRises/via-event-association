@@ -275,6 +275,16 @@ public class EventAggregate : AggregateRoot<EventId>
             return EventAggregateErrors.GuestAlreadyRegistered;
         }
 
+        if (EventTimeInterval is null)
+        {
+            return EventAggregateErrors.CanNotParticipateInUndatedEvent;
+        }
+        
+        if(EventTimeInterval.Start <= EventTimeInterval.CurrentTimeProvider.GetLocalNow())
+        {
+            return EventAggregateErrors.CanNotParticipateInPastEvent;
+        }
+
         EventParticipants.Add(guestId);
         return new Void();
     }

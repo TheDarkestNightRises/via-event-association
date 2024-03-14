@@ -1,4 +1,5 @@
-﻿using UnitTests.Features.Guest;
+﻿using Microsoft.Extensions.Time.Testing;
+using UnitTests.Features.Guest;
 using ViaEventAssociation.Core.Domain.Aggregates.Event.Values;
 using ViaEventAssociation.Core.Domain.Aggregates.Guest.Values;
 
@@ -6,6 +7,13 @@ namespace UnitTests.Features.Event.CancelParticipationInEvent;
 
 public class CancelParticipationInEventUnitTests
 {
+    private static TimeProvider? _timeProvider;
+
+    public CancelParticipationInEventUnitTests()
+    {
+        // Set the current time in fake time provider in order to test methods which make use of DateTime.Now
+        _timeProvider = new FakeTimeProvider(new DateTime(2023,7,20,19,0,0));
+    }
     // UC12.S1
     [Fact]
     public void GivenEvent_AndRegisteredGuest_WhenCancelParticipation_ThenEventRemovesTheGuest_AndTheNumberOfGuestDecreases()
@@ -22,6 +30,10 @@ public class CancelParticipationInEventUnitTests
             .WithDescription(EventDescription.Create("Description").PayLoad)
             .WithVisibility(EventVisibility.Public)
             .WithCapacity(EventCapacity.Create(25).PayLoad)
+            .WithTimeInterval(EventTimeInterval.Create(
+                new DateTime(2023,8,20,19,0,0), 
+                new DateTime(2023,8,20,21,0,0),
+                _timeProvider).PayLoad)
             .Build();
         eventAggregate.ParticipateInPublicEvent(guestAggregate.Id);
         var initialNumberOfGuests = eventAggregate.EventParticipants.Count;
@@ -45,6 +57,10 @@ public class CancelParticipationInEventUnitTests
             .WithDescription(EventDescription.Create("Description").PayLoad)
             .WithVisibility(EventVisibility.Public)
             .WithCapacity(EventCapacity.Create(25).PayLoad)
+            .WithTimeInterval(EventTimeInterval.Create(
+                new DateTime(2023,8,20,19,0,0), 
+                new DateTime(2023,8,20,21,0,0),
+                _timeProvider).PayLoad)
             .Build();
         eventAggregate.ParticipateInPublicEvent(guestAggregate.Id);
         var initialNumberOfGuests = eventAggregate.EventParticipants.Count;
@@ -74,6 +90,10 @@ public class CancelParticipationInEventUnitTests
             .WithDescription(EventDescription.Create("Description").PayLoad)
             .WithVisibility(EventVisibility.Public)
             .WithCapacity(EventCapacity.Create(25).PayLoad)
+            .WithTimeInterval(EventTimeInterval.Create(
+                new DateTime(2023,8,20,19,0,0), 
+                new DateTime(2023,8,20,21,0,0),
+                _timeProvider).PayLoad)
             .Build();
         var initialNumberOfGuests = eventAggregate.EventParticipants.Count;
         eventAggregate.ParticipateInPublicEvent(guestAggregate1.Id);

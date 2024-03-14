@@ -97,6 +97,8 @@ public static class EventAggregateErrors
         "Cannot change the time of an active event");
     public static readonly Error CanNotChangeTimeOfCancelledEvent = new Error("Event.CanNotChangeTimeOfCancelledEvent",
         "Cannot change the time of a cancelled event");
-    
-    
+    public static readonly Error CanNotParticipateInPastEvent = new Error("Event.CanNotParticipateInPastEvent",
+        "Cannot participate in an event which has already passed");
+    public static readonly Error CanNotParticipateInUndatedEvent = new Error("Event.CanNotParticipateInUndatedEvent",
+        "Cannot participate in undated events");
 }

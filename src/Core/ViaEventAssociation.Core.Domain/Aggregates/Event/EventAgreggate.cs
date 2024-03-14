@@ -183,7 +183,6 @@ public class EventAggregate : AggregateRoot<EventId>
             return EventAggregateErrors.CanNotReadyAnEventWithNoDescription;
         }
 
-        // Todo: add time check
         if (EventTimeInterval is null)
         {
             return EventAggregateErrors.CanNotReadyAnEventWithNoTimeInterval;
@@ -239,7 +238,7 @@ public class EventAggregate : AggregateRoot<EventId>
             }
         }
 
-        if (EventStatus == EventStatus.Active)
+        if(EventStatus is EventStatus.Active or EventStatus.Ready)
         {
             EventStatus = EventStatus.Active;
             return new Void();

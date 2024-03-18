@@ -87,14 +87,14 @@
     - [x] F3
     - [x] F4
     - [x] F5
-* [ ] UC12 - Guest cancels event participation
-    - [ ] S1
-    - [ ] S2
-    - [ ] F1
-* [ ] UC13 - Guest is invited to event
-    - [ ] S1
-    - [ ] F1
-    - [ ] F2
+* [x] UC12 - Guest cancels event participation
+    - [X] S1
+    - [x] S2
+    - [x] F1
+* [x] UC13 - Guest is invited to event
+    - [x] S1
+    - [x] F1
+    - [x] F2
 * [ ] UC14 - Guest accepts invitation
     - [ ] S1
     - [ ] F1

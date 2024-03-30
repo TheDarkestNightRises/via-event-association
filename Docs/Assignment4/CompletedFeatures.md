@@ -67,6 +67,12 @@
     - [x] F2
     - [x] F3
     - [x] F4
+* [x] UC9 - The creator activates an event
+    - [x] S1
+    - [x] S2
+    - [x] S3
+    - [x] F1
+    - [x] F2
 * [x] UC10 - An anonymous user (aka Anon) registers a new Guest account
     - [x] value - GuestId
     - [x] value - GuestViaEmail
@@ -101,7 +107,7 @@
     - [ ] F2
     - [ ] F3
     - [ ] F4
-* [ ] UC15 - Guest accepts invitation
+* [ ] UC15 - Guest declines invitation
     - [ ] S1
     - [ ] S2
     - [ ] F1

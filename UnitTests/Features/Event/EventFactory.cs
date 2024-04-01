@@ -74,6 +74,17 @@ public class EventFactory
             .Build();
     }
     
+    public static EventAggregate PrivateEvent()
+    {
+        return Init()
+            .WithTitle(new EventTitle("Title"))
+            .WithDescription(new EventDescription("Description"))
+            .WithVisibility(EventVisibility.Private)
+            .WithCapacity(new EventCapacity(10))
+            .Build();
+    }
+    
+    
     public static EventAggregate CanceledEvent()
     {
         return Init()

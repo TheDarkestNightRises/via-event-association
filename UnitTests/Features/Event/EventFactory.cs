@@ -73,4 +73,15 @@ public class EventFactory
             .WithCapacity(new EventCapacity(10))
             .Build();
     }
+    
+    public static EventAggregate CanceledEvent()
+    {
+        return Init()
+            .WithId(new EventId(new Guid("0f8fad5b-d9cb-469f-a165-70867728950e")))
+            .WithTitle(new EventTitle("Title"))
+            .WithDescription(new EventDescription("Description"))
+            .WithCapacity(new EventCapacity(10))
+            .WithStatus(EventStatus.Cancelled)
+            .Build();
+    }
 }

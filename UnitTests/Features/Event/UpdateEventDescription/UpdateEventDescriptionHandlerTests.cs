@@ -11,20 +11,26 @@ namespace UnitTests.Features.Event.UpdateEventDescription;
 
 public class UpdateEventDescriptionHandlerTests
 {
+    private IEventRepository _repositoryMock;
+    private IUnitOfWork _uowMock;
+
+    public UpdateEventDescriptionHandlerTests()
+    {
+        _repositoryMock = A.Fake<IEventRepository>();
+        _uowMock = A.Fake<IUnitOfWork>();
+    }
+
     [Fact]
     public async Task GivenValidCommand_WhenHandleAsync_ThenSuccess()
     {
         // Arrange
-        var repositoryMock = A.Fake<IEventRepository>();
-        var uowMock = A.Fake<IUnitOfWork>();
-
         var updatedDescription = "Updated description";
         var eventId = Guid.NewGuid().ToString();
         var command = UpdateEventDescriptionCommand.Create(eventId, updatedDescription).PayLoad;
         
         var originalEvent = EventFactory.ValidEvent();
-        A.CallTo(() => repositoryMock.GetAsync(command.Id)).Returns(originalEvent); 
-        var handler = new UpdateEventDescriptionCommandHandler(repositoryMock, uowMock);
+        A.CallTo(() => _repositoryMock.GetAsync(command.Id)).Returns(originalEvent); 
+        var handler = new UpdateEventDescriptionCommandHandler(_repositoryMock, _uowMock);
 
         // Act
         var result = await handler.HandleAsync(command);
@@ -38,23 +44,20 @@ public class UpdateEventDescriptionHandlerTests
     public async Task GivenInvalidCommand_WhenHandleAsync_ThenReturnFailure()
     {
         // Arrange
-        var repositoryMock = A.Fake<IEventRepository>();
-        var uowMock = A.Fake<IUnitOfWork>();
-
-        var longDescription = new string('A', 251);
+        var updatedDescription = "Updated description";
         var eventId = Guid.NewGuid();
-        var command = UpdateEventDescriptionCommand.Create(eventId.ToString(), longDescription).PayLoad;
+        var command = UpdateEventDescriptionCommand.Create(eventId.ToString(), updatedDescription).PayLoad;
         
-        var originalEvent = EventFactory.ValidEvent();
-        A.CallTo(() => repositoryMock.GetAsync(new EventId(eventId))).Returns(originalEvent); 
-        var handler = new UpdateEventDescriptionCommandHandler(repositoryMock, uowMock);
+        var originalEvent = EventFactory.CanceledEvent();
+        A.CallTo(() => _repositoryMock.GetAsync(new EventId(eventId))).Returns(originalEvent); 
+        var handler = new UpdateEventDescriptionCommandHandler(_repositoryMock, _uowMock);
 
         // Act
         var result = await handler.HandleAsync(command);
 
         // Assert
         Assert.True(result.IsFailure);
-        Assert.Contains(result.Errors, error => error == EventAggregateErrors.EventDescriptionIncorrectLength);
+        Assert.Contains(result.Errors, error => error == EventAggregateErrors.CancelledEventCantBeModified);
     }
 
 }

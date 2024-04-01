@@ -13,11 +13,13 @@ public class UpdateEventDescriptionHandlerTests
 {
     private IEventRepository _repositoryMock;
     private IUnitOfWork _uowMock;
+    private Guid _eventId;
 
     public UpdateEventDescriptionHandlerTests()
     {
         _repositoryMock = A.Fake<IEventRepository>();
         _uowMock = A.Fake<IUnitOfWork>();
+        _eventId = Guid.NewGuid();
     }
 
     [Fact]
@@ -25,8 +27,7 @@ public class UpdateEventDescriptionHandlerTests
     {
         // Arrange
         var updatedDescription = "Updated description";
-        var eventId = Guid.NewGuid().ToString();
-        var command = UpdateEventDescriptionCommand.Create(eventId, updatedDescription).PayLoad;
+        var command = UpdateEventDescriptionCommand.Create(_eventId.ToString(), updatedDescription).PayLoad;
         
         var originalEvent = EventFactory.ValidEvent();
         A.CallTo(() => _repositoryMock.GetAsync(command.Id)).Returns(originalEvent); 
@@ -45,11 +46,10 @@ public class UpdateEventDescriptionHandlerTests
     {
         // Arrange
         var updatedDescription = "Updated description";
-        var eventId = Guid.NewGuid();
-        var command = UpdateEventDescriptionCommand.Create(eventId.ToString(), updatedDescription).PayLoad;
+        var command = UpdateEventDescriptionCommand.Create(_eventId.ToString(), updatedDescription).PayLoad;
         
         var originalEvent = EventFactory.CanceledEvent();
-        A.CallTo(() => _repositoryMock.GetAsync(new EventId(eventId))).Returns(originalEvent); 
+        A.CallTo(() => _repositoryMock.GetAsync(command.Id)).Returns(originalEvent); 
         var handler = new UpdateEventDescriptionCommandHandler(_repositoryMock, _uowMock);
 
         // Act

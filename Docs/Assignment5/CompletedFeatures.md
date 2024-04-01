@@ -6,9 +6,9 @@
 * [ ] UC2 - Update title
     - [ ] Command
     - [ ] Handler
-* [ ] UC3 - Update event description
-    - [ ] Command
-    - [ ] Handler
+* [x] UC3 - Update event description
+    - [x] Command
+    - [x] Handler
 * [ ] UC4 - Update event start time and end time
     - [ ] Command
     - [ ] Handler

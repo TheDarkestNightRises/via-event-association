@@ -40,4 +40,13 @@ public class Result<T>
         return onPayLoad(PayLoad);
     }
     
+    public Result<TNextValue> Then<TNextValue>(Func<T, TNextValue> onPayload)
+    {
+        if (IsFailure)
+        {
+            return Errors;
+        }
+
+        return onPayload(PayLoad);
+    }
 }

@@ -1,8 +1,8 @@
 ﻿# Completed Feature status
 
-* [ ] UC1 - Create event
-    - [ ] Command
-    - [ ] Handler
+* [x] UC1 - Create event
+    - [x] Command
+    - [x] Handler
 * [ ] UC2 - Update title
     - [ ] Command
     - [ ] Handler

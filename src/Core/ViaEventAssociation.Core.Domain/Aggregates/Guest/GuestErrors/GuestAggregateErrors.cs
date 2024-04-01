@@ -40,4 +40,11 @@ public static class GuestAggregateErrors
 
         public static Error PictureCantBeEmpty => new(Code, "Picture cannot be empty");
     }
+    
+    public static class Id
+    {
+        private const string Code = "Guest.Id";
+
+        public static Error InvalidId => new(Code, "Invalid ID");
+    }
 }

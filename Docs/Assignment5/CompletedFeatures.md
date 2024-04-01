@@ -3,9 +3,9 @@
 * [x] UC1 - Create event
     - [x] Command
     - [x] Handler
-* [ ] UC2 - Update title
-    - [ ] Command
-    - [ ] Handler
+* [X] UC2 - Update title
+    - [X] Command
+    - [X] Handler
 * [x] UC3 - Update event description
     - [x] Command
     - [x] Handler

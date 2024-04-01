@@ -13,11 +13,11 @@
     - [x] Command
     - [x] Handler
 * [ ] UC5 - Creator makes event public
-    - [ ] Command
-    - [ ] Handler
+    - [x] Command
+    - [x] Handler
 * [ ] UC6 - Creator makes event private
-    - [ ] Command
-    - [ ] Handler
+    - [x] Command
+    - [x] Handler
 * [x] UC7 - Creator sets maximum number of guests
     - [x] Command
     - [x] Handler

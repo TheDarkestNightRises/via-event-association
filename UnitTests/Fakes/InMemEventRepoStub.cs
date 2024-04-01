@@ -11,7 +11,7 @@ public class InMemEventRepoStub : IEventRepository
     
     public Task<EventAggregate> GetAsync(EventId eventId)
     {
-        throw new NotImplementedException();
+        return Task.FromResult(Events.First());
     }
 
     public Task AddAsync(EventAggregate createdEvent)

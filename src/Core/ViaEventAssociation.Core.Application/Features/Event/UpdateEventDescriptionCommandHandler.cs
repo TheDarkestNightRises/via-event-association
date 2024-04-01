@@ -16,7 +16,7 @@ public class UpdateEventDescriptionCommandHandler(IEventRepository repository, I
 
         if (result.IsFailure)
         {
-            return result;
+            return result.Errors;
         }
 
         await uow.SaveChangesAsync();

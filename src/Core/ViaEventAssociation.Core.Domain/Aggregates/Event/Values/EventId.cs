@@ -7,14 +7,14 @@ public class EventId : ValueObject
 {
     internal Guid Id { get; }
 
-    private EventId()
+    internal EventId()
     {
         Id = Guid.NewGuid();
     }
 
-    private EventId(Guid id)
+    internal EventId(Guid id)
     {
-        this.Id = id;
+        Id = id;
     }
 
     public static EventId Create()

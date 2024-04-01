@@ -10,18 +10,12 @@ namespace UnitTests.Features.Event.CreateNewEvent;
 
 public class CreateNewEventHandlerTests
 {
-    private readonly ITestOutputHelper _testOutputHelper;
     private EventAggregate evt;
     private FakeUoW uoW;
     private InMemEventRepoStub evtRepo;
     private CreateNewEventCommand cmd;
     private ICommandHandler<CreateNewEventCommand> handler;
-
-    public CreateNewEventHandlerTests(ITestOutputHelper testOutputHelper)
-    {
-        _testOutputHelper = testOutputHelper;
-    }
-
+    
     private void Setup()
     {
         evtRepo = new InMemEventRepoStub();

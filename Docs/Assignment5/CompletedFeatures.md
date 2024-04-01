@@ -9,18 +9,18 @@
 * [x] UC3 - Update event description
     - [x] Command
     - [x] Handler
-* [ ] UC4 - Update event start time and end time
-    - [ ] Command
-    - [ ] Handler
+* [x] UC4 - Update event start time and end time
+    - [x] Command
+    - [x] Handler
 * [ ] UC5 - Creator makes event public
     - [ ] Command
     - [ ] Handler
 * [ ] UC6 - Creator makes event private
     - [ ] Command
     - [ ] Handler
-* [ ] UC7 - Creator sets maximum number of guests
-    - [ ] Command
-    - [ ] Handler
+* [x] UC7 - Creator sets maximum number of guests
+    - [x] Command
+    - [x] Handler
 * [ ] UC8 - The creator readies an event
     - [ ] Command
     - [ ] Handler
@@ -33,9 +33,9 @@
 * [ ] UC11 - Guest participates public event
     - [ ] Command
     - [ ] Handler
-* [ ] UC12 - Guest cancels event participation
-    - [ ] Command
-    - [ ] Handler
+* [x] UC12 - Guest cancels event participation
+    - [x] Command
+    - [x] Handler
 * [ ] UC13 - Guest is invited to event
     - [ ] Command
     - [ ] Handler

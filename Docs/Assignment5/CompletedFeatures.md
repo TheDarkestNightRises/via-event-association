@@ -24,9 +24,9 @@
 * [x] UC8 - The creator readies an event
     - [x] Command
     - [x] Handler
-* [ ] UC9 - The creator activates an event
-    - [ ] Command
-    - [ ] Handler
+* [X] UC9 - The creator activates an event
+    - [X] Command
+    - [X] Handler
 * [ ] UC10 - An anonymous user (aka Anon) registers a new Guest account
     - [ ] Command
     - [ ] Handler
@@ -36,9 +36,9 @@
 * [x] UC12 - Guest cancels event participation
     - [x] Command
     - [x] Handler
-* [ ] UC13 - Guest is invited to event
-    - [ ] Command
-    - [ ] Handler
+* [X] UC13 - Guest is invited to event
+    - [X] Command
+    - [X] Handler
 * [ ] UC14 - Guest accepts invitation
     - [ ] Command
     - [ ] Handler

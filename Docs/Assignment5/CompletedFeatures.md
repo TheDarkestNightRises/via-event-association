@@ -3,7 +3,7 @@
 * [x] UC1 - Create event
     - [x] Command
     - [x] Handler
-* [X] UC2 - Update title
+* [x] UC2 - Update title
     - [X] Command
     - [X] Handler
 * [x] UC3 - Update event description
@@ -12,16 +12,16 @@
 * [x] UC4 - Update event start time and end time
     - [x] Command
     - [x] Handler
-* [ ] UC5 - Creator makes event public
+* [x] UC5 - Creator makes event public
     - [x] Command
     - [x] Handler
-* [ ] UC6 - Creator makes event private
+* [x] UC6 - Creator makes event private
     - [x] Command
     - [x] Handler
 * [x] UC7 - Creator sets maximum number of guests
     - [x] Command
     - [x] Handler
-* [ ] UC8 - The creator readies an event
+* [x] UC8 - The creator readies an event
     - [x] Command
     - [x] Handler
 * [ ] UC9 - The creator activates an event
@@ -30,7 +30,7 @@
 * [ ] UC10 - An anonymous user (aka Anon) registers a new Guest account
     - [ ] Command
     - [ ] Handler
-* [ ] UC11 - Guest participates public event
+* [x] UC11 - Guest participates public event
     - [x] Command
     - [x] Handler
 * [x] UC12 - Guest cancels event participation

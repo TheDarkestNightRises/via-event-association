@@ -22,8 +22,8 @@
     - [x] Command
     - [x] Handler
 * [ ] UC8 - The creator readies an event
-    - [ ] Command
-    - [ ] Handler
+    - [x] Command
+    - [x] Handler
 * [ ] UC9 - The creator activates an event
     - [ ] Command
     - [ ] Handler
@@ -31,8 +31,8 @@
     - [ ] Command
     - [ ] Handler
 * [ ] UC11 - Guest participates public event
-    - [ ] Command
-    - [ ] Handler
+    - [x] Command
+    - [x] Handler
 * [x] UC12 - Guest cancels event participation
     - [x] Command
     - [x] Handler

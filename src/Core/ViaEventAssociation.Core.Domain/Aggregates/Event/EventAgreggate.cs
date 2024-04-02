@@ -71,17 +71,10 @@ public class EventAggregate : AggregateRoot<EventId>
         {
             return EventAggregateErrors.CancelledEventCantBeModified;
         }
-
-        var result = EventDescription.Validate(eventDescription);
-        return result.Match<Result<Void>>(
-            onPayLoad: _ =>
-            {
-                EventDescription = eventDescription;
-                EventStatus = EventStatus.Draft;
-                return new Void();
-            },
-            onError: errors => errors
-        );
+        
+        EventDescription = eventDescription;
+        EventStatus = EventStatus.Draft;
+        return new Void();
     }
 
     public Result<Void> UpdateEventTitle(EventTitle eventTitle)

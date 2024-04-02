@@ -23,6 +23,12 @@ public class EventFactory
         return _eventAggregate;
     }
     
+    public EventFactory WithId(EventId id)
+    {
+        _eventAggregate.Id = id;
+        return this;
+    }
+    
     public EventFactory WithTitle(EventTitle title)
     {
         _eventAggregate.EventTitle = title;
@@ -56,5 +62,37 @@ public class EventFactory
     {
         _eventAggregate.EventTimeInterval = interval;
         return this;
+    }
+
+    public static EventAggregate ValidEvent()
+    {
+        return Init()
+            .WithId(new EventId(new Guid("0f8fad5b-d9cb-469f-a165-70867728950e")))
+            .WithTitle(new EventTitle("Title"))
+            .WithDescription(new EventDescription("Description"))
+            .WithCapacity(new EventCapacity(10))
+            .Build();
+    }
+    
+    public static EventAggregate PrivateEvent()
+    {
+        return Init()
+            .WithTitle(new EventTitle("Title"))
+            .WithDescription(new EventDescription("Description"))
+            .WithVisibility(EventVisibility.Private)
+            .WithCapacity(new EventCapacity(10))
+            .Build();
+    }
+    
+    
+    public static EventAggregate CanceledEvent()
+    {
+        return Init()
+            .WithId(new EventId(new Guid("0f8fad5b-d9cb-469f-a165-70867728950e")))
+            .WithTitle(new EventTitle("Title"))
+            .WithDescription(new EventDescription("Description"))
+            .WithCapacity(new EventCapacity(10))
+            .WithStatus(EventStatus.Cancelled)
+            .Build();
     }
 }

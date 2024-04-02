@@ -16,7 +16,7 @@ public class MakeEventReadyUnitTests
     }
     // UC8.S1
     [Fact]
-    public void GivenEvent_AndStatusIsDraft_WhenVisibilitySetToPublic_ThenVisibilityIsPublic()
+    public void GivenEvent_AndStatusIsDraft_WhenEventIsSetToReady_ThenStatusIsReady()
     {
         var eventAggregate = EventFactory.Init()
             .WithStatus(EventStatus.Draft)

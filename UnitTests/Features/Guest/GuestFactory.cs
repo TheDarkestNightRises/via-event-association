@@ -48,5 +48,10 @@ public class GuestFactory
         _guestAggregate.GuestPictureUrl = guestPictureUrl;
         return this;
     }
+    
+    public static GuestAggregate ValidGuest()
+    {
+        return Init().Build();
+    }
 
 }

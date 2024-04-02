@@ -5,6 +5,9 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Event.EventErrors;
 
 public static class EventAggregateErrors
 {
+    public static readonly Error InvalidId = new Error("EventId.InvalidId",
+        "Cannot create an EventId from the specified guid.");
+
     public static readonly Error CantMakeCancelledEventPublic = new Error("EventStatus.CannotMakeCancelledEventPublic",
         "Cannot make a cancelled event public.");
     

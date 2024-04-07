@@ -6,6 +6,7 @@ namespace ViaEventAssociation.Core.Application.CommandDispatching.Dispatcher;
 
 public class CommandWatchTime(ICommandDispatcher dispatcher) : ICommandDispatcher
 {
+    public TimeSpan ElapsedTime;
     public async Task<Result<Void>> DispatchAsync<TCommand>(TCommand command)
     {
         var stopwatch = new Stopwatch();
@@ -13,8 +14,8 @@ public class CommandWatchTime(ICommandDispatcher dispatcher) : ICommandDispatche
 
         var result = await dispatcher.DispatchAsync(command);
 
-        var elapsedTime = stopwatch.Elapsed;
-        Console.WriteLine($"Command was finished in {elapsedTime}");
+        ElapsedTime = stopwatch.Elapsed;
+        Console.WriteLine($"Command was finished in {ElapsedTime}");
         return result;
     }
 }

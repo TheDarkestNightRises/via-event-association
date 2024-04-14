@@ -6,7 +6,7 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Event.Values;
 
 public class EventDescription : ValueObject
 {
-    internal string Description { get; }
+    public string Description { get; }
 
     internal EventDescription(string description)
     {

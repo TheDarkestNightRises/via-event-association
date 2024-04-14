@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using ViaEventAssociation.Core.Domain.Aggregates.Event;
 using ViaEventAssociation.Core.Domain.Aggregates.Event.Values;
 
-namespace ViaEventAssociation.Infrastructure.EfcDmPersistence.Configuration;
+namespace ViaEventAssociation.Infrastructure.EfcDmPersistence.EventPersistance;
 
 public class EventConfiguration : IEntityTypeConfiguration<EventAggregate>
 {

@@ -39,7 +39,7 @@ public class GuestConfiguration : IEntityTypeConfiguration<GuestAggregate>
             propBuilder =>
             {
                 propBuilder.Property(vo => vo.LastName)
-                    .HasColumnName("FirstName");
+                    .HasColumnName("LastName");
             }
         );
         

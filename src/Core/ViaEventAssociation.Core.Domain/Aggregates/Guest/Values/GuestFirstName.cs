@@ -8,7 +8,7 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Guest.Values;
 
 public class GuestFirstName : ValueObject
 {
-    internal string FirstName { get; }
+    public string FirstName { get; }
 
     internal GuestFirstName(string firstName)
     {

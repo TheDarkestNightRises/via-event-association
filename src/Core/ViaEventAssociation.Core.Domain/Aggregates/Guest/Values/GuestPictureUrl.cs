@@ -7,7 +7,7 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Guest.Values;
 
 public class GuestPictureUrl : ValueObject
 {
-    internal string PictureUrl { get; }
+    public string PictureUrl { get; }
 
     internal GuestPictureUrl(string pictureUrl)
     {

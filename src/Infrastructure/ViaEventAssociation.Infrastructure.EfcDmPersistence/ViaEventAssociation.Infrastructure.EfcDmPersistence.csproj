@@ -19,8 +19,4 @@
       <ProjectReference Include="..\..\Core\ViaEventAssociation.Core.Domain\ViaEventAssociation.Core.Domain.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="GuestPersistence\" />
-    </ItemGroup>
-
 </Project>

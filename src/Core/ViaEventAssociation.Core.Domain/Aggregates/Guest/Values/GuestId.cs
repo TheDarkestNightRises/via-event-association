@@ -33,4 +33,9 @@ public class GuestId : ValueObject
     {
         yield return Id;
     }
+
+    public static explicit operator Guid(GuestId guestId)
+    {
+        return guestId.Id;
+    }
 }

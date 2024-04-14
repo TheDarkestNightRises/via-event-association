@@ -39,4 +39,9 @@ public class EventId : ValueObject
     {
         yield return Id;
     }
+    
+    public static explicit operator Guid(EventId eventId)
+    {
+        return eventId.Id;
+    }
 }

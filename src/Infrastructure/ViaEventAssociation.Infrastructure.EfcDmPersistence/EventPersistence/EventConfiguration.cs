@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using ViaEventAssociation.Core.Domain.Aggregates.Event;
+using ViaEventAssociation.Core.Domain.Aggregates.Event.Entities.InvitationEntity;
 using ViaEventAssociation.Core.Domain.Aggregates.Event.Values;
 
-namespace ViaEventAssociation.Infrastructure.EfcDmPersistence.EventPersistance;
+namespace ViaEventAssociation.Infrastructure.EfcDmPersistence.EventPersistence;
 
 public class EventConfiguration : IEntityTypeConfiguration<EventAggregate>
 {
@@ -64,5 +65,12 @@ public class EventConfiguration : IEntityTypeConfiguration<EventAggregate>
                 .HasColumnName("End");
         });
         
+        //List of guests id missing 
+        
+        builder
+            .HasMany<Invitation>("Invitations")
+            .WithOne()
+            .HasForeignKey("EventId")
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

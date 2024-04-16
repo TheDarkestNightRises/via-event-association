@@ -56,16 +56,14 @@ public class EventConfiguration : IEntityTypeConfiguration<EventAggregate>
                 value => (EventStatus)Enum.Parse(typeof(EventStatus), value)
             );
         
-        // builder.OwnsOne<EventTimeInterval>("TimeInterval", ownedNavigationBuilder =>
-        // {
-        //     ownedNavigationBuilder.Property(valueObject => valueObject.Start)
-        //         .HasColumnName("Start");
-        //
-        //     ownedNavigationBuilder.Property(valueObject => valueObject.End)
-        //         .HasColumnName("End");
-        // });
+        builder.OwnsOne<EventTimeInterval>("EventTimeInterval", ownedNavigationBuilder =>
+        {
+            ownedNavigationBuilder.Property(valueObject => valueObject.Start)
+                .HasColumnName("Start");
         
-        //List of guests id missing 
+            ownedNavigationBuilder.Property(valueObject => valueObject.End)
+                .HasColumnName("End");
+        });
         
         builder
             .HasMany<Invitation>("Invitations")

@@ -11,6 +11,8 @@ public class InvitationConfiguration : IEntityTypeConfiguration<Invitation>
     {
         builder.HasKey(i => i.Id);
         
+        //TODO: guest id foreign key
+        
         builder
             .Property(i => i.Id)
             .HasConversion(e => e.Id,

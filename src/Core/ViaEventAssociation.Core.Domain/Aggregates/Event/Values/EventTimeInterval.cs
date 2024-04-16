@@ -23,6 +23,14 @@ public class EventTimeInterval : ValueObject
         End = end;
         CurrentTimeProvider = provider ?? TimeProvider.System;
     }
+    
+    private EventTimeInterval(DateTime start, DateTime end)
+    {
+        Start = start;
+        End = end;
+        CurrentTimeProvider = TimeProvider.System;
+    }
+
 
     public static Result<EventTimeInterval> Create(DateTime start, DateTime end, TimeProvider? currentTimeProvider = null)
     {

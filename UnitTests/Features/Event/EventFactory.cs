@@ -73,6 +73,14 @@ public class EventFactory
             .WithCapacity(new EventCapacity(10))
             .Build();
     }
+    public static EventAggregate RandomIdValidEvent()
+    {
+        return Init()
+            .WithTitle(new EventTitle("Title"))
+            .WithDescription(new EventDescription("Description"))
+            .WithCapacity(new EventCapacity(10))
+            .Build();
+    }
     
     public static EventAggregate PrivateEvent()
     {

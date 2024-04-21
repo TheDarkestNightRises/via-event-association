@@ -30,7 +30,7 @@ public class GuestSeedDataFixture : IDisposable
     }
     
     [CollectionDefinition("Database Collection")]
-    public class DatabaseCollection : ICollectionFixture<EventRepositoryTestsFixture>
+    public class DatabaseCollection : ICollectionFixture<GuestSeedDataFixture>
     {
    
     }

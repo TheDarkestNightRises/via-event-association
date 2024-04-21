@@ -12,7 +12,7 @@ using ViaEventAssociation.Infrastructure.EfcDmPersistence.Context;
 namespace ViaEventAssociation.Infrastructure.EfcDmPersistence.Migrations
 {
     [DbContext(typeof(DmContext))]
-    [Migration("20240421122915_InitialCreate")]
+    [Migration("20240421131030_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -42,7 +42,7 @@ namespace ViaEventAssociation.Infrastructure.EfcDmPersistence.Migrations
 
                     b.HasIndex("GuestId");
 
-                    b.ToTable("Invitation");
+                    b.ToTable("Invitations");
                 });
 
             modelBuilder.Entity("ViaEventAssociation.Core.Domain.Aggregates.Event.EventAggregate", b =>
@@ -139,7 +139,7 @@ namespace ViaEventAssociation.Infrastructure.EfcDmPersistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("GuestAggregate");
+                    b.ToTable("Guests");
                 });
 
             modelBuilder.Entity("ViaEventAssociation.Core.Domain.Aggregates.Event.Entities.InvitationEntity.Invitation", b =>

@@ -30,7 +30,7 @@ namespace ViaEventAssociation.Infrastructure.EfcDmPersistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "GuestAggregate",
+                name: "Guests",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
@@ -41,11 +41,11 @@ namespace ViaEventAssociation.Infrastructure.EfcDmPersistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GuestAggregate", x => x.Id);
+                    table.PrimaryKey("PK_Guests", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Invitation",
+                name: "Invitations",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
@@ -55,29 +55,29 @@ namespace ViaEventAssociation.Infrastructure.EfcDmPersistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Invitation", x => x.Id);
+                    table.PrimaryKey("PK_Invitations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Invitation_Events_EventId",
+                        name: "FK_Invitations_Events_EventId",
                         column: x => x.EventId,
                         principalTable: "Events",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Invitation_GuestAggregate_GuestId",
+                        name: "FK_Invitations_Guests_GuestId",
                         column: x => x.GuestId,
-                        principalTable: "GuestAggregate",
+                        principalTable: "Guests",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Invitation_EventId",
-                table: "Invitation",
+                name: "IX_Invitations_EventId",
+                table: "Invitations",
                 column: "EventId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Invitation_GuestId",
-                table: "Invitation",
+                name: "IX_Invitations_GuestId",
+                table: "Invitations",
                 column: "GuestId");
         }
 
@@ -85,13 +85,13 @@ namespace ViaEventAssociation.Infrastructure.EfcDmPersistence.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Invitation");
+                name: "Invitations");
 
             migrationBuilder.DropTable(
                 name: "Events");
 
             migrationBuilder.DropTable(
-                name: "GuestAggregate");
+                name: "Guests");
         }
     }
 }

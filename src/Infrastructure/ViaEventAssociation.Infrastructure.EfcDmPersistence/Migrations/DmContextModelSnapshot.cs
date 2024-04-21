@@ -39,7 +39,7 @@ namespace ViaEventAssociation.Infrastructure.EfcDmPersistence.Migrations
 
                     b.HasIndex("GuestId");
 
-                    b.ToTable("Invitation");
+                    b.ToTable("Invitations");
                 });
 
             modelBuilder.Entity("ViaEventAssociation.Core.Domain.Aggregates.Event.EventAggregate", b =>
@@ -136,7 +136,7 @@ namespace ViaEventAssociation.Infrastructure.EfcDmPersistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("GuestAggregate");
+                    b.ToTable("Guests");
                 });
 
             modelBuilder.Entity("ViaEventAssociation.Core.Domain.Aggregates.Event.Entities.InvitationEntity.Invitation", b =>

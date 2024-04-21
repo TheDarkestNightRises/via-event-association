@@ -5,7 +5,7 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Event.Values;
 
 public class EventId : ValueObject
 {
-    internal Guid Id { get; }
+    public Guid Id { get; }
 
     internal EventId()
     {
@@ -21,12 +21,7 @@ public class EventId : ValueObject
     {
         return new EventId();
     }
-
-    public override IEnumerable<object> GetEqualityObjects()
-    {
-        yield return Id;
-    }
-
+    
     public static Result<EventId> FromString(string id)
     {
         if (Guid.TryParse(id, out Guid guid))
@@ -35,5 +30,18 @@ public class EventId : ValueObject
         }
 
         return EventAggregateErrors.InvalidId;
+    }
+    
+    public static EventId FromGuid(Guid guid) => new EventId(guid);
+    
+    
+    public override IEnumerable<object> GetEqualityObjects()
+    {
+        yield return Id;
+    }
+    
+    public static explicit operator Guid(EventId eventId)
+    {
+        return eventId.Id;
     }
 }

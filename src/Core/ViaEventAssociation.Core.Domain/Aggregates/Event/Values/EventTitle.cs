@@ -8,7 +8,7 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Event.Values;
 
 public class EventTitle : ValueObject
 {
-    internal string Title { get; }
+    public string Title { get; }
 
     internal EventTitle(string title)
     {

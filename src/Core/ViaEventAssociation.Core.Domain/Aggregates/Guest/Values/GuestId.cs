@@ -5,7 +5,7 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Guest.Values;
 
 public class GuestId : ValueObject
 {
-    internal Guid Id { get; }
+    public Guid Id { get; }
 
     private GuestId()
     {
@@ -27,9 +27,15 @@ public class GuestId : ValueObject
         }
         return GuestAggregateErrors.Id.InvalidId;
     }
+    public static GuestId FromGuid(Guid guid) => new GuestId(guid);
+    
     public override IEnumerable<object> GetEqualityObjects()
     {
         yield return Id;
     }
 
+    public static explicit operator Guid(GuestId guestId)
+    {
+        return guestId.Id;
+    }
 }

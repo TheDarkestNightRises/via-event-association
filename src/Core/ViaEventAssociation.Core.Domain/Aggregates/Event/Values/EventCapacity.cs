@@ -7,7 +7,7 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Event.Values;
 
 public class EventCapacity : ValueObject
 {
-    protected int Capacity { get; }
+    public int Capacity { get; }
 
     internal EventCapacity(int capacity)
     {

@@ -6,8 +6,8 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Event.Values;
 
 public class EventTimeInterval : ValueObject
 {
-    internal DateTime Start { get; }
-    internal DateTime End { get; }
+    public DateTime Start { get; }
+    public DateTime End { get; }
     internal TimeProvider CurrentTimeProvider;
 
     // internal EventTimeInterval(DateTime start, DateTime end)
@@ -23,6 +23,14 @@ public class EventTimeInterval : ValueObject
         End = end;
         CurrentTimeProvider = provider ?? TimeProvider.System;
     }
+    
+    private EventTimeInterval(DateTime start, DateTime end)
+    {
+        Start = start;
+        End = end;
+        CurrentTimeProvider = TimeProvider.System;
+    }
+
 
     public static Result<EventTimeInterval> Create(DateTime start, DateTime end, TimeProvider? currentTimeProvider = null)
     {

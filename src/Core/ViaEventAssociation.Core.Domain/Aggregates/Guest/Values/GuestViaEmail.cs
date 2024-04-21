@@ -7,7 +7,7 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Guest.Values;
 
 public partial class GuestViaEmail : ValueObject
 {
-    internal string ViaEmail { get; }
+    public string ViaEmail { get; }
 
     internal GuestViaEmail(string viaEmail)
     {

@@ -14,6 +14,11 @@ public class InMemEventRepoStub : IEventRepository
         return Task.FromResult(Events.First());
     }
 
+    public async Task RemoveAsync(EventId id)
+    {
+        throw new NotImplementedException();
+    }
+
     public Task AddAsync(EventAggregate createdEvent)
     {
         Events.Add(createdEvent);

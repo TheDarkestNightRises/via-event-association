@@ -32,6 +32,7 @@ public class EventAggregate : AggregateRoot<EventId>
         EventStatus = status;
     }
 
+    private EventAggregate() { }
     internal EventAggregate(EventId eventId) : base(eventId)
     {
     }

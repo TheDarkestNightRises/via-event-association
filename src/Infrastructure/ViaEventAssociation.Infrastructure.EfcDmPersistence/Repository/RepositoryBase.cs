@@ -10,14 +10,14 @@ public abstract class RepositoryBase<TAgg,TId>(DbContext context): IGenericRepos
     {
         _ = id ?? throw new ArgumentNullException(nameof(id), "Id cannot be null.");
         TAgg? root = await context.Set<TAgg>().FindAsync(id);
-        return root!;
+        if (root is null) throw new KeyNotFoundException("Not found");
+        return root;
     }
 
     public virtual async Task RemoveAsync(TId id)
     {
-        _ = id ?? throw new ArgumentNullException(nameof(id), "Id cannot be null.");
-        TAgg? root = await context.Set<TAgg>().FindAsync(id);
-        context.Set<TAgg>().Remove(root!);
+        var root = await GetAsync(id);
+        context.Set<TAgg>().Remove(root);
     }
 
     public virtual async Task AddAsync(TAgg aggregate)

@@ -17,6 +17,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\src\Infrastructure\ViaEventAssociation.Infrastructure.EfcDmPersistence\ViaEventAssociation.Infrastructure.EfcDmPersistence.csproj" />
+      <ProjectReference Include="..\UnitTests\UnitTests.csproj" />
     </ItemGroup>
 
 </Project>

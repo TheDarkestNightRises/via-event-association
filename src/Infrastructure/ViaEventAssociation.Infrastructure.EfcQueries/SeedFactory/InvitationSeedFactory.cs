@@ -760,7 +760,6 @@ public class InvitationSeedFactory
 
         var invitations = invitationsTmp.Select(e => new Invitation
         {
-            Id = new Guid().ToString(), //Don't know if this is correct? why doesnt invitation have an id?
             Status = e.Status,
             EventId = e.EventId,
             GuestId = e.GuestId

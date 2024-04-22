@@ -60,9 +60,11 @@ public class GuestRepositoryTest : IClassFixture<GuestSeedDataFixture>
 
         // Act
         await _repository.AddAsync(guest);
-
+        await _fixture.Context.SaveChangesAsync();
+        
         // Assert
-        Assert.Single(await _fixture.Context.Guests.ToListAsync());
+        var guestsInDatabase = await _fixture.Context.Guests.ToListAsync();
+        Assert.Contains(guest, guestsInDatabase);
     }
 }
 

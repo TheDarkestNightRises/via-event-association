@@ -30,7 +30,7 @@ public class EventRepositoryTests : IClassFixture<EventSeedDataFixture>
     }
     
     [Fact]
-    public async void AddAsync_When_EventNotStored_Then_EventIsStored()
+    public async void RemoveAsync_When_EventNotStored_Then_EventIsStored()
     {
         // Arrange
         var eventAggregate = await _fixture.Context.Events.FirstAsync();
@@ -40,20 +40,21 @@ public class EventRepositoryTests : IClassFixture<EventSeedDataFixture>
         await _fixture.Context.SaveChangesAsync();
         
         // Assert
-        Assert.Empty(_fixture.Context.Events);
+        var removedEvent = await _fixture.Context.Events.FindAsync(eventAggregate.Id);
+        Assert.Null(removedEvent);
     }
     
     [Fact]
-    public async void RemoveAsync_When_EventsStored_Then_EventIsRemoved()
+    public async void AddAsync_When_EventsStored_Then_EventIsRemoved()
     {
         // Arrange
         var validEvent = EventFactory.RandomIdValidEvent();
 
         // Act
         await _repository.AddAsync(validEvent);
+        await _fixture.Context.SaveChangesAsync();
 
         // Assert
         Assert.Single(await _fixture.Context.Events.ToListAsync());
-        
     }
 }

@@ -42,10 +42,12 @@ public class GuestRepositoryTest : IClassFixture<GuestSeedDataFixture>
         var guest = await _fixture.Context.Guests.FirstAsync();
 
         // Act
-        await _repository.RemoveAsync(guest.Id);
-
+        await _repository.RemoveAsync(guest.Id); 
+        await _fixture.Context.SaveChangesAsync();
+        
         // Assert
-        Assert.Empty(_fixture.Context.Guests);
+        var removedEvent = await _fixture.Context.Guests.FindAsync(guest.Id);
+        Assert.Null(removedEvent);
     }
 
     // Test add

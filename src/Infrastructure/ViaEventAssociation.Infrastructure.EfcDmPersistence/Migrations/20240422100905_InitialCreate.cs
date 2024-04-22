@@ -16,13 +16,13 @@ namespace ViaEventAssociation.Infrastructure.EfcDmPersistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Title = table.Column<string>(type: "TEXT", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: false),
+                    Capacity = table.Column<int>(type: "INTEGER", nullable: false),
                     Start = table.Column<DateTime>(type: "TEXT", nullable: true),
                     End = table.Column<DateTime>(type: "TEXT", nullable: true),
                     Status = table.Column<string>(type: "TEXT", nullable: false),
-                    Visibility = table.Column<string>(type: "TEXT", nullable: false),
-                    Capacity = table.Column<int>(type: "INTEGER", nullable: false),
-                    Description = table.Column<string>(type: "TEXT", nullable: false),
-                    Title = table.Column<string>(type: "TEXT", nullable: false)
+                    Visibility = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -34,10 +34,10 @@ namespace ViaEventAssociation.Infrastructure.EfcDmPersistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Email = table.Column<string>(type: "TEXT", nullable: false),
                     FirstName = table.Column<string>(type: "TEXT", nullable: false),
                     LastName = table.Column<string>(type: "TEXT", nullable: false),
-                    PictureUrl = table.Column<string>(type: "TEXT", nullable: false),
-                    Email = table.Column<string>(type: "TEXT", nullable: false)
+                    PictureUrl = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -5,27 +5,27 @@ using Xunit;
 
 namespace IntegrationTests.Queries;
 
-public class UpcomingEventQueryTest : IClassFixture<DataFixture>
+public class UpcomingEventsQueryTest : IClassFixture<DataFixture>
 {
     
     private readonly DataFixture _fixture;
     private readonly UpcomingEventsPageQueryHandler _queryHandler;
 
-    public UpcomingEventQueryTest(DataFixture fixture)
+    public UpcomingEventsQueryTest(DataFixture fixture)
     {
         _fixture = fixture;
         _queryHandler = new UpcomingEventsPageQueryHandler(_fixture.Context);
     }
 
     
-    // Test id
     [Fact]
-    public async Task GetAsync_GuestId_ReturnsGuest()
+    public async Task GivenEventPageQuery_WhenRequestingPageData_ReturnsNotNull()
     {
         // Arrange
+        var query = new UpcomingEventPage.Query(1, 1, "EventName");
         
         // Act
-        var result = await _queryHandler.HandleAsync(new UpcomingEventPage.Query(1, 1, "EventName"));
+        var result = await _queryHandler.HandleAsync(query);
 
         // Assert
         Assert.NotNull(result);

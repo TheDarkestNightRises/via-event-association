@@ -2,12 +2,12 @@
 
 public static class Seeder
 {
-    public static async Task<VeadatabaseProductionContext> Seed(this VeadatabaseProductionContext context)
+    public static VeadatabaseProductionContext Seed(this VeadatabaseProductionContext context)
     {
-        await context.Guests.AddRangeAsync(GuestSeedFactory.CreateGuests());
-        await context.Events.AddRangeAsync(EventSeedFactory.CreateEvents());
-        await context.Invitations.AddRangeAsync(InvitationSeedFactory.CreateInvitations());
-        await context.SaveChangesAsync();
+        context.Guests.AddRange(GuestSeedFactory.CreateGuests());
+        context.Events.AddRange(EventSeedFactory.CreateEvents());
+        /*context.Invitations.AddRange(InvitationSeedFactory.CreateInvitations());*/
+        context.SaveChanges();
         return context;
     }
 }

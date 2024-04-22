@@ -18,5 +18,10 @@
     <ItemGroup>
       <ProjectReference Include="..\..\Core\ViaEventAssociation.Core.Domain\ViaEventAssociation.Core.Domain.csproj" />
     </ItemGroup>
+    <ItemGroup>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+            <_Parameter1>UnitTests</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
 
 </Project>

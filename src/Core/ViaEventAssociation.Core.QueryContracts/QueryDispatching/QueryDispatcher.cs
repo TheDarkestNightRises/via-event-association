@@ -12,7 +12,7 @@ public class QueryDispatcher(IServiceProvider serviceProvider) : IQueryDispatche
 
         if (handler is null)
         {
-            throw new InvalidCastException();
+            throw new InvalidOperationException($"{query.GetType()} {typeof(TAnswer)}");
         }
 
         return handler.HandleAsync((dynamic) query);

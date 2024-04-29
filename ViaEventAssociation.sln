@@ -32,7 +32,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViaEventAssociation.Core.Qu
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{2AA8999D-1D5D-4B92-93F8-52ED986A5961}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViaEventAssociation.Presentantion.WebAPI", "src\Presentation\ViaEventAssociation.Presentantion.WebAPI\ViaEventAssociation.Presentantion.WebAPI.csproj", "{36C38C05-D9B6-4E03-AE82-C1BED2C0F9B9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViaEventAssociation.Presentation.WebAPI", "src\Presentation\ViaEventAssociation.Presentation.WebAPI\ViaEventAssociation.Presentation.WebAPI.csproj", "{36C38C05-D9B6-4E03-AE82-C1BED2C0F9B9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViaEventAssociation.Core.Tools.ObjectMapper", "src\Core\Tools\ViaEventAssociation.Core.Tools.ObjectMapper\ViaEventAssociation.Core.Tools.ObjectMapper.csproj", "{CBE0566E-7CB2-4100-ADBB-E9309145106C}"
 EndProject

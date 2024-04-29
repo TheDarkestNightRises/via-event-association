@@ -1,6 +1,6 @@
 namespace ViaEventAssociation.Core.Tools.ObjectMapper;
 
-public class CustomObjectMapper : IMapper
+public class ReflectionMapper : IMapper
 {
     public TDestination Map<TSource, TDestination>(TSource sourceObject)
     {

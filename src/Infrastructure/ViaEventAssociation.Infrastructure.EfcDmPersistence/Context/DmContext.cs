@@ -14,5 +14,5 @@ public class DmContext(DbContextOptions options) : DbContext(options)
 
     public DbSet<EventAggregate> Events => Set<EventAggregate>();
     public DbSet<Invitation> Invitations => Set<Invitation>();
-    public DbSet<GuestAggregate> Guests => Set<GuestAggregate>();   
+    public DbSet<GuestAggregate> Guests => Set<GuestAggregate>();
 }

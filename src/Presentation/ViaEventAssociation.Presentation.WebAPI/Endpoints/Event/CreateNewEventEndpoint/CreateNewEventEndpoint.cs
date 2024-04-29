@@ -6,19 +6,15 @@ using ViaEventAssociation.Presentation.WebAPI.Common;
 
 namespace ViaEventAssociation.Presentation.WebAPI.Endpoints.Event.CreateNewEventEndpoint;
 
-public class CreateNewEventEndpoint(ICommandDispatcher dispatcher, IMapper mapper) : ApiEndpoint
-    .WithRequest<CreateNewEventEndpoint.Request>
-    .WithResponse<CreateNewEventEndpoint.Response>
+public class CreateNewEventEndpoint(ICommandDispatcher dispatcher) : ApiEndpoint
+    .WithoutRequest
+    .WithoutResponse
 {
-    [HttpPost("/events/create")]
-    public override async Task<ActionResult<Response>> HandleAsync([FromBody] Request request)
+    [HttpPost("/events")]
+    public override async Task<ActionResult> HandleAsync()
     {
-        var command = mapper.Map<Request, CreateNewEventCommand>(request);
+        var command = CreateNewEventCommand.Create().PayLoad;
         await dispatcher.DispatchAsync(command);
         return Ok(); //Todo: All operations return void? is that usual???
     }
-
-    public new record Request(Guid EventId); // Is there even a request for this one
-
-    public new record Response();
 }

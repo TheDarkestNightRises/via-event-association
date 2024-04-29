@@ -13,7 +13,7 @@ public static class RepositoryExtensions
 {
     public static void RegisterRepository(this IServiceCollection services)
     {
-        services.AddDbContext<DmContext>();
+
         services.AddScoped<IUnitOfWork, SqliteUnitOfWork>();
         services.AddScoped<IEventRepository, EventRepository>();
         services.AddScoped<IGuestRepository, GuestRepository>();

@@ -41,7 +41,7 @@ public class ParticipateInPublicEventCommandHandlerTests
         evtRepo = new InMemEventRepoStub();
         evtRepo.Events.Add(evt);
         uoW = new FakeUoW();
-        handler = new ParticipateInEventCommandHandler(evtRepo, uoW);
+        handler = new ParticipateInPublicEventCommandHandler(evtRepo, uoW);
     }
     
     [Fact]

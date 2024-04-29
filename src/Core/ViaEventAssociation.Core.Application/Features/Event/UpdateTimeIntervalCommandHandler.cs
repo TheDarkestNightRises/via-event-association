@@ -8,7 +8,7 @@ using Void = ViaEventAssociation.Core.Tools.OperationResult.Void;
 
 namespace ViaEventAssociation.Core.Application.Features.Event;
 
-public class UpdateTimeIntervalHandler(IEventRepository repository, IUnitOfWork unitOfWork)
+public class UpdateTimeIntervalCommandHandler(IEventRepository repository, IUnitOfWork unitOfWork)
     : ICommandHandler<UpdateTimeIntervalCommand>
 {
     public async Task<Result<Void>> HandleAsync(UpdateTimeIntervalCommand command) //TODO: add time provider when fixed

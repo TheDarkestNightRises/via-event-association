@@ -8,7 +8,7 @@ using Void = ViaEventAssociation.Core.Tools.OperationResult.Void;
 namespace ViaEventAssociation.Core.Application.Features.Event;
 
 
-    public class UpdateEventTitleHandler(IEventRepository repository, IUnitOfWork unitOfWork) :ICommandHandler<UpdateEventTitleCommand>
+    public class UpdateEventTitleCommandHandler(IEventRepository repository, IUnitOfWork unitOfWork) :ICommandHandler<UpdateEventTitleCommand>
     {
         public async Task<Result<Void>> HandleAsync(UpdateEventTitleCommand command)
         {

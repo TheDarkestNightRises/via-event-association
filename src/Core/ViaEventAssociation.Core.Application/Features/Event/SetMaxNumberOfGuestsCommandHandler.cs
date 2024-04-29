@@ -8,12 +8,12 @@ using Void = ViaEventAssociation.Core.Tools.OperationResult.Void;
 
 namespace ViaEventAssociation.Core.Application.Features.Event;
 
-public class SetMaxNumberOfGuestsHandler : ICommandHandler<SetMaxNumberOfGuestsCommand>
+public class SetMaxNumberOfGuestsCommandHandler : ICommandHandler<SetMaxNumberOfGuestsCommand>
 {
     private readonly IEventRepository _repository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public SetMaxNumberOfGuestsHandler(IEventRepository repository, IUnitOfWork unitOfWork) =>
+    public SetMaxNumberOfGuestsCommandHandler(IEventRepository repository, IUnitOfWork unitOfWork) =>
         (_repository, _unitOfWork) = (repository, unitOfWork);
     
     public async Task<Result<Void>> HandleAsync(SetMaxNumberOfGuestsCommand command) //TODO: add time provider when fixed

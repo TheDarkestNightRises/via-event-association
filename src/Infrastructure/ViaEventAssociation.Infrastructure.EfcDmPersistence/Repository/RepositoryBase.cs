@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ViaEventAssociation.Core.Domain;
 using ViaEventAssociation.Core.Domain.Common.Repository;
+using ViaEventAssociation.Infrastructure.EfcDmPersistence.Context;
 
 namespace ViaEventAssociation.Infrastructure.EfcDmPersistence.Repository;
 
-public abstract class RepositoryBase<TAgg,TId>(DbContext context): IGenericRepository<TAgg,TId> where TAgg : AggregateRoot<TId>
+public abstract class RepositoryBase<TAgg,TId>(DmContext context): IGenericRepository<TAgg,TId> where TAgg : AggregateRoot<TId>
 {
     public virtual async Task<TAgg> GetAsync(TId id)
     {

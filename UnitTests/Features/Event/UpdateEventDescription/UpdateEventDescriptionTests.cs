@@ -79,23 +79,6 @@ public class UpdateEventDescriptionTests
     }
     
     // UC3.F1
-     [Fact]
-     public void GivenLongDescription_WhenUpdatingEventDescription_ThenReturnIncorrectLengthError()
-     {
-         // Arrange
-         var eventAggregate = EventFactory.Init()
-             .Build();       
-         
-         var longDescription = new EventDescription(new string('A', 251));
-    
-         // Act
-         var result = eventAggregate.UpdateEventDescription(longDescription);
-    
-         // Assert
-         Assert.True(result.IsFailure);
-         Assert.Equal(EventAggregateErrors.EventDescriptionIncorrectLength, result.Errors.First());
-     }
-    
     [Fact]
     public void GivenLongDescription_WhenCreatingEventDescription_ShouldReturnFailureResultWithIncorrectLengthError()
     {

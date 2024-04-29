@@ -1,6 +1,6 @@
 namespace ViaEventAssociation.Core.Tools.ObjectMapper;
 
-public class CustomObjectMapper
+public class CustomObjectMapper : IMapper
 {
     public TDestination Map<TSource, TDestination>(TSource sourceObject)
     {
@@ -16,5 +16,10 @@ public class CustomObjectMapper
             }
         }
         return destinationObject;
+    }
+
+    public TOutput Map<TOutput>(object input) where TOutput : class
+    {
+        throw new NotImplementedException();
     }
 }

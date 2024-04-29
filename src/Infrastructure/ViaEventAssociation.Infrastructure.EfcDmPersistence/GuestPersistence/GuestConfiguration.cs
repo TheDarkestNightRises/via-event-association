@@ -16,41 +16,66 @@ public class GuestConfiguration : IEntityTypeConfiguration<GuestAggregate>
             .HasConversion(e => e.Id,
                 dbValue => GuestId.FromGuid(dbValue));
         
-        builder.ComplexProperty<GuestViaEmail>(
-            "GuestViaEmail",
-            propBuilder =>
-            {
-                propBuilder.Property(vo => vo.ViaEmail)
-                    .HasColumnName("Email");
-            }
-        );
+        // builder.ComplexProperty<GuestViaEmail>(
+        //     "GuestViaEmail",
+        //     propBuilder =>
+        //     {
+        //         propBuilder.Property(vo => vo.ViaEmail)
+        //             .HasColumnName("Email");
+        //     }
+        // );
+        //
+        // builder.ComplexProperty<GuestFirstName>(
+        //     "GuestFirstName",
+        //     propBuilder =>
+        //     {
+        //         propBuilder.Property(vo => vo.FirstName)
+        //             .HasColumnName("FirstName");
+        //     }
+        // );
+        //
+        // builder.ComplexProperty<GuestLastName>(
+        //     "GuestLastName",
+        //     propBuilder =>
+        //     {
+        //         propBuilder.Property(vo => vo.LastName)
+        //             .HasColumnName("LastName");
+        //     }
+        // );
+        //
+        // builder.ComplexProperty<GuestPictureUrl>(
+        //     "GuestPictureUrl",
+        //     propBuilder =>
+        //     {
+        //         propBuilder.Property(vo => vo.PictureUrl)
+        //             .HasColumnName("PictureUrl");
+        //     }
+        // );
         
-        builder.ComplexProperty<GuestFirstName>(
-            "GuestFirstName",
-            propBuilder =>
-            {
-                propBuilder.Property(vo => vo.FirstName)
-                    .HasColumnName("FirstName");
-            }
-        );
+        builder.OwnsOne<GuestViaEmail>("GuestViaEmail", email =>
+        {
+            email.Property(vo => vo.ViaEmail)
+                .HasColumnName("Email");
+        });
         
-        builder.ComplexProperty<GuestLastName>(
-            "GuestLastName",
-            propBuilder =>
-            {
-                propBuilder.Property(vo => vo.LastName)
-                    .HasColumnName("LastName");
-            }
-        );
+        builder.OwnsOne<GuestFirstName>("GuestFirstName", firstName =>
+        {
+            firstName.Property(vo => vo.FirstName)
+                .HasColumnName("FirstName");
+        });
         
-        builder.ComplexProperty<GuestPictureUrl>(
-            "GuestPictureUrl",
-            propBuilder =>
-            {
-                propBuilder.Property(vo => vo.PictureUrl)
-                    .HasColumnName("PictureUrl");
-            }
-        );
+        builder.OwnsOne<GuestLastName>("GuestLastName", lastName =>
+        {
+            lastName.Property(vo => vo.LastName)
+                .HasColumnName("LastName");
+        });
+        
+        
+        builder.OwnsOne<GuestPictureUrl>("GuestPictureUrl", pictureUrl =>
+        {
+            pictureUrl.Property(vo => vo.PictureUrl)
+                .HasColumnName("PictureUrl");
+        });
     }
 
 }

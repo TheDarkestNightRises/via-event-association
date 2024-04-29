@@ -17,23 +17,34 @@ public class EventConfiguration : IEntityTypeConfiguration<EventAggregate>
             .HasConversion(e => e.Id,
                 dbValue => EventId.FromGuid(dbValue));
         
-        builder.ComplexProperty<EventTitle>(
-            "EventTitle",
-            propBuilder =>
-            {
-                propBuilder.Property(vo => vo.Title)
-                    .HasColumnName("Title");
-            }
-        );
+        // builder.ComplexProperty<EventTitle>(
+        //     "EventTitle",
+        //     propBuilder =>
+        //     {
+        //         propBuilder.Property(vo => vo.Title)
+        //             .HasColumnName("Title");
+        //     }
+        // );
+        //
+        // builder.ComplexProperty<EventDescription>(
+        //     "EventDescription",
+        //     propBuilder =>
+        //     {
+        //         propBuilder.Property(vo => vo.Description)
+        //             .HasColumnName("Description");
+        //     }
+        // );
         
-        builder.ComplexProperty<EventDescription>(
-            "EventDescription",
-            propBuilder =>
+        builder.OwnsOne<EventTitle>("EventTitle", title =>
             {
-                propBuilder.Property(vo => vo.Description)
-                    .HasColumnName("Description");
-            }
-        );
+                title.Property(vo => vo.Title)
+                    .HasColumnName("Title");
+            });
+        builder.OwnsOne<EventDescription>("EventDescription", description =>
+        {
+            description.Property(vo => vo.Description)
+                .HasColumnName("Description");
+        });
         
         builder.Property<EventVisibility>("Visibility")
             .HasConversion(
@@ -41,14 +52,20 @@ public class EventConfiguration : IEntityTypeConfiguration<EventAggregate>
                 value => (EventVisibility)Enum.Parse(typeof(EventVisibility), value)
             );
 
-        builder.ComplexProperty<EventCapacity>(
-            "EventCapacity",
-            propBuilder =>
-            {
-                propBuilder.Property(vo => vo.Capacity)
-                    .HasColumnName("Capacity");
-            }
-        );
+        // builder.ComplexProperty<EventCapacity>(
+        //     "EventCapacity",
+        //     propBuilder =>
+        //     {
+        //         propBuilder.Property(vo => vo.Capacity)
+        //             .HasColumnName("Capacity");
+        //     }
+        // );
+        
+        builder.OwnsOne<EventCapacity>("EventCapacity", capacity =>
+        {
+            capacity.Property(vo => vo.Capacity)
+                .HasColumnName("Capacity");
+        });
         
         builder.Property<EventStatus>("Status")
             .HasConversion(

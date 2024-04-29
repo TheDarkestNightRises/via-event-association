@@ -7,14 +7,12 @@ namespace ViaEventAssociation.Core.Domain.Aggregates.Event.Entities.InvitationEn
 public class Invitation : Entity<InvitationId>
 {
     private Invitation() { }
-    internal InvitationId InvitationId { get; set; }
-    internal GuestId GuestId { get; set; }
+    public GuestId GuestId { get; set; }
     internal InvitationStatus InvitationStatus { get; set; }
     
     internal Invitation(InvitationId id, GuestId guestId, InvitationStatus invitationStatus) :
         base(id)
     {
-        InvitationId = id;
         GuestId = guestId;
         InvitationStatus = invitationStatus;
     }

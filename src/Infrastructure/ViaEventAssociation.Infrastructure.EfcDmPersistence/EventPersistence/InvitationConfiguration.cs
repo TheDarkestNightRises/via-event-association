@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using ViaEventAssociation.Core.Domain.Aggregates.Entity.Values;
 using ViaEventAssociation.Core.Domain.Aggregates.Event.Entities.InvitationEntity;
+using ViaEventAssociation.Core.Domain.Aggregates.Guest;
+using ViaEventAssociation.Core.Domain.Aggregates.Guest.Values;
 
 namespace ViaEventAssociation.Infrastructure.EfcDmPersistence.EventPersistence;
 
@@ -10,8 +12,6 @@ public class InvitationConfiguration : IEntityTypeConfiguration<Invitation>
     public void Configure(EntityTypeBuilder<Invitation> builder)
     {
         builder.HasKey(i => i.Id);
-        
-        //TODO: guest id foreign key
         
         builder
             .Property(i => i.Id)
@@ -23,5 +23,15 @@ public class InvitationConfiguration : IEntityTypeConfiguration<Invitation>
                 status => status.ToString(), 
                 value => (InvitationStatus)Enum.Parse(typeof(InvitationStatus), value)
             );
+        
+        builder.Property(i => i.GuestId)
+            .HasConversion(
+            yId => yId.Id,
+            dbValue => GuestId.FromGuid(dbValue)
+        );
+
+        builder.HasOne<GuestAggregate>()
+            .WithMany()
+            .HasForeignKey("GuestId");
     }
 }

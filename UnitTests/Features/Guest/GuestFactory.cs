@@ -51,7 +51,12 @@ public class GuestFactory
     
     public static GuestAggregate ValidGuest()
     {
-        return Init().Build();
+        return Init()
+            .WithFirstName(new GuestFirstName("John"))
+            .WithLastName(new GuestLastName("Doe"))
+            .WithPictureUrl(new GuestPictureUrl("https://via.placeholder.com/150"))
+            .WithEmail(new GuestViaEmail("sampleemail@gmail.com"))
+            .Build();
     }
 
 }

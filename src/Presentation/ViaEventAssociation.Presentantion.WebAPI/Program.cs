@@ -1,4 +1,5 @@
 using ViaEventAssociation.Core.Application.Extensions;
+using ViaEventAssociation.Infrastructure.EfcDmPersistence.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.RegisterHandlers();
 builder.Services.RegisterDispatcher();
+builder.Services.RegisterRepository();
 
 var app = builder.Build();
 

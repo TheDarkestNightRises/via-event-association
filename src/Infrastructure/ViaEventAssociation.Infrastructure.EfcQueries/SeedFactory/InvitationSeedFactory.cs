@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using ViaEventAssociation.Infrastructure.EfcQueries.Scaffold;
 
 namespace ViaEventAssociation.Infrastructure.EfcQueries.SeedFactory;
 

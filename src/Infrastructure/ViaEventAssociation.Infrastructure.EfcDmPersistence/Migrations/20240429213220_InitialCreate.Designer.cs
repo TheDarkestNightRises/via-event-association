@@ -11,7 +11,7 @@ using ViaEventAssociation.Infrastructure.EfcDmPersistence.Context;
 namespace ViaEventAssociation.Infrastructure.EfcDmPersistence.Migrations
 {
     [DbContext(typeof(DmContext))]
-    [Migration("20240422100905_InitialCreate")]
+    [Migration("20240429213220_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

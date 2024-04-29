@@ -17,6 +17,7 @@
       <ProjectReference Include="..\..\Core\ViaEventAssociation.Core.Application\ViaEventAssociation.Core.Application.csproj" />
       <ProjectReference Include="..\..\Core\ViaEventAssociation.Core.QueryContracts\ViaEventAssociation.Core.QueryContracts.csproj" />
       <ProjectReference Include="..\..\Infrastructure\ViaEventAssociation.Infrastructure.EfcDmPersistence\ViaEventAssociation.Infrastructure.EfcDmPersistence.csproj" />
+      <ProjectReference Include="..\..\Infrastructure\ViaEventAssociation.Infrastructure.EfcQueries\ViaEventAssociation.Infrastructure.EfcQueries.csproj" />
     </ItemGroup>
 
 </Project>

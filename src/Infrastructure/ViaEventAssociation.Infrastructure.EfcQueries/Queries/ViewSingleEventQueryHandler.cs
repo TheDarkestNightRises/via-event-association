@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ViaEventAssociation.Core.QueryContracts.Contract;
 using ViaEventAssociation.Core.QueryContracts.Queries;
+using ViaEventAssociation.Infrastructure.EfcQueries.Context;
 
 namespace ViaEventAssociation.Infrastructure.EfcQueries.Queries;
 

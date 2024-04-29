@@ -1,4 +1,6 @@
-﻿namespace ViaEventAssociation.Infrastructure.EfcQueries.SeedFactory;
+﻿using ViaEventAssociation.Infrastructure.EfcQueries.Context;
+
+namespace ViaEventAssociation.Infrastructure.EfcQueries.SeedFactory;
 
 public static class Seeder
 {

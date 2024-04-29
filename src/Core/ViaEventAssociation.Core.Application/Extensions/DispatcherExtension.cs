@@ -5,7 +5,7 @@ namespace ViaEventAssociation.Core.Application.Extensions;
 
 public static class DispatcherExtension
 {
-    public static void RegisterDispatcher(this IServiceCollection services)
+    public static void RegisterCommandDispatcher(this IServiceCollection services)
     {
         services.AddScoped<ICommandDispatcher, CommandDispatcher>();
     }

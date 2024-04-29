@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using ViaEventAssociation.Infrastructure.EfcQueries.Scaffold;
 
-namespace ViaEventAssociation.Infrastructure.EfcQueries;
+namespace ViaEventAssociation.Infrastructure.EfcQueries.Context;
 
 public partial class VeadatabaseProductionContext(DbContextOptions options)  : DbContext(options)
 {

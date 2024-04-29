@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using ViaEventAssociation.Core.Domain.Aggregates.Event.Repository;
 using ViaEventAssociation.Core.Domain.Aggregates.Guest.Repository;
 using ViaEventAssociation.Core.Domain.Common.UnitOfWork;
@@ -13,7 +14,11 @@ public static class RepositoryExtensions
 {
     public static void RegisterRepository(this IServiceCollection services)
     {
-
+        services.AddDbContext<DmContext>(options =>
+        {
+            options.UseSqlite(
+                @"Data Source=C:\Github\C#\via-event-association\src\Infrastructure\ViaEventAssociation.Infrastructure.EfcDmPersistence\VEADatabaseProduction.db");
+        });
         services.AddScoped<IUnitOfWork, SqliteUnitOfWork>();
         services.AddScoped<IEventRepository, EventRepository>();
         services.AddScoped<IGuestRepository, GuestRepository>();

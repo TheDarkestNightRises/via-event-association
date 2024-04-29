@@ -4,7 +4,7 @@ using ViaEventAssociation.Core.Application.CommandDispatching.Dispatcher;
 using ViaEventAssociation.Core.Tools.ObjectMapper;
 using ViaEventAssociation.Presentation.WebAPI.Common;
 
-namespace ViaEventAssociation.Presentation.WebAPI.Event.CreateNewEventEndpoint;
+namespace ViaEventAssociation.Presentation.WebAPI.Endpoints.Event.CreateNewEventEndpoint;
 
 public class CreateNewEventEndpoint(ICommandDispatcher dispatcher, IMapper mapper) : ApiEndpoint
     .WithRequest<CreateNewEventEndpoint.Request>

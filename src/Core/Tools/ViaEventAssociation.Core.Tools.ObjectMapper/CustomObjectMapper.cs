@@ -17,9 +17,21 @@ public class CustomObjectMapper : IMapper
         }
         return destinationObject;
     }
-
-    public TOutput Map<TOutput>(object input) where TOutput : class
+    
+    public TOutput Map<TOutput>(object? sourceObject) where TOutput : class
     {
-        throw new NotImplementedException();
+        var destinationObject = Activator.CreateInstance<TOutput>();
+        if (sourceObject == null) return destinationObject;
+
+        foreach (var sourceProperty in sourceObject.GetType().GetProperties())
+        {
+            var destinationProperty = typeof(TOutput).GetProperty(sourceProperty.Name);
+            if (destinationProperty != null)
+            {
+                destinationProperty.SetValue(destinationObject, sourceProperty.GetValue(sourceObject));
+            }
+        }
+
+        return destinationObject;
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Reflection;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using ViaEventAssociation.Core.Domain.Aggregates.Event.Repository;
 using ViaEventAssociation.Core.Domain.Aggregates.Guest.Repository;
@@ -14,6 +15,8 @@ public static class RepositoryExtensions
 {
     public static void RegisterRepository(this IServiceCollection services)
     {
+        // Assembly executingAssembly = Assembly.GetExecutingAssembly();
+        // executingAssembly.Location + "../../"
         services.AddDbContext<DmContext>(options =>
         {
             options.UseSqlite(

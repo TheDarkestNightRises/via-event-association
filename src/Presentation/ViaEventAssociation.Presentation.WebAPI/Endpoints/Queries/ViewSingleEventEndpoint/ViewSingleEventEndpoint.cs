@@ -10,7 +10,7 @@ public class ViewSingleEventEndpoint(IQueryDispatcher dispatcher, IMapper mapper
     .WithRequest<ViewSingleEventRequest>
     .WithResponse<ViewSingleEventResponse>
 {
-    [HttpPost("/events/{id}")]
+    [HttpPost("/events/{Id}")]
     public override async Task<ActionResult<ViewSingleEventResponse>> HandleAsync(
         [FromRoute] ViewSingleEventRequest request)
     {

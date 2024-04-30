@@ -11,13 +11,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddControllers();
 builder.Services.RegisterHandlers();
 builder.Services.RegisterCommandDispatcher();
 builder.Services.RegisterQueryDispatcher();
 builder.Services.RegisterRepository();
 builder.Services.RegisterQueryHandlers();
 builder.Services.RegisterMapper();
+builder.Services.AddControllers();
 
 
 var app = builder.Build();

@@ -15,8 +15,10 @@ public class CreateNewEventEndpoint(ICommandDispatcher dispatcher) : ApiEndpoint
     {
         var command = CreateNewEventCommand.Create().PayLoad;
         await dispatcher.DispatchAsync(command);
-        return ResultIS.isSUCCESS?
-            Ok(command.Id)
-        : BadRequest()//Todo: All operations return void? is that usual???
+        // return ResultIS.isSUCCESS?
+        //     Ok(command.Id)
+        // : BadRequest()//Todo: All operations return void? is that usual???
+
+        return Ok(command.Id);
     }
 }

@@ -17,7 +17,7 @@ public class EventAggregate : AggregateRoot<EventId>
     internal EventCapacity EventCapacity { get; set; }
     internal EventStatus EventStatus { get; set; }
     internal EventTimeInterval? EventTimeInterval { get; set; }
-    internal List<GuestId> EventParticipants { get; set; } = []; --Participation similar Tools invitation class
+    internal List<GuestId> EventParticipants { get; set; } = []; //Participation similar TO invitation class. Participation is a class. See guide strongly list of typed guids
     internal List<Invitation> Invitations { get; set; } = [];
 
 

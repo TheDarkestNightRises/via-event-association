@@ -5,7 +5,7 @@ using ViaEventAssociation.Core.Domain.Aggregates.Guest;
 
 namespace ViaEventAssociation.Infrastructure.EfcDmPersistence.Context;
 
-public class DmContext(DbContextOptions options) : DbContext(options)
+public class DmContext(DbContextOptions<DmContext> options) : DbContext(options)
 {
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

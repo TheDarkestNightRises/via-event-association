@@ -4,20 +4,10 @@ namespace ViaEventAssociation.Core.QueryContracts.Queries;
 
 public abstract class ViewSingleEvent
 {
-    public class Query : IQuery<Answer> -- I broke stuff here for you
-    {
-        public string EventId { get; }
+    public record Query(string EventId) : IQuery<Answer>;
 
-        private Query()
-        {
-        }
-
-        public Query(string EventId)
-        {
-            this.EventId = EventId;
-        }
-    };
     public record Answer(ViewSingleEventInfo SingleEvent);
+
     public record ViewSingleEventInfo(
         string Title,
         string Description,
@@ -25,6 +15,5 @@ public abstract class ViewSingleEvent
         string End,
         string Visibility,
         int NumberOfGuests
-        );
-    
+    );
 }

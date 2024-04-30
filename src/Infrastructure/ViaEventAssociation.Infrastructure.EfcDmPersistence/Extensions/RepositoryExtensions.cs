@@ -15,13 +15,9 @@ public static class RepositoryExtensions
 {
     public static void RegisterRepository(this IServiceCollection services)
     {
-        // Assembly executingAssembly = Assembly.GetExecutingAssembly();
-        // executingAssembly.Location + "../../"
-        services.AddDbContext<DmContext>(options =>
-        {
-            options.UseSqlite(
-                @"Data Source=C:\Github\C#\via-event-association\src\Infrastructure\ViaEventAssociation.Infrastructure.EfcDmPersistence\VEADatabaseProduction.db");
-        });
+        var databasePath =
+            "../../Infrastructure/ViaEventAssociation.Infrastructure.EfcDmPersistence/VEADatabaseProduction.db";
+        services.AddDbContext<DmContext>(options => { options.UseSqlite($"Data Source={databasePath}"); });
         services.AddScoped<IUnitOfWork, SqliteUnitOfWork>();
         services.AddScoped<IEventRepository, EventRepository>();
         services.AddScoped<IGuestRepository, GuestRepository>();

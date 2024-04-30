@@ -4,13 +4,13 @@ using ViaEventAssociation.Core.QueryContracts.QueryDispatching;
 using ViaEventAssociation.Core.Tools.ObjectMapper;
 using ViaEventAssociation.Presentation.WebAPI.Common;
 
-namespace ViaEventAssociation.Presentation.WebAPI.Endpoints.Queries.ViewSingleEventEndpoint;
+namespace ViaEventAssociation.Presentation.WebAPI.Endpoints.Queries;
 
 public class ViewSingleEventEndpoint(IQueryDispatcher dispatcher, IMapper mapper) : ApiEndpoint
     .WithRequest<ViewSingleEventRequest>
     .WithResponse<ViewSingleEventResponse>
 {
-    [HttpPost("/events/{Id}")]
+    [HttpGet("/events/{Id}")]
     public override async Task<ActionResult<ViewSingleEventResponse>> HandleAsync(
         [FromRoute] ViewSingleEventRequest request)
     {

@@ -3,19 +3,14 @@ using ViaEventAssociation.Infrastructure.EfcQueries.Scaffold;
 
 namespace ViaEventAssociation.Infrastructure.EfcQueries.Context;
 
-public partial class VeadatabaseProductionContext(DbContextOptions options)  : DbContext(options)
+public partial class VeadatabaseProductionContext(DbContextOptions<VeadatabaseProductionContext> options)  : DbContext(options)
 {
     public virtual DbSet<Event> Events { get; set; }
 
     public virtual DbSet<Guest> Guests { get; set; }
 
     public virtual DbSet<Invitation> Invitations { get; set; }
-
-    /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlite("Data Source = C:\\Github\\C#\\via-event-association\\src\\Infrastructure\\ViaEventAssociation.Infrastructure.EfcQueries\\VEADatabaseProduction.db");
-        */
-
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Invitation>(entity =>

@@ -6,7 +6,7 @@ public static class MapperExtensions
 {
     public static void RegisterMapper(this IServiceCollection services)
     {
-        services.AddScoped<IMapper, ReflectionMapper>();
+        services.AddScoped<IMapper, ObjectMapper>();
     }
 
 }

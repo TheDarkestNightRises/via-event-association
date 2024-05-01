@@ -13,6 +13,7 @@ namespace ViaEventAssociation.Core.Application.Features.Event;
         public async Task<Result<Void>> HandleAsync(UpdateEventTitleCommand command)
         {
             var evnt = await repository.GetAsync(command.Id);
+            
             var result = evnt.UpdateEventTitle(command.Title);
 
             if (result.IsFailure)

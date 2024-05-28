@@ -8,6 +8,7 @@ using Microsoft.Extensions.Time.Testing;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
 using ViaEventAssociation.Infrastructure.EfcDmPersistence.Context;
 using ViaEventAssociation.Infrastructure.EfcQueries.Context;
+using Xunit;
 
 namespace IntegrationTests.Endpoints;
 
@@ -19,13 +20,18 @@ public class ViaWebApplicationFactory : WebApplicationFactory<Program>
     {
         builder.ConfigureTestServices(services =>
         {
+            _serviceCollection = services;
+            
             services.RemoveAll(typeof(DmContext));
             services.RemoveAll(typeof(VeadatabaseProductionContext));
             services.RemoveAll<DmContext>();
             services.RemoveAll<VeadatabaseProductionContext>();
 
-            string conn = GetConnectionString();
-            services.AddDbContext<DmContext>(options => options.UseSqlite(conn));
+            services.AddDbContext<DmContext>(options =>
+            {
+                options.UseSqlite(GetConnectionString());
+            });
+            
             services.AddScoped<TimeProvider, FakeTimeProvider>();
             SetupCleanDatabase(services);
         });
@@ -33,8 +39,9 @@ public class ViaWebApplicationFactory : WebApplicationFactory<Program>
 
     private string GetConnectionString()
     {
-        string testDbName = "Test" + Guid.NewGuid() + "db";
-        return "Data source =" + testDbName;
+        var databasePath =
+            "../../Infrastructure/ViaEventAssociation.Infrastructure.EfcDmPersistence/VEADatabaseProduction.db";
+        return $"Data Source={databasePath}";
     }
 
     protected override void Dispose(bool disposing)

@@ -8,10 +8,10 @@ namespace IntegrationTests.Endpoints.Event;
 
 public class CreateNewEventEndpoint : BaseIntegrationTest
 {
-    private IntegrationTestWebAppFactory _factory;
+    private ViaWebApplicationFactory _factory;
     private readonly HttpClient _client;
     
-    public CreateNewEventEndpoint(IntegrationTestWebAppFactory factory) : base(factory)
+    public CreateNewEventEndpoint(ViaWebApplicationFactory factory) : base(factory)
     {
         _factory = factory;
     }
@@ -33,7 +33,7 @@ public class CreateNewEventEndpoint : BaseIntegrationTest
     {
         var client = _factory.CreateClient();
 
-        var createdResponse = await client.GetAsync("unpublished-events");
+        var createdResponse = await client.GetAsync("/unpublished-events");
         var createdEventResponse = await createdResponse.Content.ReadFromJsonAsync<UnpublishedEventsResponse>();
 
         Assert.True(createdResponse.StatusCode == HttpStatusCode.OK);

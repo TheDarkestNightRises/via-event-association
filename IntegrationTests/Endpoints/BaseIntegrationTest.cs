@@ -5,12 +5,12 @@ using Xunit;
 
 namespace IntegrationTests.Endpoints;
 
-public class BaseIntegrationTest : IClassFixture<IntegrationTestWebAppFactory>
+public class BaseIntegrationTest : IClassFixture<ViaWebApplicationFactory>
 {
     private readonly IServiceScope _scope;
     private readonly DmContext _dbContext;
     
-    public BaseIntegrationTest(IntegrationTestWebAppFactory factory)
+    public BaseIntegrationTest(ViaWebApplicationFactory factory)
     {
         _scope = factory.Services.CreateScope();
         _dbContext = _scope.ServiceProvider.GetRequiredService<DmContext>();

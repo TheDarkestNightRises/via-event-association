@@ -42,7 +42,7 @@ public class SetNumberOfGuestsCommandHandlerTests
         evtRepo = new InMemEventRepoStub();
         evtRepo.Events.Add(evt);
         uoW = new FakeUoW();
-        handler = new SetMaxNumberOfGuestsHandler(evtRepo, uoW);
+        handler = new SetMaxNumberOfGuestsCommandHandler(evtRepo, uoW);
        
     }
     

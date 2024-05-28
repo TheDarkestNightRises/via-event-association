@@ -21,6 +21,9 @@ public class PersonalProfileQueryTest : IClassFixture<DataFixture>
     public async Task GetAsync_GuestId_ReturnsGuest()
     {
         // Arrange
+        string expectedEmail = "";
+        string expectedFirstName = "";
+        string expectedLastName = "";
         
         // Act
         var result = await _queryHandler.HandleAsync(new PersonalProfilePage.Query("34403069-d5a4-4c12-88e2-7ead0f377c81"));

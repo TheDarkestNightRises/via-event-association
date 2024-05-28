@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using UnitTests.Features.Event;
 using ViaEventAssociation.Infrastructure.EfcDmPersistence.Context;
 using ViaEventAssociation.Infrastructure.EfcQueries;
+using ViaEventAssociation.Infrastructure.EfcQueries.Context;
 using ViaEventAssociation.Infrastructure.EfcQueries.SeedFactory;
 
 namespace IntegrationTests.Queries

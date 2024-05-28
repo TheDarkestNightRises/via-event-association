@@ -43,7 +43,7 @@ public class UpdateStartAndEndTimeCommandHandlerTests
         evtRepo = new InMemEventRepoStub();
         evtRepo.Events.Add(evt);
         uoW = new FakeUoW();
-        handler = new UpdateTimeIntervalHandler(evtRepo, uoW);
+        handler = new UpdateTimeIntervalCommandHandler(evtRepo, uoW);
        
     }
     

@@ -8,7 +8,7 @@ using ViaEventAssociation.Core.Domain.Common.UnitOfWork;
 
 namespace UnitTests.Features.Event.UpdateEventTitle;
 
-public class UpdateEventTitleHandlerTests
+public class UpdateEventTitleCommandHandlerTests
 {
     private IEventRepository _repositoryMock;
     private IUnitOfWork _uowMock;
@@ -17,14 +17,14 @@ public class UpdateEventTitleHandlerTests
     private ICommandHandler<UpdateEventTitleCommand> handler;
     private string title;
 
-    public UpdateEventTitleHandlerTests()
+    public UpdateEventTitleCommandHandlerTests()
     {
         _repositoryMock = A.Fake<IEventRepository>();
         _uowMock = A.Fake<IUnitOfWork>();
         _eventId = Guid.NewGuid();
         title = "Updated title";
         cmd = UpdateEventTitleCommand.Create(_eventId.ToString(), title).PayLoad;
-        handler = new UpdateEventTitleHandler(_repositoryMock, _uowMock);
+        handler = new UpdateEventTitleCommandHandler(_repositoryMock, _uowMock);
     }
 
     [Fact]

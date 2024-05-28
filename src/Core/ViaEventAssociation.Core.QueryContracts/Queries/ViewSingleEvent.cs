@@ -4,8 +4,10 @@ namespace ViaEventAssociation.Core.QueryContracts.Queries;
 
 public abstract class ViewSingleEvent
 {
-    public record Query(string EventId) : IQuery<Answer>;
+    public record Query(string Id) : IQuery<Answer>;
+
     public record Answer(ViewSingleEventInfo SingleEvent);
+
     public record ViewSingleEventInfo(
         string Title,
         string Description,
@@ -13,6 +15,5 @@ public abstract class ViewSingleEvent
         string End,
         string Visibility,
         int NumberOfGuests
-        );
-    
+    );
 }

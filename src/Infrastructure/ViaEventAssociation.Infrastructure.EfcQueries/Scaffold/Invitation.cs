@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace ViaEventAssociation.Infrastructure.EfcQueries;
+﻿namespace ViaEventAssociation.Infrastructure.EfcQueries.Scaffold;
 
 public partial class Invitation
 {

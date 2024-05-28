@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace ViaEventAssociation.Infrastructure.EfcQueries;
+namespace ViaEventAssociation.Infrastructure.EfcQueries.Context;
 
 public class DesignTimeContextFactory : IDesignTimeDbContextFactory<VeadatabaseProductionContext>
 {

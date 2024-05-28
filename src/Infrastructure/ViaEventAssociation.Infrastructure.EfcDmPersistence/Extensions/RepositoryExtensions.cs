@@ -21,5 +21,6 @@ public static class RepositoryExtensions
         services.AddScoped<IUnitOfWork, SqliteUnitOfWork>();
         services.AddScoped<IEventRepository, EventRepository>();
         services.AddScoped<IGuestRepository, GuestRepository>();
+        services.AddSingleton(TimeProvider.System);
     }
 }

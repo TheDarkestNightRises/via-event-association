@@ -10,13 +10,13 @@ public class CreateNewEventEndpoint(ICommandDispatcher dispatcher,IMapper mapper
     .WithoutRequest
     .WithResponse<CreateNewEventResponse>
 {
-    [HttpPost("/events")]
+    [HttpPost("/events/create")]
     public override async Task<ActionResult<CreateNewEventResponse>> HandleAsync()
     {
         var command = CreateNewEventCommand.Create().PayLoad;
         var result = await dispatcher.DispatchAsync(command);
         return result.IsSuccess
-            ? Ok(mapper.Map<CreateNewEventResponse>(result)) 
+            ? Ok(new CreateNewEventResponse(command.Id.Id)) 
             : BadRequest();
     }
 }

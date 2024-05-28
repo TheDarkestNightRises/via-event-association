@@ -7,7 +7,7 @@ namespace UnitTests.Features.Event.MakeEventActive;
 
 public class MakeEventActiveUnitTests
 {
-    private static TimeProvider? _timeProvider;
+    private TimeProvider _timeProvider;
 
     public MakeEventActiveUnitTests()
     {
@@ -25,10 +25,9 @@ public class MakeEventActiveUnitTests
             .WithCapacity(new EventCapacity(10))
             .WithTimeInterval(EventTimeInterval.Create(
                 new DateTime(2023,8,20,19,0,0), 
-                new DateTime(2023,8,20,21,0,0),
-                _timeProvider).PayLoad)
+                new DateTime(2023,8,20,21,0,0)).PayLoad)
             .Build();
-        eventAggregate.MakeEventActive();
+        eventAggregate.MakeEventActive(_timeProvider);
         Assert.Equal(EventStatus.Active, eventAggregate.EventStatus);
     }
     
@@ -44,10 +43,9 @@ public class MakeEventActiveUnitTests
             .WithCapacity(new EventCapacity(10))
             .WithTimeInterval(EventTimeInterval.Create(
                 new DateTime(2023,8,20,19,0,0), 
-                new DateTime(2023,8,20,21,0,0),
-                _timeProvider).PayLoad)
+                new DateTime(2023,8,20,21,0,0)).PayLoad)
             .Build();
-        eventAggregate.MakeEventActive();
+        eventAggregate.MakeEventActive(_timeProvider);
         Assert.Equal(EventStatus.Active, eventAggregate.EventStatus);
     }
     
@@ -62,11 +60,10 @@ public class MakeEventActiveUnitTests
             .WithCapacity(new EventCapacity(10))
             .WithTimeInterval(EventTimeInterval.Create(
                 new DateTime(2023,8,20,19,0,0), 
-                new DateTime(2023,8,20,21,0,0),
-                _timeProvider).PayLoad)
+                new DateTime(2023,8,20,21,0,0)).PayLoad)
             .WithStatus(EventStatus.Ready)
             .Build();
-        eventAggregate.MakeEventActive();
+        eventAggregate.MakeEventActive(_timeProvider);
         Assert.Equal(EventStatus.Active, eventAggregate.EventStatus);
     }
     
@@ -82,10 +79,9 @@ public class MakeEventActiveUnitTests
             .WithCapacity(new EventCapacity(10))
             .WithTimeInterval(EventTimeInterval.Create(
                 new DateTime(2023,8,20,19,0,0), 
-                new DateTime(2023,8,20,21,0,0),
-                _timeProvider).PayLoad)
+                new DateTime(2023,8,20,21,0,0)).PayLoad)
             .Build();
-        eventAggregate.MakeEventActive();
+        eventAggregate.MakeEventActive(_timeProvider);
         Assert.Equal(EventStatus.Active, eventAggregate.EventStatus);
     }
     
@@ -105,13 +101,11 @@ public class MakeEventActiveUnitTests
             .WithCapacity(new EventCapacity(10))
             .WithTimeInterval(EventTimeInterval.Create(
                 new DateTime(2023,8,20,19,0,0), 
-                new DateTime(2023,8,20,21,0,0),
-                _timeProvider).PayLoad)
+                new DateTime(2023,8,20,21,0,0)).PayLoad)
             .WithStatus(EventStatus.Draft)
             .Build();
-        eventAggregate.EventTimeInterval!.CurrentTimeProvider =
-            new FakeTimeProvider(new DateTime(2023, 9, 20, 10, 0, 0));
-        var result = eventAggregate.MakeEventActive();
+        var futureTimeProvider = new FakeTimeProvider(new DateTime(2023, 9, 20, 10, 0, 0));
+        var result = eventAggregate.MakeEventActive(futureTimeProvider);
         Assert.Equal(EventAggregateErrors.InvalidEventData, result.Errors.First());
     }
     
@@ -122,7 +116,7 @@ public class MakeEventActiveUnitTests
         var eventAggregate = EventFactory.Init()
             .WithStatus(EventStatus.Cancelled)
             .Build();
-        var result = eventAggregate.MakeEventActive();
+        var result = eventAggregate.MakeEventActive(_timeProvider);
         Assert.Equal(EventAggregateErrors.CancelledEventCantBeActivated, result.Errors.First());
     }
 }

@@ -9,7 +9,7 @@ namespace UnitTests.Features.Event.ParticipateInPublicEvent;
 
 public class ParticipateInPublicEventUnitTests
 {
-    private static TimeProvider? _timeProvider;
+    private TimeProvider _timeProvider;
 
     public ParticipateInPublicEventUnitTests()
     {
@@ -35,11 +35,10 @@ public class ParticipateInPublicEventUnitTests
             .WithCapacity(EventCapacity.Create(25).PayLoad)
             .WithTimeInterval(EventTimeInterval.Create(
                 new DateTime(2023,8,20,19,0,0), 
-                new DateTime(2023,8,20,21,0,0),
-                _timeProvider).PayLoad)
+                new DateTime(2023,8,20,21,0,0)).PayLoad)
             .Build();
         var initialNumberOfGuests = eventAggregate.EventParticipants.Count;
-        eventAggregate.ParticipateInPublicEvent(guestAggregate.Id);
+        eventAggregate.ParticipateInPublicEvent(guestAggregate.Id, _timeProvider);
         Assert.Equal(initialNumberOfGuests + 1, eventAggregate.EventParticipants.Count);
     }
     
@@ -61,9 +60,9 @@ public class ParticipateInPublicEventUnitTests
             .WithCapacity(EventCapacity.Create(25).PayLoad)
             .WithTimeInterval(EventTimeInterval.Create(
                 new DateTime(2023,8,20,19,0,0), 
-                new DateTime(2023,8,20,21,0,0),
-                _timeProvider).PayLoad)
-            .Build();        eventAggregate.ParticipateInPublicEvent(guestAggregate.Id);
+                new DateTime(2023,8,20,21,0,0)).PayLoad)
+            .Build();        
+        eventAggregate.ParticipateInPublicEvent(guestAggregate.Id, _timeProvider);
         Assert.Contains(guestAggregate.Id, eventAggregate.EventParticipants);
     }
     
@@ -85,10 +84,9 @@ public class ParticipateInPublicEventUnitTests
             .WithCapacity(EventCapacity.Create(25).PayLoad)
             .WithTimeInterval(EventTimeInterval.Create(
                 new DateTime(2023,8,20,19,0,0), 
-                new DateTime(2023,8,20,21,0,0),
-                _timeProvider).PayLoad)
+                new DateTime(2023,8,20,21,0,0)).PayLoad)
             .Build();
-        var result = eventAggregate.ParticipateInPublicEvent(guestAggregate.Id);
+        var result = eventAggregate.ParticipateInPublicEvent(guestAggregate.Id, _timeProvider);
         Assert.Equal(EventAggregateErrors.CantParticipateIfEventIsNotActive, result.Errors.First());
     }
     // UC11.F1
@@ -109,10 +107,9 @@ public class ParticipateInPublicEventUnitTests
             .WithCapacity(EventCapacity.Create(25).PayLoad)
             .WithTimeInterval(EventTimeInterval.Create(
                 new DateTime(2023,8,20,19,0,0), 
-                new DateTime(2023,8,20,21,0,0),
-                _timeProvider).PayLoad)
+                new DateTime(2023,8,20,21,0,0)).PayLoad)
             .Build();
-        var result = eventAggregate.ParticipateInPublicEvent(guestAggregate.Id);
+        var result = eventAggregate.ParticipateInPublicEvent(guestAggregate.Id, _timeProvider);
         Assert.Equal(EventAggregateErrors.CantParticipateIfEventIsNotActive, result.Errors.First());
     }
     
@@ -134,10 +131,9 @@ public class ParticipateInPublicEventUnitTests
             .WithCapacity(EventCapacity.Create(25).PayLoad)
             .WithTimeInterval(EventTimeInterval.Create(
                 new DateTime(2023,8,20,19,0,0), 
-                new DateTime(2023,8,20,21,0,0),
-                _timeProvider).PayLoad)
+                new DateTime(2023,8,20,21,0,0)).PayLoad)
             .Build();
-        var result = eventAggregate.ParticipateInPublicEvent(guestAggregate.Id);
+        var result = eventAggregate.ParticipateInPublicEvent(guestAggregate.Id, _timeProvider);
         Assert.Equal(EventAggregateErrors.CantParticipateIfEventIsNotActive, result.Errors.First());
     }
     
@@ -159,15 +155,14 @@ public class ParticipateInPublicEventUnitTests
             .WithCapacity(EventCapacity.Create(25).PayLoad)
             .WithTimeInterval(EventTimeInterval.Create(
                 new DateTime(2023,8,20,19,0,0), 
-                new DateTime(2023,8,20,21,0,0),
-                _timeProvider).PayLoad)
+                new DateTime(2023,8,20,21,0,0)).PayLoad)
             .Build();
         for (var i = 0; i < 25; i++)
         {
             var guestAggregate1 = GuestFactory.Init().Build();
-            eventAggregate.ParticipateInPublicEvent(guestAggregate1.Id);
+            eventAggregate.ParticipateInPublicEvent(guestAggregate1.Id,_timeProvider);
         }
-        var result = eventAggregate.ParticipateInPublicEvent(guestAggregate.Id);
+        var result = eventAggregate.ParticipateInPublicEvent(guestAggregate.Id,_timeProvider);
         Assert.Equal(EventAggregateErrors.EventCapacityExceeded, result.Errors.First());
     }
     
@@ -189,13 +184,12 @@ public class ParticipateInPublicEventUnitTests
             .WithCapacity(EventCapacity.Create(25).PayLoad)
             .WithTimeInterval(EventTimeInterval.Create(
                 new DateTime(2023,7,21,19,0,0), 
-                new DateTime(2023,7,21,21,0,0),
-                _timeProvider).PayLoad)
+                new DateTime(2023,7,21,21,0,0)).PayLoad)
             .Build();
 
-        eventAggregate!.EventTimeInterval!.CurrentTimeProvider = new FakeTimeProvider(new DateTime(2023,8,20,21,0,0));
+        var futureTimeProvider = new FakeTimeProvider(new DateTime(2023,8,20,21,0,0));
         
-        var result = eventAggregate.ParticipateInPublicEvent(guestAggregate.Id);
+        var result = eventAggregate.ParticipateInPublicEvent(guestAggregate.Id,futureTimeProvider);
         Assert.Equal(EventAggregateErrors.CanNotParticipateInPastEvent, result.Errors.First());
     }
     
@@ -217,7 +211,7 @@ public class ParticipateInPublicEventUnitTests
             .WithCapacity(EventCapacity.Create(25).PayLoad)
             .Build();
         
-        var result = eventAggregate.ParticipateInPublicEvent(guestAggregate.Id);
+        var result = eventAggregate.ParticipateInPublicEvent(guestAggregate.Id, _timeProvider);
         Assert.Equal(EventAggregateErrors.CanNotParticipateInUndatedEvent, result.Errors.First());
         Assert.Null(eventAggregate.EventTimeInterval);
     }
@@ -240,10 +234,9 @@ public class ParticipateInPublicEventUnitTests
             .WithCapacity(EventCapacity.Create(25).PayLoad)
             .WithTimeInterval(EventTimeInterval.Create(
                 new DateTime(2023,8,20,19,0,0), 
-                new DateTime(2023,8,20,21,0,0),
-                _timeProvider).PayLoad)
+                new DateTime(2023,8,20,21,0,0)).PayLoad)
             .Build();
-        var result = eventAggregate.ParticipateInPublicEvent(guestAggregate.Id);
+        var result = eventAggregate.ParticipateInPublicEvent(guestAggregate.Id, _timeProvider);
         Assert.Equal(EventAggregateErrors.CantParticipateInPrivateEvent, result.Errors.First());
     }
     
@@ -265,11 +258,10 @@ public class ParticipateInPublicEventUnitTests
             .WithCapacity(EventCapacity.Create(25).PayLoad)
             .WithTimeInterval(EventTimeInterval.Create(
                 new DateTime(2023,8,20,19,0,0), 
-                new DateTime(2023,8,20,21,0,0),
-                _timeProvider).PayLoad)
+                new DateTime(2023,8,20,21,0,0)).PayLoad)
             .Build();
-        eventAggregate.ParticipateInPublicEvent(guestAggregate.Id);
-        var result = eventAggregate.ParticipateInPublicEvent(guestAggregate.Id);
+        eventAggregate.ParticipateInPublicEvent(guestAggregate.Id, _timeProvider);
+        var result = eventAggregate.ParticipateInPublicEvent(guestAggregate.Id, _timeProvider);
         Assert.Equal(EventAggregateErrors.GuestAlreadyRegistered, result.Errors.First());
     }
     

@@ -8,7 +8,6 @@ public class EventTimeInterval : ValueObject
 {
     public DateTime Start { get; }
     public DateTime End { get; }
-    internal TimeProvider CurrentTimeProvider;
 
     // internal EventTimeInterval(DateTime start, DateTime end)
     // {
@@ -17,42 +16,31 @@ public class EventTimeInterval : ValueObject
     //     CurrentTimeProvider = TimeProvider.System;
     // }
     
-    internal EventTimeInterval(DateTime start, DateTime end, TimeProvider? provider = null)
+    internal EventTimeInterval(DateTime start, DateTime end)
     {
         Start = start;
         End = end;
-        CurrentTimeProvider = provider ?? TimeProvider.System;
-    }
-    
-    private EventTimeInterval(DateTime start, DateTime end)
-    {
-        Start = start;
-        End = end;
-        CurrentTimeProvider = TimeProvider.System;
     }
 
 
-    public static Result<EventTimeInterval> Create(DateTime start, DateTime end, TimeProvider? currentTimeProvider = null)
+    public static Result<EventTimeInterval> Create(DateTime start, DateTime end)
     {
-        var validationResult = Validate(start, end, currentTimeProvider);
+        var validationResult = Validate(start, end);
         return validationResult.Match<Result<EventTimeInterval>>(
-            onPayLoad: _ => new EventTimeInterval(start, end, currentTimeProvider),
+            onPayLoad: _ => new EventTimeInterval(start, end),
             onError: errors => errors); 
 
     }
     
     // validations
-    public static Result<Void> Validate(DateTime start, DateTime end, TimeProvider? currentTimeProvider = null)
+    public static Result<Void> Validate(DateTime start, DateTime end)
     {
-        currentTimeProvider ??= TimeProvider.System;
         if (start > end)
             return EventAggregateErrors.EndTimeBeforeStartTime;
         if(end - start < new TimeSpan(1, 0, 0))
             return EventAggregateErrors.EventDurationOufOfRange;
         if(end - start > new TimeSpan(10, 0, 0))
             return EventAggregateErrors.EventDurationOufOfRange;
-        if(start <= currentTimeProvider.GetLocalNow())
-            return EventAggregateErrors.EventInThePast;
         if(TimeOnly.FromDateTime(start) < new TimeOnly(8, 0))
             return EventAggregateErrors.TimeIntervalUnavailable;
         if(TimeOnly.FromDateTime(end) < new TimeOnly(8, 0) && TimeOnly.FromDateTime(end) > new TimeOnly(1, 0) )
@@ -65,7 +53,7 @@ public class EventTimeInterval : ValueObject
     public static Result<Void> Validate(EventTimeInterval interval)
     {
         
-        return Validate(interval.Start, interval.End, interval.CurrentTimeProvider);
+        return Validate(interval.Start, interval.End);
     }
     
 

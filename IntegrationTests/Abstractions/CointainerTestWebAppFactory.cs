@@ -7,9 +7,9 @@ using Testcontainers.PostgreSql;
 using ViaEventAssociation.Infrastructure.EfcDmPersistence.Context;
 using Xunit;
 
-namespace IntegrationTests.Endpoints;
+namespace IntegrationTests.Abstractions;
 
-public class IntegrationTestWebAppFactory : WebApplicationFactory<Program>, IAsyncLifetime
+public class CointainerTestWebAppFactory : WebApplicationFactory<Program>, IAsyncLifetime
 {
     private readonly PostgreSqlContainer _dbContainer = new PostgreSqlBuilder()
         .WithImage("postgres:latest")

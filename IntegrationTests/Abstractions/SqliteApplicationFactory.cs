@@ -5,14 +5,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Time.Testing;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
 using ViaEventAssociation.Infrastructure.EfcDmPersistence.Context;
 using ViaEventAssociation.Infrastructure.EfcQueries.Context;
-using Xunit;
 
-namespace IntegrationTests.Endpoints;
+namespace IntegrationTests.Abstractions;
 
-public class ViaWebApplicationFactory : WebApplicationFactory<Program>
+public class SqliteApplicationFactory : WebApplicationFactory<Program>
 {
     private IServiceCollection _serviceCollection;
     
@@ -20,14 +18,14 @@ public class ViaWebApplicationFactory : WebApplicationFactory<Program>
     {
         builder.ConfigureTestServices(services =>
         {
-            _serviceCollection = services;
-            
-            services.RemoveAll(typeof(DmContext));
-            services.RemoveAll(typeof(VeadatabaseProductionContext));
-            services.RemoveAll<DmContext>();
-            services.RemoveAll<VeadatabaseProductionContext>();
-
+            services.RemoveAll(typeof(DbContextOptions<DmContext>));
+            services.RemoveAll(typeof(DbContextOptions<VeadatabaseProductionContext>));
             services.AddDbContext<DmContext>(options =>
+            {
+                options.UseInMemoryDatabase(GetConnectionString());
+            });
+            
+            services.AddDbContext<VeadatabaseProductionContext>(options =>
             {
                 options.UseSqlite(GetConnectionString());
             });
@@ -40,7 +38,7 @@ public class ViaWebApplicationFactory : WebApplicationFactory<Program>
     private string GetConnectionString()
     {
         var databasePath =
-            "../../Infrastructure/ViaEventAssociation.Infrastructure.EfcDmPersistence/VEADatabaseProduction.db";
+            "../../Infrastructure/ViaEventAssociation.Infrastructure.EfcDmPersistence/TestProduction.db";
         return $"Data Source={databasePath}";
     }
 
@@ -50,7 +48,7 @@ public class ViaWebApplicationFactory : WebApplicationFactory<Program>
         dmContext.Database.EnsureDeleted();
         base.Dispose(disposing);
     }
-
+    
     private void SetupCleanDatabase(IServiceCollection services)
     {
         DmContext dmContext = services.BuildServiceProvider().GetService<DmContext>()!;

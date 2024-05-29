@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using IntegrationTests.Endpoints;
+using Microsoft.EntityFrameworkCore;
 using UnitTests.Features.Event;
 using ViaEventAssociation.Infrastructure.EfcDmPersistence.EventPersistence;
 using Xunit;
@@ -7,8 +8,8 @@ namespace IntegrationTests.Repositories;
 
 public class EventRepositoryTests : IClassFixture<EventSeedDataFixture>
 {
-    private readonly EventSeedDataFixture _fixture;
-    private readonly EventRepository _repository;
+    private EventSeedDataFixture _fixture;
+    private EventRepository _repository;
 
     public EventRepositoryTests(EventSeedDataFixture fixture)
     {

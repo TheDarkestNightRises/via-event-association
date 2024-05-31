@@ -3,7 +3,6 @@ using ViaEventAssociation.Core.Application.CommandDispatching.Commands.Event;
 using ViaEventAssociation.Core.Application.CommandDispatching.Dispatcher;
 using ViaEventAssociation.Core.Domain.Aggregates.Guest.Values;
 using ViaEventAssociation.Presentation.WebAPI.Common;
-using ViaEventAssociation.Presentation.WebAPI.Endpoints.Event.UpdateEventTitleEndpoint;
 
 namespace ViaEventAssociation.Presentation.WebAPI.Endpoints.Event.GuestIsInvitedToEventEndpoint;
 

@@ -149,7 +149,7 @@ public class EventAggregate : AggregateRoot<EventId>
         }
     }
 
-    public Result<Void> MakeEventReady()
+    public Result<Void> MakeEventReady(TimeProvider currentTimeProvider)
     {
         if (EventStatus is EventStatus.Cancelled)
         {
@@ -182,7 +182,7 @@ public class EventAggregate : AggregateRoot<EventId>
             return EventAggregateErrors.CanNotReadyAnEventWithNoTimeInterval;
         }
 
-        if (EventTimeInterval.Start < EventTimeInterval.CurrentTimeProvider.GetLocalNow())
+        if (EventTimeInterval.Start < currentTimeProvider.GetLocalNow())
         {
             return EventAggregateErrors.CanNotReadyAnEventWithTimeIntervalSetInThePast;
         }
@@ -207,11 +207,11 @@ public class EventAggregate : AggregateRoot<EventId>
     }
 
     // Make an event active
-    public Result<Void> MakeEventActive()
+    public Result<Void> MakeEventActive(TimeProvider currentTimeProvider)
     {
         if (EventStatus == EventStatus.Draft)
         {
-            Result<Void> makeEventReady = MakeEventReady();
+            Result<Void> makeEventReady = MakeEventReady(currentTimeProvider);
             makeEventReady.Match<Result<Void>>(
                 onPayLoad: _ =>
                 {
@@ -247,7 +247,7 @@ public class EventAggregate : AggregateRoot<EventId>
     }
 
 
-    public Result<Void> ParticipateInPublicEvent(GuestId guestId)
+    public Result<Void> ParticipateInPublicEvent(GuestId guestId, TimeProvider currentTimeProvider)
     {
         if (EventVisibility is EventVisibility.Private)
         {
@@ -274,7 +274,7 @@ public class EventAggregate : AggregateRoot<EventId>
             return EventAggregateErrors.CanNotParticipateInUndatedEvent;
         }
         
-        if(EventTimeInterval.Start <= EventTimeInterval.CurrentTimeProvider.GetLocalNow())
+        if(EventTimeInterval.Start <= currentTimeProvider.GetLocalNow())
         {
             return EventAggregateErrors.CanNotParticipateInPastEvent;
         }
@@ -283,9 +283,9 @@ public class EventAggregate : AggregateRoot<EventId>
         return new Void();
     }
 
-    public Result<Void> CancelParticipationInEvent(GuestId guestId)
+    public Result<Void> CancelParticipationInEvent(GuestId guestId, TimeProvider currentTimeProvider)
     {
-        if (EventTimeInterval is not null && EventTimeInterval.Start <= EventTimeInterval.CurrentTimeProvider.GetLocalNow())
+        if (EventTimeInterval is not null && EventTimeInterval.Start <= currentTimeProvider.GetLocalNow())
         {
             return EventAggregateErrors.CanNotCancelParticipationInPastOrOngoingEvent;
         }
@@ -299,7 +299,7 @@ public class EventAggregate : AggregateRoot<EventId>
         return new Void();
     }
 
-    public Result<Void> UpdateEventTimeInterval(EventTimeInterval interval)
+    public Result<Void> UpdateEventTimeInterval(EventTimeInterval interval, TimeProvider currentTimeProvider)
     {
         switch (EventStatus)
         {
@@ -312,6 +312,8 @@ public class EventAggregate : AggregateRoot<EventId>
                 return result.Match<Result<Void>>(
                     onPayLoad: _ =>
                     {
+                        if(interval.Start <= currentTimeProvider.GetLocalNow())
+                            return EventAggregateErrors.EventInThePast;
                         EventTimeInterval = interval;
                         if (EventStatus == EventStatus.Ready)
                             EventStatus = EventStatus.Draft;

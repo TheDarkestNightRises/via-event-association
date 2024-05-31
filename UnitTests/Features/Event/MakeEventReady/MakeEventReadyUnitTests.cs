@@ -7,7 +7,7 @@ namespace UnitTests.Features.Event.MakeEventReady;
 
 public class MakeEventReadyUnitTests
 {
-    private static TimeProvider? _timeProvider;
+    private TimeProvider _timeProvider;
 
     public MakeEventReadyUnitTests()
     {
@@ -26,10 +26,9 @@ public class MakeEventReadyUnitTests
             .WithCapacity(EventCapacity.Create(25).PayLoad)
             .WithTimeInterval(EventTimeInterval.Create(
                 new DateTime(2023,8,20,19,0,0), 
-                new DateTime(2023,8,20,21,0,0),
-                _timeProvider).PayLoad)
+                new DateTime(2023,8,20,21,0,0)).PayLoad)
             .Build();
-        eventAggregate.MakeEventReady();
+        eventAggregate.MakeEventReady(_timeProvider);
         Assert.Equal(EventStatus.Ready, eventAggregate.EventStatus);
     }
     
@@ -45,10 +44,9 @@ public class MakeEventReadyUnitTests
             .WithCapacity(EventCapacity.Create(25).PayLoad)
             .WithTimeInterval(EventTimeInterval.Create(
                 new DateTime(2023,8,20,19,0,0), 
-                new DateTime(2023,8,20,21,0,0),
-                _timeProvider).PayLoad)
+                new DateTime(2023,8,20,21,0,0)).PayLoad)
             .Build();
-        var result = eventAggregate.MakeEventReady();
+        var result = eventAggregate.MakeEventReady(_timeProvider);
         Assert.Equal(EventAggregateErrors.CanNotReadyAnEventWithDefaultTitle, result.Errors.First());
     }
     
@@ -64,10 +62,9 @@ public class MakeEventReadyUnitTests
             .WithCapacity(EventCapacity.Create(25).PayLoad)
             .WithTimeInterval(EventTimeInterval.Create(
                 new DateTime(2023,8,20,19,0,0), 
-                new DateTime(2023,8,20,21,0,0),
-                _timeProvider).PayLoad)
+                new DateTime(2023,8,20,21,0,0)).PayLoad)
             .Build();
-        var result = eventAggregate.MakeEventReady();
+        var result = eventAggregate.MakeEventReady(_timeProvider);
         Assert.Equal(EventAggregateErrors.CanNotReadyAnEventWithNoTitle, result.Errors.First());
     }
     
@@ -83,10 +80,9 @@ public class MakeEventReadyUnitTests
             .WithCapacity(EventCapacity.Create(25).PayLoad)
             .WithTimeInterval(EventTimeInterval.Create(
                 new DateTime(2023,8,20,19,0,0), 
-                new DateTime(2023,8,20,21,0,0),
-                _timeProvider).PayLoad)
+                new DateTime(2023,8,20,21,0,0)).PayLoad)
             .Build();
-        var result = eventAggregate.MakeEventReady();
+        var result = eventAggregate.MakeEventReady(_timeProvider);
         Assert.Equal(EventAggregateErrors.CanNotReadyAnEventWithNoDescription, result.Errors.First());
     }
     
@@ -102,10 +98,9 @@ public class MakeEventReadyUnitTests
             .WithCapacity(EventCapacity.Create(25).PayLoad)
             .WithTimeInterval(EventTimeInterval.Create(
                 new DateTime(2023,8,20,19,0,0), 
-                new DateTime(2023,8,20,21,0,0),
-                _timeProvider).PayLoad)
+                new DateTime(2023,8,20,21,0,0)).PayLoad)
             .Build();
-        var result = eventAggregate.MakeEventReady();
+        var result = eventAggregate.MakeEventReady(_timeProvider);
         Assert.Equal(EventAggregateErrors.CanNotReadyAnEventWithNoVisibility, result.Errors.First());
     }
     
@@ -121,10 +116,9 @@ public class MakeEventReadyUnitTests
             .WithCapacity(new EventCapacity(4))
             .WithTimeInterval(EventTimeInterval.Create(
                 new DateTime(2023,8,20,19,0,0), 
-                new DateTime(2023,8,20,21,0,0),
-                _timeProvider).PayLoad)
+                new DateTime(2023,8,20,21,0,0)).PayLoad)
             .Build();
-        var result = eventAggregate.MakeEventReady();
+        var result = eventAggregate.MakeEventReady(_timeProvider);
         Assert.Equal(EventAggregateErrors.EventCapacityCannotBeNegative, result.Errors.First());
     }
     
@@ -140,10 +134,9 @@ public class MakeEventReadyUnitTests
             .WithCapacity(new EventCapacity(51))
             .WithTimeInterval(EventTimeInterval.Create(
                 new DateTime(2023,8,20,19,0,0), 
-                new DateTime(2023,8,20,21,0,0),
-                _timeProvider).PayLoad)
+                new DateTime(2023,8,20,21,0,0)).PayLoad)
             .Build();
-        var result = eventAggregate.MakeEventReady();
+        var result = eventAggregate.MakeEventReady(_timeProvider);
         Assert.Equal(EventAggregateErrors.EventCapacityExceeded, result.Errors.First());
     }
     
@@ -158,7 +151,7 @@ public class MakeEventReadyUnitTests
             .WithVisibility(EventVisibility.Public)
             .WithCapacity(new EventCapacity(40))
             .Build();
-        var result = eventAggregate.MakeEventReady();
+        var result = eventAggregate.MakeEventReady(_timeProvider);
         Assert.Equal(EventAggregateErrors.CanNotReadyAnEventWithNoTimeInterval, result.Errors.First());
     }
 
@@ -174,10 +167,9 @@ public class MakeEventReadyUnitTests
             .WithCapacity(EventCapacity.Create(25).PayLoad)
             .WithTimeInterval(EventTimeInterval.Create(
                 new DateTime(2023,8,20,19,0,0), 
-                new DateTime(2023,8,20,21,0,0),
-                _timeProvider).PayLoad)
+                new DateTime(2023,8,20,21,0,0)).PayLoad)
             .Build();
-        var result = eventAggregate.MakeEventReady();
+        var result = eventAggregate.MakeEventReady(_timeProvider);
         Assert.Equal(EventAggregateErrors.CancelledEventCanNotBeReadied, result.Errors.First());
     }
     
@@ -190,21 +182,20 @@ public class MakeEventReadyUnitTests
             .WithTitle(EventTitle.Create("Another Title").PayLoad)
             .WithTimeInterval(EventTimeInterval.Create(
                             new DateTime(2023,7,21,19,0,0), 
-                            new DateTime(2023,7,21,21,0,0),
-                            _timeProvider).PayLoad)
+                            new DateTime(2023,7,21,21,0,0)).PayLoad)
             .WithDescription(EventDescription.Create("Description").PayLoad)
             .WithVisibility(EventVisibility.Public)
             .WithCapacity(EventCapacity.Create(25).PayLoad)
             .Build();
         
         //set new current time after event has been created
-        eventAggregate.EventTimeInterval!.CurrentTimeProvider = new FakeTimeProvider(new DateTime(2023, 7, 22, 10, 0, 0));
+        var futureTimeProvider = new FakeTimeProvider(new DateTime(2023, 7, 22, 10, 0, 0));
         //this simulates the following: 
         // event created: 20/07/2023
         // date of event: 21/07/2023 , but still draft
         // user tries to make event ready on 22.07 but event is in the past
         
-        var result = eventAggregate.MakeEventReady();
+        var result = eventAggregate.MakeEventReady(futureTimeProvider);
         Assert.Equal(EventAggregateErrors.CanNotReadyAnEventWithTimeIntervalSetInThePast, result.Errors.First());
     }
     
@@ -220,10 +211,9 @@ public class MakeEventReadyUnitTests
             .WithCapacity(EventCapacity.Create(25).PayLoad)
             .WithTimeInterval(EventTimeInterval.Create(
                 new DateTime(2023,8,20,19,0,0), 
-                new DateTime(2023,8,20,21,0,0),
-                _timeProvider).PayLoad)
+                new DateTime(2023,8,20,21,0,0)).PayLoad)
             .Build();
-        var result = eventAggregate.MakeEventReady();
+        var result = eventAggregate.MakeEventReady(_timeProvider);
         Assert.Equal(EventAggregateErrors.CanNotReadyAnEventWithDefaultTitle, result.Errors.First());
     }
 }

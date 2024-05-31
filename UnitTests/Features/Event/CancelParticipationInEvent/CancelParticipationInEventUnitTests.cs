@@ -8,7 +8,7 @@ namespace UnitTests.Features.Event.CancelParticipationInEvent;
 
 public class CancelParticipationInEventUnitTests
 {
-    private static TimeProvider? _timeProvider;
+    private TimeProvider _timeProvider;
 
     public CancelParticipationInEventUnitTests()
     {
@@ -33,12 +33,11 @@ public class CancelParticipationInEventUnitTests
             .WithCapacity(EventCapacity.Create(25).PayLoad)
             .WithTimeInterval(EventTimeInterval.Create(
                 new DateTime(2023,8,20,19,0,0), 
-                new DateTime(2023,8,20,21,0,0),
-                _timeProvider).PayLoad)
+                new DateTime(2023,8,20,21,0,0)).PayLoad)
             .Build();
-        eventAggregate.ParticipateInPublicEvent(guestAggregate.Id);
+        eventAggregate.ParticipateInPublicEvent(guestAggregate.Id, _timeProvider);
         var initialNumberOfGuests = eventAggregate.EventParticipants.Count;
-        eventAggregate.CancelParticipationInEvent(guestAggregate.Id);
+        eventAggregate.CancelParticipationInEvent(guestAggregate.Id, _timeProvider);
         Assert.Equal(initialNumberOfGuests - 1, eventAggregate.EventParticipants.Count);
     }
     
@@ -60,12 +59,11 @@ public class CancelParticipationInEventUnitTests
             .WithCapacity(EventCapacity.Create(25).PayLoad)
             .WithTimeInterval(EventTimeInterval.Create(
                 new DateTime(2023,8,20,19,0,0), 
-                new DateTime(2023,8,20,21,0,0),
-                _timeProvider).PayLoad)
+                new DateTime(2023,8,20,21,0,0)).PayLoad)
             .Build();
-        eventAggregate.ParticipateInPublicEvent(guestAggregate.Id);
+        eventAggregate.ParticipateInPublicEvent(guestAggregate.Id, _timeProvider);
         var initialNumberOfGuests = eventAggregate.EventParticipants.Count;
-        eventAggregate.CancelParticipationInEvent(guestAggregate.Id);
+        eventAggregate.CancelParticipationInEvent(guestAggregate.Id, _timeProvider);
         Assert.DoesNotContain(guestAggregate.Id, eventAggregate.EventParticipants);
     }
     
@@ -93,12 +91,11 @@ public class CancelParticipationInEventUnitTests
             .WithCapacity(EventCapacity.Create(25).PayLoad)
             .WithTimeInterval(EventTimeInterval.Create(
                 new DateTime(2023,8,20,19,0,0), 
-                new DateTime(2023,8,20,21,0,0),
-                _timeProvider).PayLoad)
+                new DateTime(2023,8,20,21,0,0)).PayLoad)
             .Build();
         var initialNumberOfGuests = eventAggregate.EventParticipants.Count;
-        eventAggregate.ParticipateInPublicEvent(guestAggregate1.Id);
-        eventAggregate.CancelParticipationInEvent(guestAggregate2.Id);
+        eventAggregate.ParticipateInPublicEvent(guestAggregate1.Id,_timeProvider);
+        eventAggregate.CancelParticipationInEvent(guestAggregate2.Id,_timeProvider);
         Assert.Equal(initialNumberOfGuests + 1, eventAggregate.EventParticipants.Count);
     }
     
@@ -126,11 +123,10 @@ public class CancelParticipationInEventUnitTests
             .WithCapacity(EventCapacity.Create(25).PayLoad)
             .WithTimeInterval(EventTimeInterval.Create(
                 new DateTime(2023,8,20,19,0,0), 
-                new DateTime(2023,8,20,21,0,0),
-                _timeProvider).PayLoad)
+                new DateTime(2023,8,20,21,0,0)).PayLoad)
             .Build();
-        eventAggregate.ParticipateInPublicEvent(guestAggregate1.Id);
-        eventAggregate.CancelParticipationInEvent(guestAggregate2.Id);
+        eventAggregate.ParticipateInPublicEvent(guestAggregate1.Id, _timeProvider);
+        eventAggregate.CancelParticipationInEvent(guestAggregate2.Id, _timeProvider);
         Assert.DoesNotContain(guestAggregate2.Id, eventAggregate.EventParticipants);
     }
     
@@ -152,13 +148,12 @@ public class CancelParticipationInEventUnitTests
             .WithCapacity(EventCapacity.Create(25).PayLoad)
             .WithTimeInterval(EventTimeInterval.Create(
                 new DateTime(2023,8,20,19,0,0), 
-                new DateTime(2023,8,20,21,0,0),
-                _timeProvider).PayLoad)
+                new DateTime(2023,8,20,21,0,0)).PayLoad)
             .Build();
 
-        eventAggregate.ParticipateInPublicEvent(guestAggregate1.Id);
-        eventAggregate.EventTimeInterval!.CurrentTimeProvider = new FakeTimeProvider(new DateTime(2023, 9, 22, 10, 0, 0));
-        var result = eventAggregate.CancelParticipationInEvent(guestAggregate1.Id);
+        eventAggregate.ParticipateInPublicEvent(guestAggregate1.Id, _timeProvider);
+        var futureTimeProvider = new FakeTimeProvider(new DateTime(2023, 9, 22, 10, 0, 0));
+        var result = eventAggregate.CancelParticipationInEvent(guestAggregate1.Id, futureTimeProvider);
         Assert.True(result.IsFailure);
         Assert.Contains(guestAggregate1.Id, eventAggregate.EventParticipants);
         Assert.Equal(EventAggregateErrors.CanNotCancelParticipationInPastOrOngoingEvent, result.Errors.First());

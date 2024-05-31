@@ -43,11 +43,11 @@ public class InviteGuestToEventHandlerTests
             .WithTitle(new EventTitle("Title"))
             .WithDescription(new EventDescription("Description"))
             .WithVisibility(EventVisibility.Private)
+            .WithStatus(EventStatus.Active)
             .WithCapacity(new EventCapacity(10))
             .WithTimeInterval(EventTimeInterval.Create(
                 new DateTime(2023, 8, 20, 19, 0, 0),
-                new DateTime(2023, 8, 20, 21, 0, 0),
-                _timeProvider).PayLoad)
+                new DateTime(2023, 8, 20, 21, 0, 0)).PayLoad)
             .Build();
         A.CallTo(() => _repositoryMock.GetAsync(command.EventId)).Returns(originalEvent);
         A.CallTo(() => _guestRepositoryMock.GetAsync(command.GuestId)).Returns(GuestFactory.ValidGuest());

@@ -8,12 +8,12 @@ using Void = ViaEventAssociation.Core.Tools.OperationResult.Void;
 
 namespace ViaEventAssociation.Core.Application.Features.Event;
 
-public class CancelParticipationInEventCommandHandler(IEventRepository repository, IUnitOfWork uow) : ICommandHandler<CancelParticipationInEventCommand>
+public class CancelParticipationInEventCommandHandler(IEventRepository repository, IUnitOfWork uow, TimeProvider timeProvider) : ICommandHandler<CancelParticipationInEventCommand>
 {
     public async Task<Result<Void>> HandleAsync(CancelParticipationInEventCommand command)
     {
         var evt = await repository.GetAsync(command.Id);
-        var result = evt.CancelParticipationInEvent(command.GuestId);
+        var result = evt.CancelParticipationInEvent(command.GuestId, timeProvider);
 
         if (result.IsFailure)
         {

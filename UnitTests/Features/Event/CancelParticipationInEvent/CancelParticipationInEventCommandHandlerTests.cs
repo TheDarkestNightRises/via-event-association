@@ -13,7 +13,7 @@ namespace UnitTests.Features.Event.CancelParticipationInEvent;
 
 public class CancelParticipationInEventCommandHandlerTests
 {
-     private static TimeProvider? _timeProvider;
+     private TimeProvider _timeProvider;
     private readonly ITestOutputHelper _testOutputHelper;
     private EventAggregate evt;
     private FakeUoW uoW;
@@ -37,13 +37,12 @@ public class CancelParticipationInEventCommandHandlerTests
                     .WithCapacity(EventCapacity.Create(25).PayLoad)
                     .WithTimeInterval(EventTimeInterval.Create(
                         new DateTime(2023,8,20,19,0,0), 
-                        new DateTime(2023,8,20,21,0,0),
-                        _timeProvider).PayLoad)
+                        new DateTime(2023,8,20,21,0,0)).PayLoad)
                     .Build();
         evtRepo = new InMemEventRepoStub();
         evtRepo.Events.Add(evt);
         uoW = new FakeUoW();
-        handler = new CancelParticipationInEventCommandHandler(evtRepo, uoW);
+        handler = new CancelParticipationInEventCommandHandler(evtRepo, uoW, _timeProvider);
        
     }
     
@@ -53,7 +52,7 @@ public class CancelParticipationInEventCommandHandlerTests
         // Arrange
         Setup();
         var guestId = GuestId.Create();
-        evt.ParticipateInPublicEvent(guestId);
+        evt.ParticipateInPublicEvent(guestId, _timeProvider);
         var command = CancelParticipationInEventCommand.Create(evt.Id.Id.ToString()!,guestId.Id.ToString()).PayLoad;
         
         //Act
@@ -70,9 +69,11 @@ public class CancelParticipationInEventCommandHandlerTests
         Setup();
         var guestId = GuestId.Create();
         var command = CancelParticipationInEventCommand.Create(evt.Id.Id.ToString()!,guestId.Id.ToString());
-        evt.EventTimeInterval!.CurrentTimeProvider = new FakeTimeProvider(new DateTime(2023, 9, 20, 19, 0, 0));
+        var futureTimeProvider = new FakeTimeProvider(new DateTime(2023, 9, 20, 19, 0, 0));
+        
         //Act
-        var result = await handler.HandleAsync(command.PayLoad);
+        var futureHandler = new CancelParticipationInEventCommandHandler(evtRepo, uoW, futureTimeProvider);
+        var result = await futureHandler.HandleAsync(command.PayLoad);
         
         // Assert
         Assert.True(result.IsFailure);

@@ -10,14 +10,13 @@ public class UpdateTimeIntervalCommand
     private UpdateTimeIntervalCommand(EventId id, EventTimeInterval interval) =>
         (Id, EventTimeInterval) = (id, interval);
 
-    public static Result<UpdateTimeIntervalCommand> Create(string id, DateTime start, DateTime end,
-        TimeProvider? timeProvider = null)
+    public static Result<UpdateTimeIntervalCommand> Create(string id, DateTime start, DateTime end)
     {
         Result<EventId> idResult = EventId.FromString(id);
         if (idResult.IsFailure)
             return idResult.Errors;
         
-        Result<EventTimeInterval> timeIntervalResult = EventTimeInterval.Create(start, end, timeProvider); //TODO: remove time provider when implementation fixed
+        Result<EventTimeInterval> timeIntervalResult = EventTimeInterval.Create(start, end); //TODO: remove time provider when implementation fixed
         if (timeIntervalResult.IsFailure)
             return timeIntervalResult.Errors;
         

@@ -18,21 +18,22 @@ public class MakeEventReadyCommandHandlerTests
     private readonly MakeEventReadyCommand cmd;
     private readonly ICommandHandler<MakeEventReadyCommand> handler;
     private readonly EventStatus _eventStatus;
+    private TimeProvider _timeProvider;
 
     public MakeEventReadyCommandHandlerTests()
     {
+        _timeProvider = new FakeTimeProvider(new DateTime(2023,7,20,19,0,0));
         _repositoryMock = A.Fake<IEventRepository>();
         _uowMock = A.Fake<IUnitOfWork>();
         _eventId = Guid.NewGuid();
         cmd = MakeEventReadyCommand.Create(_eventId.ToString()).PayLoad;
-        handler = new MakeEventReadyCommandHandler(_repositoryMock, _uowMock);
+        handler = new MakeEventReadyCommandHandler(_repositoryMock, _uowMock, _timeProvider);
         _eventStatus = EventStatus.Ready;
     }
     
     [Fact]
     public async Task GivenValidCommand_WhenHandleAsync_ThenSuccess()
     {
-        var timeProvider = new FakeTimeProvider(new DateTime(2023,7,20,19,0,0));
         var originalEvent = EventFactory.Init()
             .WithStatus(EventStatus.Draft)
             .WithTitle(EventTitle.Create("Another title").PayLoad)
@@ -41,8 +42,7 @@ public class MakeEventReadyCommandHandlerTests
             .WithCapacity(EventCapacity.Create(25).PayLoad)
             .WithTimeInterval(EventTimeInterval.Create(
                 new DateTime(2023,8,20,19,0,0), 
-                new DateTime(2023,8,20,21,0,0),
-                timeProvider).PayLoad)
+                new DateTime(2023,8,20,21,0,0)).PayLoad)
             .Build();
         A.CallTo(() => _repositoryMock.GetAsync(cmd.Id)).Returns(originalEvent); 
 
@@ -66,8 +66,7 @@ public class MakeEventReadyCommandHandlerTests
             .WithCapacity(EventCapacity.Create(25).PayLoad)
             .WithTimeInterval(EventTimeInterval.Create(
                 new DateTime(2023,8,20,19,0,0), 
-                new DateTime(2023,8,20,21,0,0),
-                timeProvider).PayLoad)
+                new DateTime(2023,8,20,21,0,0)).PayLoad)
             .Build();
         A.CallTo(() => _repositoryMock.GetAsync(cmd.Id)).Returns(originalEvent); 
         

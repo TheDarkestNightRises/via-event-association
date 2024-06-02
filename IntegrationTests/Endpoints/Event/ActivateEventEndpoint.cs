@@ -17,7 +17,7 @@ public class ActivateEventEndpoint : BaseFunctionalTest
     [Fact]
     public async Task ActivateEvent_ValidInput_ShouldReturnOk()
     {
-        const string id = "40ed2fd9-2240-4791-895f-b9da1a1f64e4";
+        const string id = "0f8fad5b-d9cb-469f-a165-70867728950e";
         var request = new ActivateEventRequest(id); 
         var createdResponse = await Client.PostAsJsonAsync("/events/activate-event", request);
         Assert.True(createdResponse.StatusCode == HttpStatusCode.OK);

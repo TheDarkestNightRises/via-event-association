@@ -12,7 +12,7 @@ public class CreateNewEventCommandHandler(IEventRepository repository, IUnitOfWo
 {
     public async Task<Result<Void>> HandleAsync(CreateNewEventCommand command)
     {
-        var createdEvent = EventAggregate.Create();
+        var createdEvent = EventAggregate.Create(command.Id);
         await repository.AddAsync(createdEvent.PayLoad);
         await uow.SaveChangesAsync();
 

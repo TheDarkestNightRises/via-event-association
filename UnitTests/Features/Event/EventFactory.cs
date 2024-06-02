@@ -9,8 +9,7 @@ public class EventFactory
 
     private EventFactory()
     {
-        var id = EventId.Create();
-        _eventAggregate = EventAggregate.Create(id);
+        _eventAggregate = EventAggregate.Create();
     }
     
     public static EventFactory Init()

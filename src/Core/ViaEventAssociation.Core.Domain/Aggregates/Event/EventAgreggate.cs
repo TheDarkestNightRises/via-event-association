@@ -22,7 +22,7 @@ public class EventAggregate : AggregateRoot<EventId>
     internal List<Invitation> Invitations { get; set; } = [];
 
 
-    private EventAggregate(EventId id, EventTitle title, EventDescription description,
+    internal EventAggregate(EventId id, EventTitle title, EventDescription description,
         EventVisibility visibility, EventCapacity capacity,
         EventStatus status) : base(id)
     {
@@ -38,9 +38,8 @@ public class EventAggregate : AggregateRoot<EventId>
     {
     }
 
-    public static Result<EventAggregate> Create()
+    public static Result<EventAggregate> Create(EventId id)
     {
-        var id = EventId.Create();
         var statusResult = EventStatus.Draft;
         var capacityResult = EventCapacity.Create(5);
         var titleResult = EventTitle.Create("Working Title");
@@ -52,9 +51,9 @@ public class EventAggregate : AggregateRoot<EventId>
         return aggregate;
     }
 
-    internal static EventAggregate Create(EventId eventId)
+    internal static EventAggregate Create()
     {
-        return new EventAggregate(eventId);
+        return new EventAggregate(EventId.Create());
     }
 
     public void AddInvitation(Invitation invitation)
@@ -158,11 +157,12 @@ public class EventAggregate : AggregateRoot<EventId>
         }
 
         if (EventStatus is not EventStatus.Draft) return new Void();
-        var defaultTitle = Create().PayLoad.EventTitle;
+        var defaultTitle = new EventTitle("Working Title");
         var noTitle = new EventTitle("");
-        var noDescription = Create().PayLoad.EventDescription;
+        var noDescription = new EventDescription("");
         var minCapacity = EventCapacity.Create(5).PayLoad;
         var maxCapacity = EventCapacity.Create(50).PayLoad;
+        
         if (EventTitle == defaultTitle)
         {
             return EventAggregateErrors.CanNotReadyAnEventWithDefaultTitle;

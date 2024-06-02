@@ -22,12 +22,13 @@ public class UpcomingEventsQueryTest : IClassFixture<DataFixture>
     public async Task GivenEventPageQuery_WhenRequestingPageData_ReturnsNotNull()
     {
         // Arrange
-        var query = new UpcomingEventPage.Query(1, 1, "EventName");
+        var query = new UpcomingEventPage.Query(1, 1, "Soap Carving");
         
         // Act
         var result = await _queryHandler.HandleAsync(query);
-
+        
         // Assert
         Assert.NotNull(result);
+        Assert.NotNull(result.EventOverviews);
     }
 }

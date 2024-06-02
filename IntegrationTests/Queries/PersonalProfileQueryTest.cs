@@ -16,19 +16,22 @@ public class PersonalProfileQueryTest : IClassFixture<DataFixture>
     }
 
     
-    // Test id
     [Fact]
     public async Task GetAsync_GuestId_ReturnsGuest()
     {
         // Arrange
-        string expectedEmail = "";
-        string expectedFirstName = "";
-        string expectedLastName = "";
+        var expectedEmail = "283529@via.dk";
+        var expectedFullName = "Aanya Alvarado";
+        
+        var query = new PersonalProfilePage.Query("2e09e219-f919-46a8-91f7-e5a48874480b");
         
         // Act
-        var result = await _queryHandler.HandleAsync(new PersonalProfilePage.Query("34403069-d5a4-4c12-88e2-7ead0f377c81"));
-
+        var result = await _queryHandler.HandleAsync(query);
+        var personalProfile = result.PersonalProfile;
+        
         // Assert
         Assert.NotNull(result);
+        Assert.Equal(expectedEmail, personalProfile.Email);
+        Assert.Equal(expectedFullName, personalProfile.FullName);
     }
 }

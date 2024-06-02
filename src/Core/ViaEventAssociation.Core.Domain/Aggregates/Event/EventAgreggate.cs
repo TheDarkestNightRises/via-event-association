@@ -1,4 +1,5 @@
 ﻿using ViaEventAssociation.Core.Domain.Aggregates.Entity;
+using ViaEventAssociation.Core.Domain.Aggregates.Entity.Values;
 using ViaEventAssociation.Core.Domain.Aggregates.Event.Entities.InvitationEntity;
 using ViaEventAssociation.Core.Domain.Aggregates.Event.Entities.InvitationEntity.InvitationErrors;
 using ViaEventAssociation.Core.Domain.Aggregates.Event.EventErrors;
@@ -338,6 +339,60 @@ public class EventAggregate : AggregateRoot<EventId>
 
         var invitation = Invitation.Create(guestId);
         Invitations.Add(invitation.PayLoad);
+        return new Void();
+    }
+
+    public Result<Void> GuestAcceptsInvitation(GuestId guestId)
+    {
+        var invited = false;
+        if (EventStatus != EventStatus.Active)
+        {
+            return InvitationErrors.Invitation.EventMustBeActiveToAcceptInvitation;
+        }
+        foreach (var invitation in Invitations)
+        {
+            if (invitation.GuestId == guestId)
+            {
+                if (invitation.InvitationStatus is not InvitationStatus.Pending)
+                {
+                    return InvitationErrors.Invitation.InvitationMustBeInPendingToAccept;
+                }
+                
+                if (EventParticipants.Count >= (int)EventCapacity)
+                {
+                    return InvitationErrors.Invitation.EventShouldNotBeFullToAcceptInvitation;
+                }
+                invitation.InvitationStatus = InvitationStatus.Accepted;
+                invited = true;
+                EventParticipants.Add(guestId);
+            }
+        }
+        if (invited == false)
+        {
+            return InvitationErrors.Invitation.GuestHasNotBeenInvitedToTheEvent;  
+        }
+        return new Void();
+    }
+
+    public Result<Void> GuestDeclinesInvitation(GuestId guestId)
+    {
+        var invited = false;
+        foreach (var invitation in Invitations)
+        {
+            if (invitation.GuestId == guestId)
+            {
+                if (invitation.InvitationStatus == InvitationStatus.Accepted)
+                {
+                    EventParticipants.Remove(guestId);
+                }
+                invited = true;
+                invitation.InvitationStatus = InvitationStatus.Declined;
+            }
+        }
+        if (invited == false)
+        {
+            return InvitationErrors.Invitation.GuestHasNotBeenInvitedToTheEvent;  
+        }
         return new Void();
     }
 }

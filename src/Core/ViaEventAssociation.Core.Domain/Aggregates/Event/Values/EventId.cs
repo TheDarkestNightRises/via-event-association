@@ -7,7 +7,7 @@ public class EventId : ValueObject
 {
     public Guid Id { get; }
 
-    internal EventId()
+    public EventId()
     {
         Id = Guid.NewGuid();
     }

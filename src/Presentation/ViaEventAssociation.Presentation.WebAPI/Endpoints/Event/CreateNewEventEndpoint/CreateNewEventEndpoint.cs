@@ -3,10 +3,11 @@ using ViaEventAssociation.Core.Application.CommandDispatching.Commands.Event;
 using ViaEventAssociation.Core.Application.CommandDispatching.Dispatcher;
 using ViaEventAssociation.Core.Tools.ObjectMapper;
 using ViaEventAssociation.Presentation.WebAPI.Common;
+using ViaEventAssociation.Presentation.WebAPI.Filters;
 
 namespace ViaEventAssociation.Presentation.WebAPI.Endpoints.Event.CreateNewEventEndpoint;
 
-public class CreateNewEventEndpoint(ICommandDispatcher dispatcher,IMapper mapper) : ApiEndpoint
+public class CreateNewEventEndpoint(ICommandDispatcher dispatcher, IMapper mapper) : ApiEndpoint
     .WithoutRequest
     .WithResponse<CreateNewEventResponse>
 {
@@ -15,9 +16,7 @@ public class CreateNewEventEndpoint(ICommandDispatcher dispatcher,IMapper mapper
     {
         var command = CreateNewEventCommand.Create().PayLoad;
         var result = await dispatcher.DispatchAsync(command);
-        return result.IsSuccess
-            ? Ok(new CreateNewEventResponse(command.Id.Id)) 
-            : BadRequest();
+        return result.ToResponse(_ => new CreateNewEventResponse(command.Id.Id));
     }
 }
 

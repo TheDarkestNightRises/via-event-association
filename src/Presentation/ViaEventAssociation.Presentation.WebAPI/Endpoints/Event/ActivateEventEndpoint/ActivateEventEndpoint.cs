@@ -11,21 +11,14 @@ public class ActivateEventEndpoint(ICommandDispatcher dispatcher, IMapper mapper
     .WithoutResponse
 {
     [HttpPost("/events/activate-event")]
-    public override async Task<ActionResult> HandleAsync(
-        [FromBody] ActivateEventRequest request)
+    public override async Task<ActionResult> HandleAsync([FromBody] ActivateEventRequest request)
     {
-        try
-        {
-            var cmdResult = CreatorActivatesAnEventCommand.Create(request.EventId);
-            if (cmdResult.IsFailure)
-                return BadRequest(cmdResult.Errors);
-            var result = await dispatcher.DispatchAsync(cmdResult.PayLoad);
-            return result.IsSuccess ? Ok() : BadRequest(result.Errors);
-        }
-        catch (Exception e)
-        {
-            return StatusCode(500, e.Message);
-        }
+        var cmdResult = CreatorActivatesAnEventCommand.Create(request.EventId);
+        if (cmdResult.IsFailure)
+            return BadRequest(cmdResult.Errors);
+        var result = await dispatcher.DispatchAsync(cmdResult.PayLoad);
+        return result.IsSuccess ? Ok() : BadRequest(result.Errors);
     }
 }
+
 public record ActivateEventRequest(string EventId);

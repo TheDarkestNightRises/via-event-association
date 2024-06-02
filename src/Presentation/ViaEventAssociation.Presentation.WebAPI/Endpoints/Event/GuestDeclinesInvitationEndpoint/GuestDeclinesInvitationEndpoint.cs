@@ -9,24 +9,15 @@ public class GuestDeclinesInvitationEndpoint(ICommandDispatcher dispatcher) : Ap
     .WithRequest<GuestDeclinesInvitationEndpoint.GuestDeclinesInvitationRequest>
     .WithoutResponse
 {
-    
     [HttpPost("/events/guest-declines-invitation")]
     public override async Task<ActionResult> HandleAsync(GuestDeclinesInvitationRequest request)
     {
-        try
-        {
-            var cmdResult = GuestDeclinesInvitationCommand.Create(request.EventId, request.GuestId);
-            if (cmdResult.IsFailure)
-                return BadRequest(cmdResult.Errors);
-            var result = await dispatcher.DispatchAsync(cmdResult.PayLoad);
-            return result.IsSuccess ? Ok() : BadRequest(result.Errors);
-        }
-        catch (Exception e)
-        {
-            return StatusCode(500, e.Message);
-        }
+        var cmdResult = GuestDeclinesInvitationCommand.Create(request.EventId, request.GuestId);
+        if (cmdResult.IsFailure)
+            return BadRequest(cmdResult.Errors);
+        var result = await dispatcher.DispatchAsync(cmdResult.PayLoad);
+        return result.IsSuccess ? Ok() : BadRequest(result.Errors);
     }
-    
-    public record GuestDeclinesInvitationRequest(string EventId, string GuestId);
 
+    public record GuestDeclinesInvitationRequest(string EventId, string GuestId);
 }

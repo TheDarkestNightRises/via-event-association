@@ -11,21 +11,14 @@ public class CancelParticipationEndpoint(ICommandDispatcher dispatcher, IMapper 
     .WithoutResponse
 {
     [HttpPost("/event/cancel-participation")]
-    public override async Task<ActionResult> HandleAsync(
-        [FromBody] CancelParticipationRequest request)
+    public override async Task<ActionResult> HandleAsync([FromBody] CancelParticipationRequest request)
     {
-        try
-        {
-            var cmdResult = CancelParticipationInEventCommand.Create(request.EventId, request.GuestId);
-            if (cmdResult.IsFailure)
-                return BadRequest(cmdResult.Errors);
-            var result = await dispatcher.DispatchAsync(cmdResult.PayLoad);
-            return result.IsSuccess ? Ok() : BadRequest(result.Errors);
-        }
-        catch (Exception e)
-        {
-            return StatusCode(500, e.Message);
-        }
+        var cmdResult = CancelParticipationInEventCommand.Create(request.EventId, request.GuestId);
+        if (cmdResult.IsFailure)
+            return BadRequest(cmdResult.Errors);
+        var result = await dispatcher.DispatchAsync(cmdResult.PayLoad);
+        return result.IsSuccess ? Ok() : BadRequest(result.Errors);
     }
 }
+
 public record CancelParticipationRequest(string EventId, string GuestId);

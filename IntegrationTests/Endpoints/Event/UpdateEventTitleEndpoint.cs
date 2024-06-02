@@ -2,20 +2,17 @@
 using System.Net.Http.Json;
 using IntegrationTests.Abstractions;
 using ViaEventAssociation.Presentation.WebAPI.Endpoints.Event.CreateNewEventEndpoint;
-using ViaEventAssociation.Presentation.WebAPI.Endpoints.Queries;
 using Xunit;
 
 namespace IntegrationTests.Endpoints.Event;
 
-public class CreateNewEventEndpoint : BaseFunctionalTest
+public class UpdateEventTitleEndpoint : BaseFunctionalTest
 {
-    public CreateNewEventEndpoint(ViaWebApplicationFactory factory) : base(factory)
+    public UpdateEventTitleEndpoint(ViaWebApplicationFactory factory) : base(factory)
     {
-        
     }
     
-    [Fact]
-    public async Task CreateEvent_ValidInput_ShouldReturnOk()
+    public async Task UpdateEventTitle_ValidInput_ShouldReturnOk()
     {
         var createdResponse = await Client.PostAsync("/events/create/", null);
         var createdEventResponse = await createdResponse.Content.ReadFromJsonAsync<CreateNewEventResponse>();
@@ -23,4 +20,6 @@ public class CreateNewEventEndpoint : BaseFunctionalTest
         Assert.True(createdResponse.StatusCode == HttpStatusCode.OK);
         Assert.NotNull(createdEventResponse);
     }
+
+    
 }

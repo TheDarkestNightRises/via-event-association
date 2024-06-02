@@ -12,18 +12,11 @@ public class GuestAcceptsInvitationEndpoint(ICommandDispatcher dispatcher) : Api
     [HttpPost("/events/guest-accepts-invitation")]
     public override async Task<ActionResult> HandleAsync(GuestAcceptsInvitationRequest request)
     {
-        try
-        {
-            var cmdResult = GuestAcceptsInvitationCommand.Create(request.EventId, request.GuestId);
-            if (cmdResult.IsFailure)
-                return BadRequest(cmdResult.Errors);
-            var result = await dispatcher.DispatchAsync(cmdResult.PayLoad);
-            return result.IsSuccess ? Ok() : BadRequest(result.Errors);
-        }
-        catch (Exception e)
-        {
-            return StatusCode(500, e.Message);
-        }
+        var cmdResult = GuestAcceptsInvitationCommand.Create(request.EventId, request.GuestId);
+        if (cmdResult.IsFailure)
+            return BadRequest(cmdResult.Errors);
+        var result = await dispatcher.DispatchAsync(cmdResult.PayLoad);
+        return result.IsSuccess ? Ok() : BadRequest(result.Errors);
     }
 }
 

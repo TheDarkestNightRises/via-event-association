@@ -3,6 +3,7 @@ using ViaEventAssociation.Core.QueryContracts.Extensions;
 using ViaEventAssociation.Core.Tools.ObjectMapper;
 using ViaEventAssociation.Infrastructure.EfcDmPersistence.Extensions;
 using ViaEventAssociation.Infrastructure.EfcQueries.Extensions;
+using ViaEventAssociation.Presentation.WebAPI.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,8 +18,10 @@ builder.Services.RegisterQueryDispatcher();
 builder.Services.RegisterRepository();
 builder.Services.RegisterQueryHandlers();
 builder.Services.RegisterMapper();
-builder.Services.AddControllers();
-
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<GlobalExceptionFilterAttribute>();
+});
 
 var app = builder.Build();
 

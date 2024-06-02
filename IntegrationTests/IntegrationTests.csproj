@@ -29,10 +29,5 @@
       <ProjectReference Include="..\src\Presentation\ViaEventAssociation.Presentation.WebAPI\ViaEventAssociation.Presentation.WebAPI.csproj" />
       <ProjectReference Include="..\UnitTests\UnitTests.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Endpoints\Queries\" />
-      <Folder Include="Factories\" />
-    </ItemGroup>
     
 </Project>

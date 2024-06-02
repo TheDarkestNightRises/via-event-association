@@ -9,25 +9,15 @@ public class ParticipateInPublicEventEndpoint(ICommandDispatcher dispatcher) : A
     .WithRequest<ParticipateInPublicEventRequest>
     .WithoutResponse
 {
-    
     [HttpPost("/events/participate-event")]
     public override async Task<ActionResult> HandleAsync(ParticipateInPublicEventRequest request)
     {
-        try
-        {
-            var cmdResult = ParticipateInPublicEventCommand.Create(request.EventId, request.GuestId);
-            if (cmdResult.IsFailure)
-                return BadRequest(cmdResult.Errors);
-            var result = await dispatcher.DispatchAsync(cmdResult.PayLoad);
-            return result.IsSuccess ? Ok() : BadRequest(result.Errors);
-        }
-        catch (Exception e)
-        {
-            return StatusCode(500, e.Message);
-        }
+        var cmdResult = ParticipateInPublicEventCommand.Create(request.EventId, request.GuestId);
+        if (cmdResult.IsFailure)
+            return BadRequest(cmdResult.Errors);
+        var result = await dispatcher.DispatchAsync(cmdResult.PayLoad);
+        return result.IsSuccess ? Ok() : BadRequest(result.Errors);
     }
-    
 }
-    
-public record ParticipateInPublicEventRequest(string EventId, string GuestId);
 
+public record ParticipateInPublicEventRequest(string EventId, string GuestId);

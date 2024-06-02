@@ -9,23 +9,15 @@ public class MakeEventPublicEndpoint(ICommandDispatcher dispatcher) : ApiEndpoin
     .WithRequest<MakeEventPublicRequest>
     .WithoutResponse
 {
-    
     [HttpPost("/events/public-event")]
     public override async Task<ActionResult> HandleAsync([FromBody] MakeEventPublicRequest request)
     {
-        try
-        {
-            var cmdResult = MakeEventPublicCommand.Create(request.EventId);
-            if (cmdResult.IsFailure)
-                return BadRequest(cmdResult.Errors);
-            var result = await dispatcher.DispatchAsync(cmdResult.PayLoad);
-            return result.IsSuccess ? Ok() : BadRequest(result.Errors);
-        }
-        catch (Exception e)
-        {
-            return StatusCode(500, e.Message);
-        }
+        var cmdResult = MakeEventPublicCommand.Create(request.EventId);
+        if (cmdResult.IsFailure)
+            return BadRequest(cmdResult.Errors);
+        var result = await dispatcher.DispatchAsync(cmdResult.PayLoad);
+        return result.IsSuccess ? Ok() : BadRequest(result.Errors);
     }
 }
-    
+
 public record MakeEventPublicRequest(string EventId);

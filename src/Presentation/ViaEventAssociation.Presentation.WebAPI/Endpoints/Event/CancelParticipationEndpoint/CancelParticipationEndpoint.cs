@@ -3,6 +3,7 @@ using ViaEventAssociation.Core.Application.CommandDispatching.Commands.Event;
 using ViaEventAssociation.Core.Application.CommandDispatching.Dispatcher;
 using ViaEventAssociation.Core.Tools.ObjectMapper;
 using ViaEventAssociation.Presentation.WebAPI.Common;
+using ViaEventAssociation.Presentation.WebAPI.Filters;
 
 namespace ViaEventAssociation.Presentation.WebAPI.Endpoints.Event.CancelParticipationEndpoint;
 
@@ -10,14 +11,14 @@ public class CancelParticipationEndpoint(ICommandDispatcher dispatcher, IMapper 
     .WithRequest<CancelParticipationRequest>
     .WithoutResponse
 {
-    [HttpPost("/event/cancel-participation")]
+    [HttpPost("/events/cancel-participation")]
     public override async Task<ActionResult> HandleAsync([FromBody] CancelParticipationRequest request)
     {
         var cmdResult = CancelParticipationInEventCommand.Create(request.EventId, request.GuestId);
         if (cmdResult.IsFailure)
             return BadRequest(cmdResult.Errors);
         var result = await dispatcher.DispatchAsync(cmdResult.PayLoad);
-        return result.IsSuccess ? Ok() : BadRequest(result.Errors);
+        return result.ToResponse();
     }
 }
 

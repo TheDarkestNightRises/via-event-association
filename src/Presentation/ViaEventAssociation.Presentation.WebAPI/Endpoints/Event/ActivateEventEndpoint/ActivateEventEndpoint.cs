@@ -1,4 +1,6 @@
-﻿namespace ViaEventAssociation.Presentation.WebAPI.Endpoints.Event.ActivateEventEndpoint;
+﻿using ViaEventAssociation.Presentation.WebAPI.Filters;
+
+namespace ViaEventAssociation.Presentation.WebAPI.Endpoints.Event.ActivateEventEndpoint;
 
 using Microsoft.AspNetCore.Mvc;
 using ViaEventAssociation.Core.Application.CommandDispatching.Commands.Event;
@@ -17,7 +19,7 @@ public class ActivateEventEndpoint(ICommandDispatcher dispatcher, IMapper mapper
         if (cmdResult.IsFailure)
             return BadRequest(cmdResult.Errors);
         var result = await dispatcher.DispatchAsync(cmdResult.PayLoad);
-        return result.IsSuccess ? Ok() : BadRequest(result.Errors);
+        return result.ToResponse();
     }
 }
 

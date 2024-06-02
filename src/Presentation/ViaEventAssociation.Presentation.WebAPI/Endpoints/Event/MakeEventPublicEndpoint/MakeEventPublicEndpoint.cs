@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using ViaEventAssociation.Core.Application.CommandDispatching.Commands.Event;
 using ViaEventAssociation.Core.Application.CommandDispatching.Dispatcher;
 using ViaEventAssociation.Presentation.WebAPI.Common;
+using ViaEventAssociation.Presentation.WebAPI.Filters;
 
 namespace ViaEventAssociation.Presentation.WebAPI.Endpoints.Event.MakeEventPublicEndpoint;
 
@@ -16,7 +17,7 @@ public class MakeEventPublicEndpoint(ICommandDispatcher dispatcher) : ApiEndpoin
         if (cmdResult.IsFailure)
             return BadRequest(cmdResult.Errors);
         var result = await dispatcher.DispatchAsync(cmdResult.PayLoad);
-        return result.IsSuccess ? Ok() : BadRequest(result.Errors);
+        return result.ToResponse();
     }
 }
 

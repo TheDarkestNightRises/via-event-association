@@ -14,4 +14,13 @@ public static class HttpResponseHelper
         }
         return new BadRequestObjectResult(result.Errors);
     }
+    
+    public static ActionResult ToResponse<T>(this Result<T> result)
+    {
+        if (result.IsSuccess)
+        {
+            return new NoContentResult();
+        }
+        return new BadRequestObjectResult(result.Errors);
+    }
 }

@@ -3,6 +3,7 @@ using ViaEventAssociation.Core.Application.CommandDispatching.Commands.Event;
 using ViaEventAssociation.Core.Application.CommandDispatching.Dispatcher;
 using ViaEventAssociation.Core.Domain.Aggregates.Guest.Values;
 using ViaEventAssociation.Presentation.WebAPI.Common;
+using ViaEventAssociation.Presentation.WebAPI.Filters;
 
 namespace ViaEventAssociation.Presentation.WebAPI.Endpoints.Event.GuestIsInvitedToEventEndpoint;
 
@@ -20,7 +21,7 @@ public class GuestIsInvitedToEventEndpoint(ICommandDispatcher dispatcher) : ApiE
         }
 
         var result = await dispatcher.DispatchAsync(cmdResult.PayLoad);
-        return result.IsSuccess ? Ok() : BadRequest(result.Errors);
+        return result.ToResponse();
     }
 }
 

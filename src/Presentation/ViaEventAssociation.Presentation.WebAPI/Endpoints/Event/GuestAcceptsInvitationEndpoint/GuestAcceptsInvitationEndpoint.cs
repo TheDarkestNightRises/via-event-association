@@ -2,6 +2,7 @@
 using ViaEventAssociation.Core.Application.CommandDispatching.Commands.Guest;
 using ViaEventAssociation.Core.Application.CommandDispatching.Dispatcher;
 using ViaEventAssociation.Presentation.WebAPI.Common;
+using ViaEventAssociation.Presentation.WebAPI.Filters;
 
 namespace ViaEventAssociation.Presentation.WebAPI.Endpoints.Event.GuestAcceptsInvitationEndpoint;
 
@@ -16,7 +17,7 @@ public class GuestAcceptsInvitationEndpoint(ICommandDispatcher dispatcher) : Api
         if (cmdResult.IsFailure)
             return BadRequest(cmdResult.Errors);
         var result = await dispatcher.DispatchAsync(cmdResult.PayLoad);
-        return result.IsSuccess ? Ok() : BadRequest(result.Errors);
+        return result.ToResponse();
     }
 }
 

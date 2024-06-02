@@ -25,6 +25,4 @@ public class UpdateEventTitleEndpoint : BaseFunctionalTest
         Assert.NotNull(viaEvent);
         Assert.True(createdResponse.StatusCode == HttpStatusCode.OK);
     }
-
-    
 }

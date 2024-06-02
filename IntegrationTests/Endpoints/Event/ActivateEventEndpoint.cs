@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
 using IntegrationTests.Abstractions;
+using ViaEventAssociation.Core.Domain.Aggregates.Event.Values;
 using ViaEventAssociation.Presentation.WebAPI.Endpoints.Event.ActivateEventEndpoint;
 using ViaEventAssociation.Presentation.WebAPI.Endpoints.Event.CreateNewEventEndpoint;
 using Xunit;
@@ -16,10 +17,12 @@ public class ActivateEventEndpoint : BaseFunctionalTest
     [Fact]
     public async Task ActivateEvent_ValidInput_ShouldReturnOk()
     {
-        var request = new ActivateEventRequest("");
+        const string id = "40ed2fd9-2240-4791-895f-b9da1a1f64e4";
+        var request = new ActivateEventRequest(id); 
         var createdResponse = await Client.PostAsJsonAsync("/events/activate-event", request);
-        
         Assert.True(createdResponse.StatusCode == HttpStatusCode.OK);
+        var eventId = EventId.FromString(id);
+        var viaEvent = await DmContext.Events.FindAsync(eventId);
     }
     
     [Fact]

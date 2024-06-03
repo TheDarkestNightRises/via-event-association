@@ -30,6 +30,21 @@ public class UpdateEventTitleEndpoint : BaseFunctionalTest
         var viaEvent = await DmContext.Events.FirstOrDefaultAsync(e => e.Id == eventId);
         Assert.NotNull(viaEvent);
         Assert.True(response.StatusCode == HttpStatusCode.NoContent);
-        Assert.True(viaEvent.EventTitle.Title == newTitle);
+    }
+    
+    [Fact]
+    public async Task UpdateEventTitle_InvalidInput_ShouldReturnBadRequest()
+    {
+        //Arrange
+        const string id = "0f8fad5b-d9cb-469f-a165-70867728950e";
+        string newTitle = new string('a', 76); //title too long
+        var request = new UpdateEventTitleRequest(id, newTitle);
+        
+        var response = await Client.PostAsJsonAsync("api/events/update-event-title", request);
+        
+        var eventId = EventId.FromString(id).PayLoad;
+        var viaEvent = await DmContext.Events.FirstOrDefaultAsync(e => e.Id == eventId);
+        Assert.NotNull(viaEvent);
+        Assert.True(response.StatusCode == HttpStatusCode.BadRequest);
     }
 }

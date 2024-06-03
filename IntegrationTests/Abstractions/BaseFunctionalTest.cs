@@ -29,6 +29,7 @@ public class BaseFunctionalTest : IClassFixture<ViaWebApplicationFactory>
         DmContext.Database.EnsureDeleted();
         DmContext.Database.EnsureCreated();
         DmContext.Events.Add(EventFactory.ValidEvent());
+        DmContext.Events.Add(EventFactory.ActiveEvent());
         DmContext.SaveChanges();
     }
     

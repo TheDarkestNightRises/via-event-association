@@ -78,12 +78,12 @@
     - [x] value - GuestViaEmail
     - [x] value - GuestFirstName, GuestLastName
     - [x] value - GuestPictureUrl
-    - [ ] S1
+    - [x] S1
     - [x] F1
     - [x] F2
     - [x] F3
     - [x] F4
-    - [ ] F5 - needs repository pattern
+    - [x] F5 - needs repository pattern
     - [x] F6
     - [x] F7
 * [x] UC11 - Guest participates public event
@@ -101,18 +101,18 @@
     - [x] S1
     - [x] F1
     - [x] F2
-* [ ] UC14 - Guest accepts invitation
-    - [ ] S1
-    - [ ] F1
-    - [ ] F2
-    - [ ] F3
-    - [ ] F4
-* [ ] UC15 - Guest declines invitation
-    - [ ] S1
-    - [ ] S2
-    - [ ] F1
-    - [ ] F2
-    - [ ] F3
+* [x] UC14 - Guest accepts invitation
+    - [x] S1
+    - [x] F1
+    - [x] F2
+    - [x] F3
+    - [x] F4
+* [x] UC15 - Guest declines invitation
+    - [x] S1
+    - [x] S2
+    - [x] F1
+    - [x] F2
+    - [x] F3
 
 
 

@@ -84,6 +84,18 @@ public class EventFactory
     public static EventAggregate PrivateEvent()
     {
         return Init()
+            .WithId(new EventId(new Guid("f40879a0-4b77-4c8e-920e-4ac2e5580cb6")))
+            .WithTitle(new EventTitle("Title"))
+            .WithDescription(new EventDescription("Description"))
+            .WithVisibility(EventVisibility.Private)
+            .WithCapacity(new EventCapacity(10))
+            .Build();
+    }
+    
+    public static EventAggregate ActiveEvent()
+    {
+        return Init()
+            .WithId(new EventId(new Guid("2dec42aa-ed8e-491d-9cf1-8df9506707cb")))
             .WithTitle(new EventTitle("Title"))
             .WithDescription(new EventDescription("Description"))
             .WithVisibility(EventVisibility.Private)
@@ -95,7 +107,7 @@ public class EventFactory
     public static EventAggregate CanceledEvent()
     {
         return Init()
-            .WithId(new EventId(new Guid("0f8fad5b-d9cb-469f-a165-70867728950e")))
+            .WithId(new EventId(new Guid("f40879a0-4b77-4c8e-920e-4ac2e5580cb6")))
             .WithTitle(new EventTitle("Title"))
             .WithDescription(new EventDescription("Description"))
             .WithCapacity(new EventCapacity(10))

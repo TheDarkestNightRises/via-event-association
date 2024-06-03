@@ -21,7 +21,7 @@ public class MakeEventPrivateEndpoint : BaseFunctionalTest
     {
         const string id = "0f8fad5b-d9cb-469f-a165-70867728950e";
         var request = new MakeEventPrivateRequest(id); 
-        var createdResponse = await Client.PostAsJsonAsync("/events/private-event", request);
+        var createdResponse = await Client.PostAsJsonAsync("api/events/private-event", request);
         var eventId = EventId.FromString(id).PayLoad;
         var viaEvent = await DmContext.Events.FirstOrDefaultAsync(e => e.Id == eventId);
         Assert.True(createdResponse.StatusCode == HttpStatusCode.NoContent);
@@ -29,11 +29,12 @@ public class MakeEventPrivateEndpoint : BaseFunctionalTest
     }
     
     [Fact]
-     public async Task ActivateEvent_InvalidInput_ShouldReturnBadRequest()
+     public async Task MakeEventPrivateEndpoint_InvalidInput_ShouldReturnBadRequest()
      {
-         var request = new ActivateEventRequest("c78d4475-4c0c-48d3-97e9-a494b69c1b51"); //Event does not exist
-         var response = await Client.PostAsJsonAsync("/events/activate-event", request);
+         const string id = "27bd6ad3-24ba-4e54-b299-c4b16ed1c127"; // Canceled event
+         var request = new MakeEventPrivateRequest(id); 
+         var response = await Client.PostAsJsonAsync("api/events/private-event", request);
          
-         Assert.False(response.StatusCode == HttpStatusCode.OK);
+         Assert.False(response.StatusCode == HttpStatusCode.NoContent);
      }
 }

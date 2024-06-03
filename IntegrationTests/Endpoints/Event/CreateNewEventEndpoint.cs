@@ -18,7 +18,7 @@ public class CreateNewEventEndpoint : BaseFunctionalTest
     [Fact]
     public async Task CreateNewEvent_ValidInput_ShouldReturnOk()
     {
-        var createdResponse = await Client.PostAsync("/events/create/", null);
+        var createdResponse = await Client.PostAsync("api/events/create/", null);
         var createdEventResponse = await createdResponse.Content.ReadFromJsonAsync<CreateNewEventResponse>();
         Assert.NotNull(createdEventResponse);
         var eventId = EventId.FromGuid(createdEventResponse.Id);

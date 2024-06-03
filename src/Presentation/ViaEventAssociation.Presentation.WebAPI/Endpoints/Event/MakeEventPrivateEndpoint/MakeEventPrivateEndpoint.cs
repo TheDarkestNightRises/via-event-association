@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using ViaEventAssociation.Core.Application.CommandDispatching.Commands.Event;
 using ViaEventAssociation.Core.Application.CommandDispatching.Dispatcher;
 using ViaEventAssociation.Core.Tools.ObjectMapper;
-using ViaEventAssociation.Presentation.WebAPI.Common;
+using ViaEventAssociation.Presentation.WebAPI.Endpoints.Common;
 using ViaEventAssociation.Presentation.WebAPI.Filters;
 
 namespace ViaEventAssociation.Presentation.WebAPI.Endpoints.Event.MakeEventPrivateEndpoint;
@@ -11,7 +11,7 @@ public class MakeEventPrivateEndpoint(ICommandDispatcher dispatcher) : ApiEndpoi
     .WithRequest<MakeEventPrivateRequest>
     .WithoutResponse
 {
-    [HttpPost("/events/private-event")]
+    [HttpPost("events/private-event")]
     public override async Task<ActionResult> HandleAsync([FromBody] MakeEventPrivateRequest request)
     {
         var cmdResult = MakeEventPrivateCommand.Create(request.EventId);

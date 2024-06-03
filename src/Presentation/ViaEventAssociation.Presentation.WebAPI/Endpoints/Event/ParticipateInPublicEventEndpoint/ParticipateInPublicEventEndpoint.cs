@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ViaEventAssociation.Core.Application.CommandDispatching.Commands.Event;
 using ViaEventAssociation.Core.Application.CommandDispatching.Dispatcher;
-using ViaEventAssociation.Presentation.WebAPI.Common;
+using ViaEventAssociation.Presentation.WebAPI.Endpoints.Common;
 using ViaEventAssociation.Presentation.WebAPI.Filters;
 
 namespace ViaEventAssociation.Presentation.WebAPI.Endpoints.Event.ParticipateInPublicEventEndpoint;
@@ -10,8 +10,8 @@ public class ParticipateInPublicEventEndpoint(ICommandDispatcher dispatcher) : A
     .WithRequest<ParticipateInPublicEventRequest>
     .WithoutResponse
 {
-    [HttpPost("/events/participate-event")]
-    public override async Task<ActionResult> HandleAsync(ParticipateInPublicEventRequest request)
+    [HttpPost("events/participate-event")]
+    public override async Task<ActionResult> HandleAsync([FromBody] ParticipateInPublicEventRequest request)
     {
         var cmdResult = ParticipateInPublicEventCommand.Create(request.EventId, request.GuestId);
         if (cmdResult.IsFailure)

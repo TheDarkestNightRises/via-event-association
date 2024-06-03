@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ViaEventAssociation.Core.Application.CommandDispatching.Commands.Event;
 using ViaEventAssociation.Core.Application.CommandDispatching.Dispatcher;
-using ViaEventAssociation.Presentation.WebAPI.Common;
+using ViaEventAssociation.Presentation.WebAPI.Endpoints.Common;
 using ViaEventAssociation.Presentation.WebAPI.Filters;
 
 namespace ViaEventAssociation.Presentation.WebAPI.Endpoints.Event.UpdateEventDescriptionEndpoint;
@@ -10,8 +10,8 @@ public class UpdateEventDescriptionEndpoint(ICommandDispatcher dispatcher) : Api
     .WithRequest<UpdateEventDescriptionRequest>
     .WithoutResponse
 {
-    [HttpPost("/events/update-event-description")]
-    public override async Task<ActionResult> HandleAsync(UpdateEventDescriptionRequest request)
+    [HttpPost("events/update-event-description")]
+    public override async Task<ActionResult> HandleAsync([FromBody] UpdateEventDescriptionRequest request)
     {
         var cmdResult = UpdateEventDescriptionCommand.Create(request.EventId, request.NewDescription);
         if (cmdResult.IsFailure)

@@ -2,8 +2,10 @@
 using System.Net;
 using System.Net.Http.Json;
 using IntegrationTests.Abstractions;
+using Microsoft.EntityFrameworkCore;
 using ViaEventAssociation.Core.Domain.Aggregates.Event.Values;
 using ViaEventAssociation.Presentation.WebAPI.Endpoints.Event.CreateNewEventEndpoint;
+using ViaEventAssociation.Presentation.WebAPI.Endpoints.Event.UpdateEventTitleEndpoint;
 using Xunit;
 
 namespace IntegrationTests.Endpoints.Event;
@@ -17,12 +19,17 @@ public class UpdateEventTitleEndpoint : BaseFunctionalTest
     [Fact]
     public async Task UpdateEventTitle_ValidInput_ShouldReturnOk()
     {
-        var createdResponse = await Client.PostAsync("/events/create/", null);
-        var createdEventResponse = await createdResponse.Content.ReadFromJsonAsync<CreateNewEventResponse>();
-        Assert.NotNull(createdEventResponse);
-        var eventId = EventId.FromGuid(createdEventResponse.Id);
-        var viaEvent = DmContext.Events.SingleOrDefault(evt => evt.Id == eventId);
+        //Arrange
+        const string id = "0f8fad5b-d9cb-469f-a165-70867728950e";
+        var newTitle = "damm";
+        var request = new UpdateEventTitleRequest(id, newTitle);
+        
+        var response = await Client.PostAsJsonAsync("api/events/update-event-title", request);
+        
+        var eventId = EventId.FromString(id).PayLoad;
+        var viaEvent = await DmContext.Events.FirstOrDefaultAsync(e => e.Id == eventId);
         Assert.NotNull(viaEvent);
-        Assert.True(createdResponse.StatusCode == HttpStatusCode.OK);
+        Assert.True(response.StatusCode == HttpStatusCode.NoContent);
+        Assert.True(viaEvent.EventTitle.Title == newTitle);
     }
 }

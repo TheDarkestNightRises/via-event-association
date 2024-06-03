@@ -2,7 +2,7 @@
 using ViaEventAssociation.Core.QueryContracts.Queries;
 using ViaEventAssociation.Core.QueryContracts.QueryDispatching;
 using ViaEventAssociation.Core.Tools.ObjectMapper;
-using ViaEventAssociation.Presentation.WebAPI.Common;
+using ViaEventAssociation.Presentation.WebAPI.Endpoints.Common;
 
 namespace ViaEventAssociation.Presentation.WebAPI.Endpoints.Queries;
 
@@ -10,7 +10,7 @@ public class UpcomingEventsEndpoint(IQueryDispatcher dispatcher, IMapper mapper)
     .WithRequest<UpcomingEventsPageRequest>
     .WithResponse<UpcomingEventsResponse>
 {
-    [HttpGet("/upcoming-events/")]
+    [HttpGet("upcoming-events/")]
     public override async Task<ActionResult<UpcomingEventsResponse>> HandleAsync([FromQuery] UpcomingEventsPageRequest request)
     {
         var query = mapper.Map<UpcomingEventPage.Query>(request);

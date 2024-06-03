@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
 using IntegrationTests.Abstractions;
+using Microsoft.EntityFrameworkCore;
 using ViaEventAssociation.Core.Domain.Aggregates.Event.Values;
 using ViaEventAssociation.Presentation.WebAPI.Endpoints.Event.ActivateEventEndpoint;
 using ViaEventAssociation.Presentation.WebAPI.Endpoints.Event.CreateNewEventEndpoint;
@@ -20,9 +21,9 @@ public class ActivateEventEndpoint : BaseFunctionalTest
         const string id = "0f8fad5b-d9cb-469f-a165-70867728950e";
         var request = new ActivateEventRequest(id); 
         var createdResponse = await Client.PostAsJsonAsync("/events/activate-event", request);
+        var eventId = EventId.FromString(id).PayLoad;
+        var viaEvent = await DmContext.Events.FirstOrDefaultAsync(e => e.Id == eventId);
         Assert.True(createdResponse.StatusCode == HttpStatusCode.OK);
-        var eventId = EventId.FromString(id);
-        var viaEvent = await DmContext.Events.FindAsync(eventId);
     }
     
     [Fact]

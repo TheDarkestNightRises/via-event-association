@@ -21,7 +21,8 @@ public class CreateNewEventEndpoint : BaseFunctionalTest
         var createdResponse = await Client.PostAsync("/events/create/", null);
         var createdEventResponse = await createdResponse.Content.ReadFromJsonAsync<CreateNewEventResponse>();
         Assert.NotNull(createdEventResponse);
-        var viaEvent = await DmContext.Events.FirstAsync();
+        var eventId = EventId.FromGuid(createdEventResponse.Id);
+        var viaEvent = DmContext.Events.SingleOrDefault(evt => evt.Id == eventId);
         Assert.NotNull(viaEvent);
         Assert.True(createdResponse.StatusCode == HttpStatusCode.OK);
     }

@@ -2,7 +2,7 @@
 using ViaEventAssociation.Core.QueryContracts.Queries;
 using ViaEventAssociation.Core.QueryContracts.QueryDispatching;
 using ViaEventAssociation.Core.Tools.ObjectMapper;
-using ViaEventAssociation.Presentation.WebAPI.Common;
+using ViaEventAssociation.Presentation.WebAPI.Endpoints.Common;
 
 namespace ViaEventAssociation.Presentation.WebAPI.Endpoints.Queries;
 
@@ -10,7 +10,7 @@ public class UnpublishedEventsEndpoint(IQueryDispatcher dispatcher, IMapper mapp
     .WithoutRequest
     .WithResponse<UnpublishedEventsResponse>
 {
-    [HttpGet("/unpublished-events")]
+    [HttpGet("unpublished-events")]
     public override async Task<ActionResult<UnpublishedEventsResponse>> HandleAsync()
     {
         var query = new UnpublishedEvents.Query();

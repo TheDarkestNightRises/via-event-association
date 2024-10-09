@@ -6,7 +6,7 @@ namespace UnitTests.Features.Event.UpdateStartAndEndTime;
 
 public class UpdateStartAndEndTimeTests
 {
-    private static TimeProvider? _timeProvider;
+    private TimeProvider _timeProvider;
 
     public UpdateStartAndEndTimeTests()
     {
@@ -30,13 +30,12 @@ public class UpdateStartAndEndTimeTests
             .WithStatus(EventStatus.Draft)
             .Build();
         
-        var timeInterval = new EventTimeInterval(
+        var timeInterval = EventTimeInterval.Create(
             new DateTime(start[0],start[1],start[2],start[3],start[4],start[5]), 
-            new DateTime(end[0],end[1],end[2],end[3],end[4],end[5]),
-            _timeProvider
-            );
+            new DateTime(end[0],end[1],end[2],end[3],end[4],end[5])
+            ).PayLoad;
         // Act
-        var result = eventAggregate.UpdateEventTimeInterval(timeInterval);
+        var result = eventAggregate.UpdateEventTimeInterval(timeInterval, _timeProvider);
         
         // Assert
         Assert.True(result.IsSuccess);
@@ -56,13 +55,12 @@ public class UpdateStartAndEndTimeTests
             .WithStatus(EventStatus.Ready)
             .Build();
         
-        var timeInterval = new EventTimeInterval(
+        var timeInterval = EventTimeInterval.Create(
             new DateTime(start[0],start[1],start[2],start[3],start[4],start[5]), 
-            new DateTime(end[0],end[1],end[2],end[3],end[4],end[5]),
-            _timeProvider
-        );
+            new DateTime(end[0],end[1],end[2],end[3],end[4],end[5])
+        ).PayLoad;
         // Act
-        var result = eventAggregate.UpdateEventTimeInterval(timeInterval);
+        var result = eventAggregate.UpdateEventTimeInterval(timeInterval, _timeProvider);
         
         // Assert
         Assert.True(result.IsSuccess);
@@ -82,14 +80,13 @@ public class UpdateStartAndEndTimeTests
         var eventAggregate = EventFactory.Init()
             .Build();
         
-        var timeInterval = new EventTimeInterval(
+        var timeInterval = EventTimeInterval.Create(
             new DateTime(start[0],start[1],start[2],start[3],start[4],start[5]), 
-            new DateTime(end[0],end[1],end[2],end[3],end[4],end[5]),
-            _timeProvider
-        );
+            new DateTime(end[0],end[1],end[2],end[3],end[4],end[5])
+        ).PayLoad;
         
         // Act
-        var result = eventAggregate.UpdateEventTimeInterval(timeInterval);
+        var result = eventAggregate.UpdateEventTimeInterval(timeInterval, _timeProvider);
         
         // Assert
         Assert.True(result.IsSuccess);
@@ -109,14 +106,13 @@ public class UpdateStartAndEndTimeTests
         var eventAggregate = EventFactory.Init()
             .Build();
         
-        var timeInterval = new EventTimeInterval(
+        var timeInterval = EventTimeInterval.Create(
             new DateTime(start[0],start[1],start[2],start[3],start[4],start[5]), 
-            new DateTime(end[0],end[1],end[2],end[3],end[4],end[5]),
-            _timeProvider
-        );
+            new DateTime(end[0],end[1],end[2],end[3],end[4],end[5])
+        ).PayLoad;
         
         // Act
-        var result = eventAggregate.UpdateEventTimeInterval(timeInterval);
+        var result = eventAggregate.UpdateEventTimeInterval(timeInterval, _timeProvider);
         
         // Assert
         Assert.True(result.IsSuccess);
@@ -143,12 +139,11 @@ public class UpdateStartAndEndTimeTests
         
         var timeInterval = new EventTimeInterval(
             new DateTime(start[0],start[1],start[2],start[3],start[4],start[5]), 
-            new DateTime(end[0],end[1],end[2],end[3],end[4],end[5]),
-            _timeProvider
+            new DateTime(end[0],end[1],end[2],end[3],end[4],end[5])
         );
         
         // Act
-        var result = eventAggregate.UpdateEventTimeInterval(timeInterval);
+        var result = eventAggregate.UpdateEventTimeInterval(timeInterval, _timeProvider);
         
         // Assert
         Assert.True(result.IsFailure);
@@ -179,12 +174,11 @@ public class UpdateStartAndEndTimeTests
         
         var timeInterval = new EventTimeInterval(
             new DateTime(start[0],start[1],start[2],start[3],start[4],start[5]), 
-            new DateTime(end[0],end[1],end[2],end[3],end[4],end[5]),
-            _timeProvider
+            new DateTime(end[0],end[1],end[2],end[3],end[4],end[5])
         );
         
         // Act
-        var result = eventAggregate.UpdateEventTimeInterval(timeInterval);
+        var result = eventAggregate.UpdateEventTimeInterval(timeInterval, _timeProvider);
         
         // Assert
         Assert.True(result.IsFailure);
@@ -216,12 +210,11 @@ public class UpdateStartAndEndTimeTests
         
         var timeInterval = new EventTimeInterval(
             new DateTime(start[0],start[1],start[2],start[3],start[4],start[5]), 
-            new DateTime(end[0],end[1],end[2],end[3],end[4],end[5]),
-            _timeProvider
+            new DateTime(end[0],end[1],end[2],end[3],end[4],end[5])
         );
         
         // Act
-        var result = eventAggregate.UpdateEventTimeInterval(timeInterval);
+        var result = eventAggregate.UpdateEventTimeInterval(timeInterval, _timeProvider);
         
         // Assert
         Assert.True(result.IsFailure);
@@ -245,12 +238,11 @@ public class UpdateStartAndEndTimeTests
         
         var timeInterval = new EventTimeInterval(
             new DateTime(start[0],start[1],start[2],start[3],start[4],start[5]), 
-            new DateTime(end[0],end[1],end[2],end[3],end[4],end[5]),
-            _timeProvider
+            new DateTime(end[0],end[1],end[2],end[3],end[4],end[5])
         );
         
         // Act
-        var result = eventAggregate.UpdateEventTimeInterval(timeInterval);
+        var result = eventAggregate.UpdateEventTimeInterval(timeInterval, _timeProvider);
         
         // Assert
         Assert.True(result.IsFailure);
@@ -275,12 +267,11 @@ public class UpdateStartAndEndTimeTests
         
         var timeInterval = new EventTimeInterval(
             new DateTime(start[0],start[1],start[2],start[3],start[4],start[5]), 
-            new DateTime(end[0],end[1],end[2],end[3],end[4],end[5]),
-            _timeProvider
+            new DateTime(end[0],end[1],end[2],end[3],end[4],end[5])
         );
         
         // Act
-        var result = eventAggregate.UpdateEventTimeInterval(timeInterval);
+        var result = eventAggregate.UpdateEventTimeInterval(timeInterval, _timeProvider);
         
         // Assert
         Assert.True(result.IsFailure);
@@ -302,12 +293,11 @@ public class UpdateStartAndEndTimeTests
         
         var timeInterval = new EventTimeInterval(
             new DateTime(start[0],start[1],start[2],start[3],start[4],start[5]), 
-            new DateTime(end[0],end[1],end[2],end[3],end[4],end[5]),
-            _timeProvider
+            new DateTime(end[0],end[1],end[2],end[3],end[4],end[5])
         );
         
         // Act
-        var result = eventAggregate.UpdateEventTimeInterval(timeInterval);
+        var result = eventAggregate.UpdateEventTimeInterval(timeInterval, _timeProvider);
         
         // Assert
         Assert.True(result.IsFailure);

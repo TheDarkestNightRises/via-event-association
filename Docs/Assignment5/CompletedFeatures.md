@@ -39,12 +39,12 @@
 * [X] UC13 - Guest is invited to event
     - [X] Command
     - [X] Handler
-* [ ] UC14 - Guest accepts invitation
-    - [ ] Command
-    - [ ] Handler
-* [ ] UC15 - Guest declines invitation
-    - [ ] Command
-    - [ ] Handler
+* [x] UC14 - Guest accepts invitation
+    - [x] Command
+    - [x] Handler
+* [x] UC15 - Guest declines invitation
+    - [x] Command
+    - [x] Handler
 
 
 

@@ -18,15 +18,17 @@ public class CreateNewEventUnitTests
     [Fact]
     public void GivenEvent_WhenCreated_ThenStatusIsDraft()
     {
-        var result = EventAggregate.Create();
-        Assert.NotNull(result.PayLoad);
+        var eventId = new EventId();
+        var result = EventAggregate.Create(eventId);
+        Assert.NotNull(result);
         Assert.Equal(EventStatus.Draft, result.PayLoad.EventStatus);
     }
 
     [Fact]
     public void GivenEvent_WhenCreated_ThenCapacityIsFive()
     {
-        var result = EventAggregate.Create();
+        var eventId = new EventId();
+        var result = EventAggregate.Create(eventId);
         Assert.NotNull(result.PayLoad);
         Assert.Equal(5 , (int) result.PayLoad.EventCapacity);
     }
@@ -35,8 +37,8 @@ public class CreateNewEventUnitTests
     [Fact]
     public void GivenEvent__WhenEventIsCreated_ThenTitleIsSetToWorkingTitle()
     {
-
-        var result = EventAggregate.Create();
+        var eventId = new EventId();
+        var result = EventAggregate.Create(eventId);
         Assert.NotNull(result.PayLoad);        
         Assert.Equal("Working Title", (string) result.PayLoad.EventTitle);
     }
@@ -45,7 +47,8 @@ public class CreateNewEventUnitTests
     [Fact]
     public void GivenEvent_WhenCreated_ThenDescriptionIsEmpty()
     {
-        var result = EventAggregate.Create();
+        var eventId = new EventId();
+        var result = EventAggregate.Create(eventId);
         var eventDescription = result.PayLoad.EventDescription;
         Assert.NotNull(eventDescription);
         Assert.True((string) eventDescription == "");
@@ -55,7 +58,8 @@ public class CreateNewEventUnitTests
     [Fact]
     public void GivenEvent_WhenCreated_Then_VisibilityIsPrivate()
     {
-        var result = EventAggregate.Create();
+        var eventId = new EventId();
+        var result = EventAggregate.Create(eventId);
         Assert.NotNull(result.PayLoad);
         Assert.Equal(EventVisibility.Private, result.PayLoad.EventVisibility);
     }

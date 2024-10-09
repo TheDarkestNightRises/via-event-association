@@ -8,14 +8,14 @@ using Void = ViaEventAssociation.Core.Tools.OperationResult.Void;
 
 namespace ViaEventAssociation.Core.Application.Features.Event;
 
-public class UpdateTimeIntervalCommandHandler(IEventRepository repository, IUnitOfWork unitOfWork)
+public class UpdateTimeIntervalCommandHandler(IEventRepository repository, IUnitOfWork unitOfWork, TimeProvider timeProvider)
     : ICommandHandler<UpdateTimeIntervalCommand>
 {
-    public async Task<Result<Void>> HandleAsync(UpdateTimeIntervalCommand command) //TODO: add time provider when fixed
+    public async Task<Result<Void>> HandleAsync(UpdateTimeIntervalCommand command)
     {
         Console.WriteLine(command.Id);
         EventAggregate evt = await repository.GetAsync(command.Id);
-        Result<Void> result = evt.UpdateEventTimeInterval(command.EventTimeInterval);
+        Result<Void> result = evt.UpdateEventTimeInterval(command.EventTimeInterval, timeProvider);
         if (result.IsFailure)
             return result;
         await unitOfWork.SaveChangesAsync();

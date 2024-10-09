@@ -15,7 +15,7 @@ public class PersonalProfilePageQueryHandler(VeadatabaseProductionContext contex
             .Where(guest => guest.Id == query.GuestId)
             .Select(guest => new
             {
-                FullName = guest.FirstName + guest.LastName,
+                FullName = $"{guest.FirstName} {guest.LastName}",
                 guest.Email,
                 guest.PictureUrl
             }).FirstAsync();

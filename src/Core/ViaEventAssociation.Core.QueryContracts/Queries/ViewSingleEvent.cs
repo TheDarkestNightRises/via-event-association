@@ -14,6 +14,6 @@ public abstract class ViewSingleEvent
         string Start,
         string End,
         string Visibility,
-        int NumberOfGuests
+        int Capacity
     );
 }

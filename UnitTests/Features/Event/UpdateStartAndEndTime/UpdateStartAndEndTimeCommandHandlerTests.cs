@@ -13,7 +13,7 @@ namespace UnitTests.Features.Event.UpdateStartAndEndTime;
 
 public class UpdateStartAndEndTimeCommandHandlerTests
 {
-    private static TimeProvider? _timeProvider;
+    private TimeProvider _timeProvider;
     private readonly ITestOutputHelper _testOutputHelper;
     private EventAggregate evt;
     private FakeUoW uoW;
@@ -37,13 +37,12 @@ public class UpdateStartAndEndTimeCommandHandlerTests
                     .WithCapacity(EventCapacity.Create(25).PayLoad)
                     .WithTimeInterval(EventTimeInterval.Create(
                         new DateTime(2023,8,20,19,0,0), 
-                        new DateTime(2023,8,20,21,0,0),
-                        _timeProvider).PayLoad)
+                        new DateTime(2023,8,20,21,0,0)).PayLoad)
                     .Build();
         evtRepo = new InMemEventRepoStub();
         evtRepo.Events.Add(evt);
         uoW = new FakeUoW();
-        handler = new UpdateTimeIntervalCommandHandler(evtRepo, uoW);
+        handler = new UpdateTimeIntervalCommandHandler(evtRepo, uoW, _timeProvider);
        
     }
     
@@ -54,7 +53,7 @@ public class UpdateStartAndEndTimeCommandHandlerTests
         Setup();
         var start = DateTime.UtcNow.AddHours(1);
         var end = start.AddHours(2);
-        var command = UpdateTimeIntervalCommand.Create(evt.Id.Id.ToString()!, start, end, _timeProvider).PayLoad;
+        var command = UpdateTimeIntervalCommand.Create(evt.Id.Id.ToString()!, start, end).PayLoad;
         
         //Act
         var result = await handler.HandleAsync(command);
@@ -70,8 +69,8 @@ public class UpdateStartAndEndTimeCommandHandlerTests
         Setup();
         var start = DateTime.UtcNow.AddHours(1);
         var end = start.AddHours(2);
-        var command = UpdateTimeIntervalCommand.Create(evt.Id.Id.ToString()!, start, end, _timeProvider);
-        evt.MakeEventActive();
+        var command = UpdateTimeIntervalCommand.Create(evt.Id.Id.ToString()!, start, end);
+        evt.MakeEventActive(_timeProvider);
         //Act
         var result = await handler.HandleAsync(command.PayLoad);
         

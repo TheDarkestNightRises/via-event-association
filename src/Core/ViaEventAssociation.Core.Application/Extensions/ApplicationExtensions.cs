@@ -27,6 +27,7 @@ public static class ApplicationExtensions
         
         //Guest
         services.AddScoped<ICommandHandler<RegisterNewAccountCommand>, RegisterNewAccountCommandHandler>();
-
+        services.AddScoped<ICommandHandler<GuestAcceptsInvitationCommand>, GuestAcceptsInvitationCommandHandler>();
+        services.AddScoped<ICommandHandler<GuestDeclinesInvitationCommand>, GuestDeclinesInvitationCommandHandler>();
     }
 }

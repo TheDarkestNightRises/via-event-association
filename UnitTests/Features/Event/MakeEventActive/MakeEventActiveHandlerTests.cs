@@ -14,7 +14,7 @@ public class MakeEventActiveHandlerTests
     private IEventRepository _repositoryMock;
     private IUnitOfWork _uowMock;
     private Guid _eventId;
-    private static TimeProvider? _timeProvider;
+    private TimeProvider _timeProvider;
 
     public MakeEventActiveHandlerTests()
     {
@@ -37,11 +37,10 @@ public class MakeEventActiveHandlerTests
             .WithCapacity(new EventCapacity(10))
             .WithTimeInterval(EventTimeInterval.Create(
                 new DateTime(2023, 8, 20, 19, 0, 0),
-                new DateTime(2023, 8, 20, 21, 0, 0),
-                _timeProvider).PayLoad)
+                new DateTime(2023, 8, 20, 21, 0, 0)).PayLoad)
             .Build();
         A.CallTo(() => _repositoryMock.GetAsync(command.Id)).Returns(originalEvent);
-        var handler = new CreatorActivatesAnEventCommandHandler(_repositoryMock, _uowMock);
+        var handler = new CreatorActivatesAnEventCommandHandler(_repositoryMock, _uowMock, _timeProvider);
 
         // Act
         var result = await handler.HandleAsync(command);
@@ -63,7 +62,7 @@ public class MakeEventActiveHandlerTests
 
 
         A.CallTo(() => _repositoryMock.GetAsync(command.Id)).Returns(originalEvent);
-        var handler = new CreatorActivatesAnEventCommandHandler(_repositoryMock, _uowMock);
+        var handler = new CreatorActivatesAnEventCommandHandler(_repositoryMock, _uowMock, _timeProvider);
 
         // Act
         var result = await handler.HandleAsync(command);

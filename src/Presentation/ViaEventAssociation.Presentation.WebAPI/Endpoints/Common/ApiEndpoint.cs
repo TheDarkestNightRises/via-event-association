@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace ViaEventAssociation.Presentation.WebAPI.Common;
+namespace ViaEventAssociation.Presentation.WebAPI.Endpoints.Common;
 
 public static class ApiEndpoint
 {

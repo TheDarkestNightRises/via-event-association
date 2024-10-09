@@ -15,7 +15,7 @@ public class EventSeedFactory
                                             "Visibility": "public",
                                             "Start": "2024-03-01 15:00",
                                             "End": "2024-03-01 21:00",
-                                            "MaxGuests": 50,
+                                            "Capacity": 50,
                                             "LocationId": "731cea3a-4e31-4af5-b537-7b35c3dbe73c"
                                           },
                                           {
@@ -26,7 +26,7 @@ public class EventSeedFactory
                                             "Visibility": "public",
                                             "Start": "2024-03-06 17:00",
                                             "End": "2024-03-07 00:00",
-                                            "MaxGuests": 50,
+                                            "Capacity": 50,
                                             "LocationId": "efd18631-e050-4bd0-a15a-6d5a17cca490"
                                           },
                                           {
@@ -37,7 +37,7 @@ public class EventSeedFactory
                                             "Visibility": "public",
                                             "Start": "2024-03-08 15:00",
                                             "End": "2024-03-08 21:00",
-                                            "MaxGuests": 50,
+                                            "Capacity": 50,
                                             "LocationId": "731cea3a-4e31-4af5-b537-7b35c3dbe73c"
                                           },
                                           {
@@ -48,7 +48,7 @@ public class EventSeedFactory
                                             "Visibility": "public",
                                             "Start": "2024-03-11 17:00",
                                             "End": "2024-03-11 19:00",
-                                            "MaxGuests": 50,
+                                            "Capacity": 50,
                                             "LocationId": "e0b61b58-0af5-4d64-b801-27153bdf1c01"
                                           },
                                           {
@@ -59,7 +59,7 @@ public class EventSeedFactory
                                             "Visibility": "private",
                                             "Start": "2024-03-14 17:00",
                                             "End": "2024-03-14 21:00",
-                                            "MaxGuests": 30,
+                                            "Capacity": 30,
                                             "LocationId": "e4c821b2-2b98-49f6-b533-49ac8efd5d00"
                                           },
                                           {
@@ -70,7 +70,7 @@ public class EventSeedFactory
                                             "Visibility": "private",
                                             "Start": "2024-03-15 16:00",
                                             "End": "2024-03-15 20:00",
-                                            "MaxGuests": 20,
+                                            "Capacity": 20,
                                             "LocationId": "cc395a25-5b53-41de-a5bf-258c90a5bc43"
                                           },
                                           {
@@ -81,7 +81,7 @@ public class EventSeedFactory
                                             "Visibility": "private",
                                             "Start": "2024-03-18 18:00",
                                             "End": "2024-03-18 23:00",
-                                            "MaxGuests": 15,
+                                            "Capacity": 15,
                                             "LocationId": "cc395a25-5b53-41de-a5bf-258c90a5bc43"
                                           },
                                           {
@@ -92,7 +92,7 @@ public class EventSeedFactory
                                             "Visibility": "public",
                                             "Start": "2024-03-20 14:00",
                                             "End": "2024-03-20 20:00",
-                                            "MaxGuests": 50,
+                                            "Capacity": 50,
                                             "LocationId": "731cea3a-4e31-4af5-b537-7b35c3dbe73c"
                                           },
                                           {
@@ -103,7 +103,7 @@ public class EventSeedFactory
                                             "Visibility": "private",
                                             "Start": "2024-03-21 15:00",
                                             "End": "2024-03-21 18:00",
-                                            "MaxGuests": 20,
+                                            "Capacity": 20,
                                             "LocationId": "cc395a25-5b53-41de-a5bf-258c90a5bc43"
                                           },
                                           {
@@ -114,7 +114,7 @@ public class EventSeedFactory
                                             "Visibility": "private",
                                             "Start": "2024-03-23 19:00",
                                             "End": "2024-03-23 22:00",
-                                            "MaxGuests": 15,
+                                            "Capacity": 15,
                                             "LocationId": "cc395a25-5b53-41de-a5bf-258c90a5bc43"
                                           },
                                           {
@@ -125,7 +125,7 @@ public class EventSeedFactory
                                             "Visibility": "public",
                                             "Start": "2024-03-25 15:00",
                                             "End": "2024-03-25 17:00",
-                                            "MaxGuests": 30,
+                                            "Capacity": 30,
                                             "LocationId": "e0b61b58-0af5-4d64-b801-27153bdf1c01"
                                           },
                                           {
@@ -136,7 +136,7 @@ public class EventSeedFactory
                                             "Visibility": "public",
                                             "Start": "2024-03-26 18:00",
                                             "End": "2024-03-27 00:30",
-                                            "MaxGuests": 30,
+                                            "Capacity": 30,
                                             "LocationId": "e4c821b2-2b98-49f6-b533-49ac8efd5d00"
                                           },
                                           {
@@ -147,7 +147,7 @@ public class EventSeedFactory
                                             "Visibility": "private",
                                             "Start": "2024-03-28 16:00",
                                             "End": "2024-03-28 20:00",
-                                            "MaxGuests": 50,
+                                            "Capacity": 50,
                                             "LocationId": "def55e29-c806-4cc1-a0f5-91757446212a"
                                           },
                                             {
@@ -158,7 +158,7 @@ public class EventSeedFactory
                                             "Visibility": "public",
                                             "Start": "2024-04-02 15:00",
                                             "End": "2024-04-02 18:00",
-                                            "MaxGuests": 50,
+                                            "Capacity": 50,
                                             "LocationId": "def55e29-c806-4cc1-a0f5-91757446212a"
                                           },
                                           {
@@ -169,7 +169,7 @@ public class EventSeedFactory
                                             "Visibility": "private",
                                             "Start": "2024-04-03 16:00",
                                             "End": "2024-04-03 19:00",
-                                            "MaxGuests": 20,
+                                            "Capacity": 20,
                                             "LocationId": "da6c8bde-d7d6-4921-9512-ae469d6a3f4e"
                                           },
                                           {
@@ -180,7 +180,7 @@ public class EventSeedFactory
                                             "Visibility": "public",
                                             "Start": "2024-04-05 14:00",
                                             "End": "2024-04-05 18:00",
-                                            "MaxGuests": 50,
+                                            "Capacity": 50,
                                             "LocationId": "da6c8bde-d7d6-4921-9512-ae469d6a3f4e"
                                           },
                                           {
@@ -191,7 +191,7 @@ public class EventSeedFactory
                                             "Visibility": "private",
                                             "Start": "2024-04-08 19:00",
                                             "End": "2024-04-08 21:00",
-                                            "MaxGuests": 20,
+                                            "Capacity": 20,
                                             "LocationId": "cc395a25-5b53-41de-a5bf-258c90a5bc43"
                                           },
                                           {
@@ -202,7 +202,7 @@ public class EventSeedFactory
                                             "Visibility": "private",
                                             "Start": "2024-04-09 16:00",
                                             "End": "2024-04-09 17:30",
-                                            "MaxGuests": 20,
+                                            "Capacity": 20,
                                             "LocationId": "def55e29-c806-4cc1-a0f5-91757446212a"
                                           },
                                           {
@@ -213,7 +213,7 @@ public class EventSeedFactory
                                             "Visibility": "public",
                                             "Start": "2024-04-11 15:00",
                                             "End": "2024-04-11 18:00",
-                                            "MaxGuests": 50,
+                                            "Capacity": 50,
                                             "LocationId": "def55e29-c806-4cc1-a0f5-91757446212a"
                                           },
                                           {
@@ -224,7 +224,7 @@ public class EventSeedFactory
                                             "Visibility": "public",
                                             "Start": "2024-04-12 12:00",
                                             "End": "2024-04-12 13:00",
-                                            "MaxGuests": 50,
+                                            "Capacity": 50,
                                             "LocationId": "da6c8bde-d7d6-4921-9512-ae469d6a3f4e"
                                           },
                                           {
@@ -235,7 +235,7 @@ public class EventSeedFactory
                                             "Visibility": "private",
                                             "Start": "2024-04-15 16:00",
                                             "End": "2024-04-15 18:00",
-                                            "MaxGuests": 20,
+                                            "Capacity": 20,
                                             "LocationId": "cc395a25-5b53-41de-a5bf-258c90a5bc43"
                                           },
                                           {
@@ -246,7 +246,7 @@ public class EventSeedFactory
                                             "Visibility": "private",
                                             "Start": "2024-04-17 15:00",
                                             "End": "2024-04-17 17:00",
-                                            "MaxGuests": 20,
+                                            "Capacity": 20,
                                             "LocationId": "da6c8bde-d7d6-4921-9512-ae469d6a3f4e"
                                           },
                                           {
@@ -257,7 +257,7 @@ public class EventSeedFactory
                                             "Visibility": "private",
                                             "Start": "2024-04-19 18:00",
                                             "End": "2024-04-20 00:30",
-                                            "MaxGuests": 30,
+                                            "Capacity": 30,
                                             "LocationId": "def55e29-c806-4cc1-a0f5-91757446212a"
                                           },
                                           {
@@ -268,7 +268,7 @@ public class EventSeedFactory
                                             "Visibility": "public",
                                             "Start": "2024-04-22 15:00",
                                             "End": "2024-04-22 17:00",
-                                            "MaxGuests": 50,
+                                            "Capacity": 50,
                                             "LocationId": "eb34cf58-a348-4400-8ace-2ad775912db7"
                                           },
                                           {
@@ -279,7 +279,7 @@ public class EventSeedFactory
                                             "Visibility": "private",
                                             "Start": "2024-04-25 14:00",
                                             "End": "2024-04-25 18:00",
-                                            "MaxGuests": 30,
+                                            "Capacity": 30,
                                             "LocationId": "eb34cf58-a348-4400-8ace-2ad775912db7"
                                           },
                                           {
@@ -290,7 +290,7 @@ public class EventSeedFactory
                                             "Visibility": "public",
                                             "Start": "2024-04-26 15:00",
                                             "End": "2024-04-26 18:00",
-                                            "MaxGuests": 50,
+                                            "Capacity": 50,
                                             "LocationId": "731cea3a-4e31-4af5-b537-7b35c3dbe73c"
                                           },
                                           {
@@ -301,7 +301,7 @@ public class EventSeedFactory
                                             "Visibility": "private",
                                             "Start": "2024-04-29 14:00",
                                             "End": "2024-04-30 00:00",
-                                            "MaxGuests": 30,
+                                            "Capacity": 30,
                                             "LocationId": "e4c821b2-2b98-49f6-b533-49ac8efd5d00"
                                           },
                                           {
@@ -312,7 +312,7 @@ public class EventSeedFactory
                                             "Visibility": "public",
                                             "Start": "2024-04-30 15:00",
                                             "End": "2024-04-30 19:00",
-                                            "MaxGuests": 50,
+                                            "Capacity": 50,
                                             "LocationId": "def55e29-c806-4cc1-a0f5-91757446212a"
                                           }
                                         ]
@@ -331,12 +331,12 @@ public class EventSeedFactory
             Visibility = e.Visibility,
             Start = e.Start,
             End = e.End,
-            Capacity = e.MaxGuests
+            Capacity = e.Capacity
         }).ToList();
 
         return events;
     }
 
 
-    public record TmpEvent(string Id, string Title, string Description, string Status, string Visibility, string? Start, string? End, int MaxGuests, string LocationId);
+    public record TmpEvent(string Id, string Title, string Description, string Status, string Visibility, string? Start, string? End, int Capacity, string LocationId);
 }

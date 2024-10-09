@@ -10,17 +10,17 @@ public class UnpublishedEventsPageQueryHandler(VeadatabaseProductionContext cont
     public async Task<UnpublishedEvents.Answer> HandleAsync(UnpublishedEvents.Query query)
     {
         var canceledEvents = await context.Events
-            .Where(e => e.Status == "Canceled")
+            .Where(e => e.Status == "cancelled")
             .Select(e => new UnpublishedEvents.EventDetails(e.Title))
             .ToListAsync();
 
         var draftEvents = await context.Events
-            .Where(e => e.Status == "Draft")
+            .Where(e => e.Status == "draft")
             .Select(e => new UnpublishedEvents.EventDetails(e.Title))
             .ToListAsync();
 
         var readyEvents = await context.Events
-            .Where(e => e.Status == "Ready")
+            .Where(e => e.Status == "ready")
             .Select(e => new UnpublishedEvents.EventDetails(e.Title))
             .ToListAsync();
         

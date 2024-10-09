@@ -2,23 +2,22 @@ using Microsoft.AspNetCore.Mvc;
 using ViaEventAssociation.Core.Application.CommandDispatching.Commands.Event;
 using ViaEventAssociation.Core.Application.CommandDispatching.Dispatcher;
 using ViaEventAssociation.Core.Tools.ObjectMapper;
-using ViaEventAssociation.Presentation.WebAPI.Common;
+using ViaEventAssociation.Presentation.WebAPI.Endpoints.Common;
+using ViaEventAssociation.Presentation.WebAPI.Filters;
 
 namespace ViaEventAssociation.Presentation.WebAPI.Endpoints.Event.CreateNewEventEndpoint;
 
-public class CreateNewEventEndpoint(ICommandDispatcher dispatcher) : ApiEndpoint
+public class CreateNewEventEndpoint(ICommandDispatcher dispatcher, IMapper mapper) : ApiEndpoint
     .WithoutRequest
-    .WithoutResponse
+    .WithResponse<CreateNewEventResponse>
 {
-    [HttpPost("/events")]
-    public override async Task<ActionResult> HandleAsync()
+    [HttpPost("events/create")]
+    public override async Task<ActionResult<CreateNewEventResponse>> HandleAsync()
     {
         var command = CreateNewEventCommand.Create().PayLoad;
-        await dispatcher.DispatchAsync(command);
-        // return ResultIS.isSUCCESS?
-        //     Ok(command.Id)
-        // : BadRequest()//Todo: All operations return void? is that usual???
-
-        return Ok(command.Id);
+        var result = await dispatcher.DispatchAsync(command);
+        return result.ToResponse(_ => new CreateNewEventResponse(command.Id.Id));
     }
 }
+
+public record CreateNewEventResponse(Guid Id);

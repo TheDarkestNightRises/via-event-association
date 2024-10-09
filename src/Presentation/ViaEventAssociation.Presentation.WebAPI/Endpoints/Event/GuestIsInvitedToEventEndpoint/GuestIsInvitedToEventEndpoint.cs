@@ -2,8 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using ViaEventAssociation.Core.Application.CommandDispatching.Commands.Event;
 using ViaEventAssociation.Core.Application.CommandDispatching.Dispatcher;
 using ViaEventAssociation.Core.Domain.Aggregates.Guest.Values;
-using ViaEventAssociation.Presentation.WebAPI.Common;
-using ViaEventAssociation.Presentation.WebAPI.Endpoints.Event.UpdateEventTitleEndpoint;
+using ViaEventAssociation.Presentation.WebAPI.Endpoints.Common;
+using ViaEventAssociation.Presentation.WebAPI.Filters;
 
 namespace ViaEventAssociation.Presentation.WebAPI.Endpoints.Event.GuestIsInvitedToEventEndpoint;
 
@@ -11,25 +11,18 @@ public class GuestIsInvitedToEventEndpoint(ICommandDispatcher dispatcher) : ApiE
     .WithRequest<GuestIsInvitedToEventRequest>
     .WithoutResponse
 {
-    [HttpPost("events/{Id}/invite-guest")]
-    public override async Task<ActionResult> HandleAsync([FromRoute] GuestIsInvitedToEventRequest request)
+    [HttpPost("events/invite-guest")]
+    public override async Task<ActionResult> HandleAsync([FromBody] GuestIsInvitedToEventRequest request)
     {
-        var cmdResult = GuestIsInvitedToEventCommand.Create(request.Id, request.RequestBody.GuestId);
+        var cmdResult = GuestIsInvitedToEventCommand.Create(request.Id, request.GuestId);
         if (cmdResult.IsFailure)
         {
             return BadRequest(cmdResult.Errors);
         }
 
         var result = await dispatcher.DispatchAsync(cmdResult.PayLoad);
-        return result.IsSuccess ? Ok() : BadRequest(result.Errors);
+        return result.ToResponse();
     }
 }
 
-public class GuestIsInvitedToEventRequest
-{
-    [FromRoute] public string Id { get; set; }
-
-    [FromBody] public Body RequestBody { get; set; }
-
-    public record Body(string GuestId);
-}
+public record GuestIsInvitedToEventRequest(string Id, string GuestId);

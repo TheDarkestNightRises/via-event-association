@@ -7,12 +7,12 @@ using Void = ViaEventAssociation.Core.Tools.OperationResult.Void;
 
 namespace ViaEventAssociation.Core.Application.Features.Event;
 
-public class CreatorActivatesAnEventCommandHandler(IEventRepository repository, IUnitOfWork uow) : ICommandHandler<CreatorActivatesAnEventCommand>
+public class CreatorActivatesAnEventCommandHandler(IEventRepository repository, IUnitOfWork uow, TimeProvider timeProvider) : ICommandHandler<CreatorActivatesAnEventCommand>
 {
     public async Task< Result<Void>> HandleAsync(CreatorActivatesAnEventCommand command)
     {
         var evt = await repository.GetAsync(command.Id);
-        var result = evt.MakeEventActive();
+        var result = evt.MakeEventActive(timeProvider);
 
         if (result.IsFailure)
         {

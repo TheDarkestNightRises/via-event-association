@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using ViaEventAssociation.Core.QueryContracts.Queries;
 using ViaEventAssociation.Core.QueryContracts.QueryDispatching;
 using ViaEventAssociation.Core.Tools.ObjectMapper;
-using ViaEventAssociation.Presentation.WebAPI.Common;
+using ViaEventAssociation.Presentation.WebAPI.Endpoints.Common;
 
 namespace ViaEventAssociation.Presentation.WebAPI.Endpoints.Queries;
 
@@ -10,7 +10,7 @@ public class ViewSingleEventEndpoint(IQueryDispatcher dispatcher, IMapper mapper
     .WithRequest<ViewSingleEventRequest>
     .WithResponse<ViewSingleEventResponse>
 {
-    [HttpGet("/events/{Id}")]
+    [HttpGet("events/{Id}")]
     public override async Task<ActionResult<ViewSingleEventResponse>> HandleAsync(
         [FromRoute] ViewSingleEventRequest request)
     {

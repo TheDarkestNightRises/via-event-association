@@ -13,7 +13,7 @@ namespace UnitTests.Features.Event.ParticipateInPublicEvent;
 
 public class ParticipateInPublicEventCommandHandlerTests
 {
-    private static TimeProvider? _timeProvider;
+    private TimeProvider _timeProvider;
     private EventAggregate evt;
     private FakeUoW uoW;
     private InMemEventRepoStub evtRepo;
@@ -35,13 +35,12 @@ public class ParticipateInPublicEventCommandHandlerTests
             .WithCapacity(EventCapacity.Create(25).PayLoad)
             .WithTimeInterval(EventTimeInterval.Create(
                 new DateTime(2023, 8, 20, 19, 0, 0),
-                new DateTime(2023, 8, 20, 21, 0, 0),
-                _timeProvider).PayLoad)
+                new DateTime(2023, 8, 20, 21, 0, 0)).PayLoad)
             .Build();
         evtRepo = new InMemEventRepoStub();
         evtRepo.Events.Add(evt);
         uoW = new FakeUoW();
-        handler = new ParticipateInPublicEventCommandHandler(evtRepo, uoW);
+        handler = new ParticipateInPublicEventCommandHandler(evtRepo, uoW, _timeProvider);
     }
     
     [Fact]
@@ -67,11 +66,12 @@ public class ParticipateInPublicEventCommandHandlerTests
         Setup();
         var guestId = GuestId.Create();
         var command = ParticipateInPublicEventCommand.Create(evt.Id.Id.ToString()!,guestId.Id.ToString()).PayLoad;
-        evt.EventTimeInterval!.CurrentTimeProvider = new FakeTimeProvider(new DateTime(2023, 9, 20, 19, 0, 0));
+        var futureTimeProvider = new FakeTimeProvider(new DateTime(2023, 9, 20, 19, 0, 0));
 
         //Act
-        var result = await handler.HandleAsync(command);
-
+        var futureHandler = new ParticipateInPublicEventCommandHandler(evtRepo, uoW, futureTimeProvider);
+        var result = await futureHandler.HandleAsync(command);
+        
         // Assert
         Assert.True(result.IsFailure);
         Assert.Equal(EventAggregateErrors.CanNotParticipateInPastEvent, result.Errors.FirstOrDefault());
